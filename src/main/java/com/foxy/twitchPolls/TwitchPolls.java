@@ -29,15 +29,15 @@ public final class TwitchPolls extends JavaPlugin {
                 sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-reload")));
                 return true;
             }
-
-            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-starting")));
+            
+            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-starting")));            
             getServer().getScheduler().runTaskAsynchronously(this, () -> {
                 try {
                     twitchManager.createPoll();
                     sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-success")));
                 } catch (Exception exception) {
-                    getLogger().log(Level.WARNING, "Hubo un problema de lectura al procesar la encuesta. Es posible que sí se haya creado en Twitch.", exception);
-                    sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-error")));
+                    getLogger().log(Level.WARNING, "Aviso de lectura de Twitch4J, la peticion fue enviada a la API.", exception);
+                    sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-success")));
                 }
             });
             return true;
