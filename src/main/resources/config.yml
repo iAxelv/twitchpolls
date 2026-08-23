@@ -17,8 +17,16 @@ messages:
   poll-start-subtitle: "&fVota en el chat de Twitch"
   poll-end-title: "&a¡Votación Terminada!"
   poll-end-subtitle: "&fGanó: &e%winner%"
-  broadcast-start: "&d[Twitch] &f¡Nueva encuesta iniciada en el directo!"
+
+  broadcast-start:
+    - "&8&m---------------------------------"
+    - "&d[Twitch] &f¡Nueva encuesta iniciada en el directo!"
+    - "&fOpciones de la encuesta:"
+    - "%options%"
+    - "&8&m---------------------------------"
+
   broadcast-end: "&d[Twitch] &fLa opción ganadora ha sido: &e%winner%"
+  bossbar-title: "&dEncuesta: &f%time%s restantes"
   command-starting: "&aIniciando encuesta..."
   command-success: "&aEncuesta enviada a Twitch exitosamente."
   command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
@@ -37,9 +45,3 @@ events:
   launch:
     title: "Viaje Espacial"
     action: "LAUNCH_PLAYER"
-  chickens:
-    title: "Invasión de Pollos"
-    action: "SPAWN_CHICKENS"
-  blindness:
-    title: "Oscuridad Total"
-    action: "EFFECT_BLINDNESS"

@@ -12,7 +12,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -30,6 +34,8 @@ public class TwitchManager {
     private final ActionManager actionManager;
     private TwitchClient twitchClient;
     private BukkitTask pollTask;
+    private BukkitTask bossBarTask;
+    private BossBar activeBossBar;
     private final Map<String, String> activePollChoices = new HashMap<>();
 
     public TwitchManager(TwitchPolls plugin, ActionManager actionManager) {
@@ -54,7 +60,6 @@ public class TwitchManager {
                 .build();
 
         twitchClient.getEventManager().onEvent(ChannelPollEndEvent.class, this::onPollEnd);
-
         twitchClient.getEventSocket().register(
                 SubscriptionTypes.POLL_END,
                 ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build()
@@ -66,6 +71,12 @@ public class TwitchManager {
     public void disconnect() {
         if (pollTask != null) {
             pollTask.cancel();
+        }
+        if (bossBarTask != null) {
+            bossBarTask.cancel();
+        }
+        if (activeBossBar != null) {
+            activeBossBar.removeAll();
         }
         if (twitchClient != null) {
             twitchClient.close();
@@ -96,11 +107,11 @@ public class TwitchManager {
         ConfigurationSection eventsSection = plugin.getConfig().getConfigurationSection("events");
         List<String> eventKeys = new ArrayList<>(eventsSection.getKeys(false));
         Collections.shuffle(eventKeys);
-
         List<String> selectedKeys = eventKeys.subList(0, Math.min(3, eventKeys.size()));
-        List<PollChoice> choices = new ArrayList<>();
 
+        List<PollChoice> choices = new ArrayList<>();
         activePollChoices.clear();
+
         for (String key : selectedKeys) {
             String title = eventsSection.getString(key + ".title");
             choices.add(new PollChoice().withTitle(title));
@@ -114,10 +125,10 @@ public class TwitchManager {
                 .withDurationSeconds(duration);
 
         twitchClient.getHelix().createPoll(oauthToken, poll).execute();
-        notifyStart();
+        notifyStart(duration, choices);
     }
 
-    private void notifyStart() {
+    private void notifyStart(int durationSeconds, List<PollChoice> choices) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             String streamerName = plugin.getConfig().getString("settings.streamer-username");
             Player player = Bukkit.getPlayer(streamerName);
@@ -127,12 +138,59 @@ public class TwitchManager {
                 String sub = plugin.getConfig().getString("messages.poll-start-subtitle");
                 player.showTitle(Title.title(formatColor(title), formatColor(sub), titleTimes()));
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+
+                startBossBar(player, durationSeconds);
             }
 
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {
-                Bukkit.broadcast(formatColor(plugin.getConfig().getString("messages.broadcast-start")));
+                List<String> broadcastLines = plugin.getConfig().getStringList("messages.broadcast-start");
+                for (String line : broadcastLines) {
+                    if (line.contains("%options%")) {
+                        for (PollChoice choice : choices) {
+                            Bukkit.broadcast(formatColor("&e- " + choice.getTitle()));
+                        }
+                    } else {
+                        Bukkit.broadcast(formatColor(line));
+                    }
+                }
             }
         });
+    }
+
+    private void startBossBar(Player player, int totalSeconds) {
+        if (activeBossBar != null) {
+            activeBossBar.removeAll();
+        }
+        if (bossBarTask != null) {
+            bossBarTask.cancel();
+        }
+
+        String titleFormat = plugin.getConfig().getString("messages.bossbar-title", "&dEncuesta: &f%time%s restantes");
+        String initialTitle = titleFormat.replace("%time%", String.valueOf(totalSeconds));
+
+        activeBossBar = Bukkit.createBossBar(
+                ChatColor.translateAlternateColorCodes('&', initialTitle),
+                BarColor.PURPLE,
+                BarStyle.SOLID
+        );
+
+        activeBossBar.addPlayer(player);
+
+        final int[] timeRemaining = {totalSeconds};
+
+        bossBarTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            timeRemaining[0]--;
+            if (timeRemaining[0] <= 0) {
+                activeBossBar.removeAll();
+                bossBarTask.cancel();
+                return;
+            }
+
+            String newTitle = titleFormat.replace("%time%", String.valueOf(timeRemaining[0]));
+            activeBossBar.setTitle(ChatColor.translateAlternateColorCodes('&', newTitle));
+            activeBossBar.setProgress((double) timeRemaining[0] / totalSeconds);
+
+        }, 20L, 20L);
     }
 
     private void onPollEnd(ChannelPollEndEvent event) {
@@ -144,6 +202,13 @@ public class TwitchManager {
         String action = activePollChoices.getOrDefault(winnerTitle, "NONE");
 
         Bukkit.getScheduler().runTask(plugin, () -> {
+            if (activeBossBar != null) {
+                activeBossBar.removeAll();
+            }
+            if (bossBarTask != null) {
+                bossBarTask.cancel();
+            }
+
             String streamerName = plugin.getConfig().getString("settings.streamer-username");
             Player player = Bukkit.getPlayer(streamerName);
 
@@ -152,6 +217,7 @@ public class TwitchManager {
                 String sub = plugin.getConfig().getString("messages.poll-end-subtitle").replace("%winner%", winnerTitle);
                 player.showTitle(Title.title(formatColor(title), formatColor(sub), titleTimes()));
                 player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+
                 actionManager.executeAction(player, action);
             }
 
