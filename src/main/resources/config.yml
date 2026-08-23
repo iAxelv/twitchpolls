@@ -1,0 +1,45 @@
+twitch:
+  client-id: "YOUR_TWITCH_CLIENT_ID"
+  client-secret: "YOUR_TWITCH_CLIENT_SECRET"
+  oauth-token: "YOUR_TWITCH_OAUTH_TOKEN"
+  broadcaster-id: "YOUR_TWITCH_BROADCASTER_ID"
+
+settings:
+  streamer-username: "iAx3lv"
+  automatic-polls: false
+  poll-duration-seconds: 45
+  poll-interval-seconds: 60
+  broadcast-results: true
+
+messages:
+  poll-title: "¡Decide el destino del jugador!"
+  poll-start-title: "&d¡Nueva Encuesta!"
+  poll-start-subtitle: "&fVota en el chat de Twitch"
+  poll-end-title: "&a¡Votación Terminada!"
+  poll-end-subtitle: "&fGanó: &e%winner%"
+  broadcast-start: "&d[Twitch] &f¡Nueva encuesta iniciada en el directo!"
+  broadcast-end: "&d[Twitch] &fLa opción ganadora ha sido: &e%winner%"
+  command-starting: "&aIniciando encuesta..."
+  command-success: "&aEncuesta enviada a Twitch exitosamente."
+  command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
+  command-reload: "&aConfiguración recargada correctamente."
+
+events:
+  creepers:
+    title: "Creepers Eléctricos"
+    action: "SPAWN_CREEPER"
+  levitation:
+    title: "Vuelo Sin Motor"
+    action: "EFFECT_LEVITATION"
+  diamonds:
+    title: "Lluvia de Diamantes"
+    action: "DROP_DIAMONDS"
+  launch:
+    title: "Viaje Espacial"
+    action: "LAUNCH_PLAYER"
+  chickens:
+    title: "Invasión de Pollos"
+    action: "SPAWN_CHICKENS"
+  blindness:
+    title: "Oscuridad Total"
+    action: "EFFECT_BLINDNESS"

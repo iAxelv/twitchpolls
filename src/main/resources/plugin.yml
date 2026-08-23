@@ -1,0 +1,14 @@
+name: TwitchPolls
+version: '${version}'
+main: com.foxy.twitchPolls.TwitchPolls
+api-version: '1.21.8'
+load: POSTWORLD
+commands:
+  poll:
+    description: Crea una encuesta de Twitch inmediatamente o recarga la configuracion
+    usage: /poll [reload]
+    permission: twitchpolls.poll
+permissions:
+  twitchpolls.poll:
+    description: Permite administrar encuestas de Twitch
+    default: op
