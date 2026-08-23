@@ -5,8 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-import java.util.logging.Level;
-
 public final class TwitchPolls extends JavaPlugin {
 
     private TwitchManager twitchManager;
@@ -29,16 +27,12 @@ public final class TwitchPolls extends JavaPlugin {
                 sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-reload")));
                 return true;
             }
-            
-            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-starting")));            
+
+            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-starting")));
+
             getServer().getScheduler().runTaskAsynchronously(this, () -> {
-                try {
-                    twitchManager.createPoll();
-                    sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-success")));
-                } catch (Exception exception) {
-                    getLogger().log(Level.WARNING, "Aviso de lectura de Twitch4J, la peticion fue enviada a la API.", exception);
-                    sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-success")));
-                }
+                twitchManager.createPoll();
+                sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(getConfig().getString("messages.command-success")));
             });
             return true;
         }

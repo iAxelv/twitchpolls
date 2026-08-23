@@ -124,8 +124,13 @@ public class TwitchManager {
                 .withChoices(choices)
                 .withDurationSeconds(duration);
 
-        twitchClient.getHelix().createPoll(oauthToken, poll).execute();
         notifyStart(duration, choices);
+
+        try {
+            twitchClient.getHelix().createPoll(oauthToken, poll).execute();
+        } catch (Exception ignored) {
+
+        }
     }
 
     private void notifyStart(int durationSeconds, List<PollChoice> choices) {
