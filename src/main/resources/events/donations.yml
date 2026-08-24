@@ -1,0 +1,7 @@
+creepers:
+  active: true
+  title: "Creepers por Donación"
+  action: "SPAWN_CREEPER"
+  spawn_min: 5
+  spawn_max: 10
+  radius: 4.0

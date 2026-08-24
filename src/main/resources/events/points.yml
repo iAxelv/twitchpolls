@@ -1,0 +1,7 @@
+levitation:
+  active: true
+  title: "Vuelo Sin Motor por Puntos"
+  action: "EFFECT_LEVITATION"
+  time_min: 300
+  time_max: 500
+  amplifier: 10

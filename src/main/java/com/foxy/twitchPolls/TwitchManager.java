@@ -110,7 +110,7 @@ public class TwitchManager {
         int duration = plugin.getConfig().getInt("settings.poll-duration-seconds");
         String pollTitle = plugin.getConfig().getString("messages.poll-title");
 
-        ConfigurationSection eventsSection = plugin.getConfig().getConfigurationSection("events.polls");
+        ConfigurationSection eventsSection = plugin.getEventConfig("polls");
 
         if (eventsSection == null) {
             return;

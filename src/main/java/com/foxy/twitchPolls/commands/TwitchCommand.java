@@ -26,6 +26,7 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
+            plugin.reloadEventConfigs();
             testCommand.reload();
             twitchManager.reload();
             sendMessage(sender, "messages.command-reload", "&aConfiguración recargada correctamente.");
