@@ -95,6 +95,33 @@ events:
       active: true
       title: "100% científico"
       action: "RANDOM_EFFECT"
+    bee_swarm:
+      active: true
+      title: "¡Abejas Picantes!"
+      action: "SPAWN_BEE_SWARM"
+    veneco:
+      active: true
+      title: "Llegó el Rappi"
+      action: "SPAWN_VENECO"
+      radius: true
+    paranoia:
+      active: true
+      title: "Esquizofrenia"
+      action: "RANDOM_SOUND"
+      sounds:
+        - ENTITY_CREEPER_PRIMED
+        - ENTITY_ENDERMAN_SCREAM
+        - ENTITY_GHAST_SCREAM
+        - ENTITY_WARDEN_HEARTBEAT
+        - BLOCK_ANVIL_LAND
+        - ENTITY_LIGHTNING_BOLT_THUNDER
+        - ITEM_GOAT_HORN_SOUND_0
+    nausea:
+      active: true
+      title: "Resaca Mortal"
+      action: "CONFUSION"
+      time: 300
+      amplifier: 2
   donations:
     creepers:
       active: true

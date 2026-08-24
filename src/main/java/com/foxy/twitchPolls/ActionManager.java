@@ -3,11 +3,16 @@ package com.foxy.twitchPolls;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Bee;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Warden;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
@@ -19,14 +24,15 @@ import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ActionManager {
-
     private final Plugin plugin;
 
     public ActionManager(Plugin plugin) {
@@ -66,7 +72,6 @@ public class ActionManager {
                 int timeMax = config.getInt("time_max", 300);
                 int amplifier = config.getInt("amplifier", 5);
                 int durationTicks = ThreadLocalRandom.current().nextInt(timeMin, timeMax + 1);
-
                 player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, durationTicks, amplifier));
                 world.playSound(loc, Sound.ENTITY_ENDER_DRAGON_FLAP, 1.0f, 1.0f);
                 break;
@@ -107,14 +112,12 @@ public class ActionManager {
             case "POTATO_PREMIUM":
                 PlayerInventory inv = player.getInventory();
                 List<Integer> filledSlots = new ArrayList<>();
-
                 for (int i = 0; i < 36; i++) {
                     ItemStack item = inv.getItem(i);
                     if (item != null && item.getType() != Material.AIR) {
                         filledSlots.add(i);
                     }
                 }
-
                 if (filledSlots.isEmpty()) {
                     inv.addItem(new ItemStack(Material.POTATO));
                 } else {
@@ -127,12 +130,10 @@ public class ActionManager {
             case "INVENTORY_RANDOM":
                 PlayerInventory invRand = player.getInventory();
                 List<ItemStack> items = new ArrayList<>();
-
                 for (int i = 0; i < 36; i++) {
                     items.add(invRand.getItem(i));
                 }
                 Collections.shuffle(items);
-
                 for (int i = 0; i < 36; i++) {
                     invRand.setItem(i, items.get(i));
                 }
@@ -142,14 +143,12 @@ public class ActionManager {
             case "FLOOR_IS_LAVA":
                 new BukkitRunnable() {
                     int ticks = 0;
-
                     @Override
                     public void run() {
                         if (ticks >= 200 || !player.isOnline()) {
                             this.cancel();
                             return;
                         }
-
                         if (player.getLocation().getBlock().getType() != Material.WATER) {
                             player.setFireTicks(40);
                         }
@@ -163,7 +162,6 @@ public class ActionManager {
                 Location wardenLoc = loc.clone().add(dir);
                 wardenLoc.setY(world.getHighestBlockYAt(wardenLoc));
                 Warden warden = (Warden) world.spawnEntity(wardenLoc, EntityType.WARDEN);
-
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -184,18 +182,15 @@ public class ActionManager {
                 Zombie zombie = (Zombie) world.spawnEntity(loc, EntityType.ZOMBIE);
                 zombie.setBaby();
                 zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 1));
-
                 String streamerName = plugin.getConfig().getString("settings.streamer-username", "Streamer");
-                zombie.setCustomName(streamerName);
+                zombie.customName(Component.text(streamerName));
                 zombie.setCustomNameVisible(true);
-
                 ItemStack head = new ItemStack(Material.PLAYER_HEAD);
                 SkullMeta meta = (SkullMeta) head.getItemMeta();
                 if (meta != null) {
                     meta.setOwningPlayer(Bukkit.getOfflinePlayer(streamerName));
                     head.setItemMeta(meta);
                 }
-
                 if (zombie.getEquipment() != null) {
                     zombie.getEquipment().setHelmet(head);
                 }
@@ -205,14 +200,63 @@ public class ActionManager {
                 break;
 
             case "RANDOM_EFFECT":
-                PotionEffectType[] effects = PotionEffectType.values();
-                PotionEffectType randomEffect = null;
-
-                while (randomEffect == null) {
-                    randomEffect = effects[ThreadLocalRandom.current().nextInt(effects.length)];
-                }
-
+                List<PotionEffectType> effects = new ArrayList<>();
+                Registry.POTION_EFFECT_TYPE.forEach(effects::add);
+                PotionEffectType randomEffect = effects.get(ThreadLocalRandom.current().nextInt(effects.size()));
                 player.addPotionEffect(new PotionEffect(randomEffect, 100, 4));
+                break;
+
+            case "SPAWN_BEE_SWARM":
+                int beeAmount = ThreadLocalRandom.current().nextInt(5, 11);
+                for (int i = 0; i < beeAmount; i++) {
+                    double angleBee = Math.random() * Math.PI * 2;
+                    double radiusBee = Math.random() * 3.0;
+                    double xBee = Math.cos(angleBee) * radiusBee;
+                    double zBee = Math.sin(angleBee) * radiusBee;
+                    Location beeLoc = loc.clone().add(xBee, 1, zBee);
+                    Bee bee = (Bee) world.spawnEntity(beeLoc, EntityType.BEE);
+                    bee.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 999999, 9));
+                    if (ThreadLocalRandom.current().nextBoolean()) {
+                        bee.setTarget(player);
+                    }
+                }
+                break;
+
+            case "SPAWN_VENECO":
+                Location venecoLoc = loc.clone().add(Math.cos(Math.random() * Math.PI * 2) * 3, 0, Math.sin(Math.random() * Math.PI * 2) * 3);
+                Skeleton veneco = (Skeleton) world.spawnEntity(venecoLoc, EntityType.SKELETON);
+                veneco.customName(Component.text("VENECO PRIME"));
+                veneco.setCustomNameVisible(true);
+                ItemStack bow = new ItemStack(Material.BOW);
+                bow.addUnsafeEnchantment(Enchantment.POWER, 10);
+                if (veneco.getEquipment() != null) {
+                    veneco.getEquipment().setItemInMainHand(bow);
+                }
+                veneco.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 9));
+                if (config.getBoolean("radius", true)) {
+                    Bukkit.broadcast(Component.text("Un veneco apareció en el mundo"));
+                }
+                break;
+
+            case "RANDOM_SOUND":
+                List<String> soundNames = config.getStringList("sounds");
+                if (soundNames != null && !soundNames.isEmpty()) {
+                    String randomSoundName = soundNames.get(ThreadLocalRandom.current().nextInt(soundNames.size()));
+                    try {
+                        Sound randomSound = Registry.SOUNDS.get(
+                                NamespacedKey.minecraft(randomSoundName.toLowerCase(Locale.ROOT)));
+                        if (randomSound != null) {
+                            world.playSound(loc, randomSound, 1.0f, 1.0f);
+                        }
+                    } catch (IllegalArgumentException ignored) {
+                    }
+                }
+                break;
+
+            case "CONFUSION":
+                int confusionTime = config.getInt("time", 300);
+                int confusionAmplifier = config.getInt("amplifier", 2);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, confusionTime, confusionAmplifier));
                 break;
 
             default:
