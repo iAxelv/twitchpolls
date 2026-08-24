@@ -30,19 +30,28 @@ tasks {
     }
 
     processResources {
-        val props = mapOf("version" to version)
+        val props = mapOf("version" to project.version)
         filesMatching("plugin.yml") {
             expand(props)
         }
     }
 
     shadowJar {
-        archiveClassifier.set("")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
         exclude("META-INF/*.SF")
         exclude("META-INF/*.DSA")
         exclude("META-INF/*.RSA")
+        exclude("META-INF/versions/**/module-info.class")
+        exclude("module-info.class")
 
+        relocate("com.fasterxml.jackson", "com.foxy.twitchpolls.libs.jackson")
+        relocate("com.github.twitch4j", "com.foxy.twitchpolls.libs.twitch4j")
+        relocate("feign", "com.foxy.twitchpolls.libs.feign")
+        relocate("io.github.xanthic", "com.foxy.twitchpolls.libs.xanthic")
+    }
+
+    build {
+        dependsOn(shadowJar)
     }
 }
