@@ -112,7 +112,13 @@ public class TwitchManager {
             return;
         }
 
-        List<String> eventKeys = new ArrayList<>(eventsSection.getKeys(false));
+        List<String> eventKeys = new ArrayList<>();
+        for (String key : eventsSection.getKeys(false)) {
+            if (eventsSection.getBoolean(key + ".active", true)) {
+                eventKeys.add(key);
+            }
+        }
+
         if (eventKeys.isEmpty()) {
             return;
         }
