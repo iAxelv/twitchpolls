@@ -36,7 +36,7 @@ public class TwitchManager {
     private BukkitTask pollTask;
     private BukkitTask bossBarTask;
     private BossBar activeBossBar;
-    private final Map<String, String> activePollChoices = new HashMap<>();
+    private final Map<String, ConfigurationSection> activePollChoices = new HashMap<>();
 
     public TwitchManager(TwitchPolls plugin, ActionManager actionManager) {
         this.plugin = plugin;
@@ -104,8 +104,15 @@ public class TwitchManager {
         int duration = plugin.getConfig().getInt("settings.poll-duration-seconds");
         String pollTitle = plugin.getConfig().getString("messages.poll-title");
 
-        ConfigurationSection eventsSection = plugin.getConfig().getConfigurationSection("events");
+        ConfigurationSection eventsSection = plugin.getConfig().getConfigurationSection("events.polls");
+        if (eventsSection == null) {
+            return;
+        }
         List<String> eventKeys = new ArrayList<>(eventsSection.getKeys(false));
+        if (eventKeys.isEmpty()) {
+            return;
+        }
+
         Collections.shuffle(eventKeys);
         List<String> selectedKeys = eventKeys.subList(0, Math.min(3, eventKeys.size()));
 
@@ -115,7 +122,7 @@ public class TwitchManager {
         for (String key : selectedKeys) {
             String title = eventsSection.getString(key + ".title");
             choices.add(new PollChoice().withTitle(title));
-            activePollChoices.put(title, eventsSection.getString(key + ".action"));
+            activePollChoices.put(title, eventsSection.getConfigurationSection(key));
         }
 
         Poll poll = new Poll()
@@ -204,7 +211,7 @@ public class TwitchManager {
                 .map(PollChoice::getTitle)
                 .orElse("");
 
-        String action = activePollChoices.getOrDefault(winnerTitle, "NONE");
+        ConfigurationSection actionConfig = activePollChoices.get(winnerTitle);
 
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (activeBossBar != null) {
@@ -223,7 +230,9 @@ public class TwitchManager {
                 player.showTitle(Title.title(formatColor(title), formatColor(sub), titleTimes()));
                 player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
 
-                actionManager.executeAction(player, action);
+                if (actionConfig != null) {
+                    actionManager.executeAction(player, actionConfig);
+                }
             }
 
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {

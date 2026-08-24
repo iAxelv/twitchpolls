@@ -33,15 +33,39 @@ messages:
   command-reload: "&aConfiguración recargada correctamente."
 
 events:
-  creepers:
-    title: "Creepers Eléctricos"
-    action: "SPAWN_CREEPER"
-  levitation:
-    title: "Vuelo Sin Motor"
-    action: "EFFECT_LEVITATION"
-  diamonds:
-    title: "Lluvia de Diamantes"
-    action: "DROP_DIAMONDS"
-  launch:
-    title: "Viaje Espacial"
-    action: "LAUNCH_PLAYER"
+  polls:
+    creepers:
+      title: "Creepers Eléctricos"
+      action: "SPAWN_CREEPER"
+      spawn_min: 1
+      spawn_max: 3
+      radius: 2.0
+    levitation:
+      title: "Vuelo Sin Motor"
+      action: "EFFECT_LEVITATION"
+      time_min: 100
+      time_max: 300
+      amplifier: 5
+    diamonds:
+      title: "Lluvia de Diamantes"
+      action: "DROP_DIAMONDS"
+      spawn_min: 1
+      spawn_max: 5
+      radius: 1.0
+    launch:
+      title: "Viaje Espacial"
+      action: "LAUNCH_PLAYER"
+  donations:
+    creepers:
+      title: "Creepers por Donación"
+      action: "SPAWN_CREEPER"
+      spawn_min: 5
+      spawn_max: 10
+      radius: 4.0
+  points:
+    levitation:
+      title: "Vuelo Sin Motor por Puntos"
+      action: "EFFECT_LEVITATION"
+      time_min: 300
+      time_max: 500
+      amplifier: 10
