@@ -1,0 +1,139 @@
+title: "&5Probar Eventos"
+rows: 4
+items:
+  SPAWN_CREEPER:
+    event: SPAWN_CREEPER
+    slot: 0
+    item: CREEPER_HEAD
+    display-name: "&aSpawn Creeper"
+    lore:
+      - "&7Ejecuta la accion de creepers"
+      - "&eClick para probar"
+  EFFECT_LEVITATION:
+    event: EFFECT_LEVITATION
+    slot: 1
+    item: FEATHER
+    display-name: "&bLevitation"
+    lore:
+      - "&7Aplica levitacion"
+      - "&eClick para probar"
+  DROP_ORES:
+    event: DROP_ORES
+    slot: 2
+    item: DIAMOND
+    display-name: "&bLluvia de minerales"
+    lore:
+      - "&7Deja caer minerales"
+      - "&eClick para probar"
+  LAUNCH_PLAYER:
+    event: LAUNCH_PLAYER
+    slot: 3
+    item: FIREWORK_ROCKET
+    display-name: "&6Lanzar jugador"
+    lore:
+      - "&7Lanza al jugador"
+      - "&eClick para probar"
+  RANDOM_TELEPORT:
+    event: RANDOM_TELEPORT
+    slot: 4
+    item: ENDER_PEARL
+    display-name: "&5Teleport aleatorio"
+    lore:
+      - "&7Teletransporta al azar"
+      - "&eClick para probar"
+  POTATO_PREMIUM:
+    event: POTATO_PREMIUM
+    slot: 5
+    item: POTATO
+    display-name: "&ePatata premium"
+    lore:
+      - "&7Entrega una patata premium"
+      - "&eClick para probar"
+  INVENTORY_RANDOM:
+    event: INVENTORY_RANDOM
+    slot: 6
+    item: CHEST
+    display-name: "&dInventario aleatorio"
+    lore:
+      - "&7Reorganiza el inventario"
+      - "&eClick para probar"
+  FLOOR_IS_LAVA:
+    event: FLOOR_IS_LAVA
+    slot: 7
+    item: MAGMA_BLOCK
+    display-name: "&cEl suelo es lava"
+    lore:
+      - "&7Convierte el suelo en lava"
+      - "&eClick para probar"
+  WARDEN_JUMPSCARE:
+    event: WARDEN_JUMPSCARE
+    slot: 8
+    item: SCULK_SHRIEKER
+    display-name: "&8Warden jumpscare"
+    lore:
+      - "&7Asusta con un warden"
+      - "&eClick para probar"
+  MAX_FOOD:
+    event: MAX_FOOD
+    slot: 9
+    item: COOKED_BEEF
+    display-name: "&aComida maxima"
+    lore:
+      - "&7Rellena el hambre"
+      - "&eClick para probar"
+  MINI_ZOMBIE:
+    event: MINI_ZOMBIE
+    slot: 10
+    item: ZOMBIE_HEAD
+    display-name: "&2Clon zombie"
+    lore:
+      - "&7Invoca un clon zombie"
+      - "&eClick para probar"
+  NOTHING:
+    event: NOTHING
+    slot: 11
+    item: BARRIER
+    display-name: "&7No pasa nada"
+    lore:
+      - "&7No ejecuta ningun efecto"
+      - "&eClick para probar"
+  RANDOM_EFFECT:
+    event: RANDOM_EFFECT
+    slot: 12
+    item: POTION
+    display-name: "&dEfecto aleatorio"
+    lore:
+      - "&7Aplica un efecto aleatorio"
+      - "&eClick para probar"
+  SPAWN_BEE_SWARM:
+    event: SPAWN_BEE_SWARM
+    slot: 13
+    item: BEE_NEST
+    display-name: "&6Enjambre de abejas"
+    lore:
+      - "&7Invoca abejas"
+      - "&eClick para probar"
+  SPAWN_VENECO:
+    event: SPAWN_VENECO
+    slot: 14
+    item: SKELETON_SPAWN_EGG
+    display-name: "&aSpawn Veneco"
+    lore:
+      - "&7Invoca el evento Veneco"
+      - "&eClick para probar"
+  RANDOM_SOUND:
+    event: RANDOM_SOUND
+    slot: 15
+    item: NOTE_BLOCK
+    display-name: "&dSonido aleatorio"
+    lore:
+      - "&7Reproduce un sonido aleatorio"
+      - "&eClick para probar"
+  CONFUSION:
+    event: CONFUSION
+    slot: 16
+    item: SPIDER_EYE
+    display-name: "&5Confusion"
+    lore:
+      - "&7Aplica confusion"
+      - "&eClick para probar"

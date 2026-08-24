@@ -9,7 +9,9 @@ import com.foxy.twitchPolls.actions.ActionStrategy;
 import com.foxy.twitchPolls.actions.*;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ActionManager {
     private final Plugin plugin;
@@ -29,6 +31,31 @@ public class ActionManager {
             String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
             strategy.execute(new ActionContext(plugin, player, config, streamerUsername));
         }
+    }
+
+    public ConfigurationSection findActionConfig(String actionName) {
+        ConfigurationSection events = plugin.getConfig().getConfigurationSection("events");
+        if (events == null) {
+            return null;
+        }
+
+        for (String groupName : events.getKeys(false)) {
+            ConfigurationSection group = events.getConfigurationSection(groupName);
+            if (group == null) {
+                continue;
+            }
+            for (String eventName : group.getKeys(false)) {
+                ConfigurationSection event = group.getConfigurationSection(eventName);
+                if (event != null && actionName.equalsIgnoreCase(event.getString("action"))) {
+                    return event;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Set<String> getRegisteredActions() {
+        return new LinkedHashSet<>(strategies.keySet());
     }
 
     private void registerStrategies() {
