@@ -179,7 +179,9 @@ public class TwitchManager {
                     .getString("messages.poll-end-subtitle", "&fGanó: &e%winner%")
                     .replace("%winner%", eventTitle);
             player.showTitle(Title.title(formatColor(endTitle), formatColor(endSubtitle), titleTimes()));
-            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            if (!"RANDOM_SOUND".equals(actionConfig.getString("action"))) {
+                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            }
             actionManager.executeAction(player, actionConfig);
             testPollTask = null;
         }, Math.max(1, duration) * 20L);

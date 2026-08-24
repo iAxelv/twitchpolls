@@ -1,21 +1,31 @@
 package com.foxy.twitchPolls.actions;
 
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
 import org.bukkit.Sound;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomSoundAction implements ActionStrategy {
-    @Override public void execute(ActionContext context) {
+    @Override
+    @SuppressWarnings("removal")
+    public void execute(ActionContext context) {
         List<String> soundNames = context.config().getStringList("sounds");
-        if (soundNames == null || soundNames.isEmpty()) return;
-        String soundName = soundNames.get(ThreadLocalRandom.current().nextInt(soundNames.size()));
+        if (soundNames == null || soundNames.isEmpty()) {
+            context.plugin().getLogger().warning("RANDOM_SOUND no tiene sonidos configurados en " + context.config().getName());
+            return;
+        }
+
+        String configuredName = soundNames.get(ThreadLocalRandom.current().nextInt(soundNames.size()));
+        String soundName = configuredName.trim()
+                .replaceFirst("(?i)^minecraft:", "")
+                .toUpperCase(Locale.ROOT);
         try {
-            Sound sound = Registry.SOUNDS.get(NamespacedKey.minecraft(soundName.toLowerCase(Locale.ROOT)));
-            if (sound != null) context.world().playSound(context.location(), sound, 1.0f, 1.0f);
-        } catch (IllegalArgumentException ignored) {
+            Sound sound = Sound.valueOf(soundName);
+            context.world().playSound(context.location(), sound, 1.0f, 1.0f);
+            context.plugin().getLogger().info("RANDOM_SOUND reprodujo " + soundName + " para " + context.player().getName());
+        } catch (IllegalArgumentException exception) {
+            context.plugin().getLogger().warning("RANDOM_SOUND desconocido en "
+                    + context.config().getName() + ": " + configuredName);
         }
     }
 }
