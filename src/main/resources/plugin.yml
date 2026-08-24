@@ -8,8 +8,6 @@ commands:
     description: Administra las encuestas y prueba acciones de Twitch
     usage: /twitch <poll|reload|test>
     permission: twitchpolls.poll
-    aliases:
-      - poll
 permissions:
   twitchpolls.poll:
     description: Permite administrar encuestas de Twitch
