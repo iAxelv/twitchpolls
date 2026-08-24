@@ -2,6 +2,7 @@ package com.foxy.twitchPolls.commands;
 
 import com.foxy.twitchPolls.ActionManager;
 import com.foxy.twitchPolls.TwitchPolls;
+import com.foxy.twitchPolls.TwitchManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,11 +26,13 @@ import java.util.Map;
 public class TestCommand implements Listener {
     private final TwitchPolls plugin;
     private final ActionManager actionManager;
+    private final TwitchManager twitchManager;
     private YamlConfiguration guiConfig;
 
-    public TestCommand(TwitchPolls plugin, ActionManager actionManager) {
+    public TestCommand(TwitchPolls plugin, ActionManager actionManager, TwitchManager twitchManager) {
         this.plugin = plugin;
         this.actionManager = actionManager;
+        this.twitchManager = twitchManager;
         reload();
     }
 
@@ -102,18 +105,15 @@ public class TestCommand implements Listener {
         }
 
         player.closeInventory();
-        player.sendMessage(ChatColor.YELLOW + "Acción " + action + " en 3 segundos...");
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            if (!player.isOnline()) {
-                return;
-            }
-            ConfigurationSection actionConfig = actionManager.findActionConfig(action);
-            if (actionConfig != null) {
-                actionManager.executeAction(player, actionConfig);
-            } else {
-                player.sendMessage(ChatColor.RED + "No se encontró la configuración de " + action + ".");
-            }
-        }, 60L);
+        if (!player.isOnline()) {
+            return;
+        }
+        ConfigurationSection actionConfig = actionManager.findActionConfig(action);
+        if (actionConfig != null) {
+            twitchManager.testPoll(player, actionConfig);
+        } else {
+            player.sendMessage(ChatColor.RED + "No se encontró la configuración de " + action + ".");
+        }
     }
 
     @EventHandler

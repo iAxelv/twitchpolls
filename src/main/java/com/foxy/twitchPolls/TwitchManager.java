@@ -39,6 +39,7 @@ public class TwitchManager {
     private TwitchClient twitchClient;
     private BukkitTask pollTask;
     private BukkitTask bossBarTask;
+    private BukkitTask testPollTask;
     private BossBar activeBossBar;
     private final Map<String, ConfigurationSection> activePollChoices = new HashMap<>();
 
@@ -78,6 +79,9 @@ public class TwitchManager {
         }
         if (bossBarTask != null) {
             bossBarTask.cancel();
+        }
+        if (testPollTask != null) {
+            testPollTask.cancel();
         }
         if (activeBossBar != null) {
             activeBossBar.removeAll();
@@ -151,6 +155,36 @@ public class TwitchManager {
         }
     }
 
+    public void testPoll(Player player, ConfigurationSection actionConfig) {
+        int duration = plugin.getConfig().getInt("settings.poll-duration-seconds", 45);
+        String eventTitle = actionConfig.getString("title", actionConfig.getName());
+        String startTitle = plugin.getConfig().getString("messages.poll-start-title", "&d¡Nueva Encuesta!");
+        String startSubtitle = plugin.getConfig().getString("messages.poll-start-subtitle", "&fLos viewers están votando..");
+
+        player.showTitle(Title.title(formatColor(startTitle), formatColor(startSubtitle), titleTimes()));
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+        startBossBar(player, duration);
+
+        if (testPollTask != null) {
+            testPollTask.cancel();
+        }
+        testPollTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            if (!player.isOnline()) {
+                return;
+            }
+
+            stopBossBar();
+            String endTitle = plugin.getConfig().getString("messages.poll-end-title", "&a¡Votación Terminada!");
+            String endSubtitle = plugin.getConfig()
+                    .getString("messages.poll-end-subtitle", "&fGanó: &e%winner%")
+                    .replace("%winner%", eventTitle);
+            player.showTitle(Title.title(formatColor(endTitle), formatColor(endSubtitle), titleTimes()));
+            player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+            actionManager.executeAction(player, actionConfig);
+            testPollTask = null;
+        }, Math.max(1, duration) * 20L);
+    }
+
     private void notifyStart(int durationSeconds, List<PollChoice> choices) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             String streamerName = plugin.getConfig().getString("settings.streamer-username");
@@ -181,12 +215,7 @@ public class TwitchManager {
     }
 
     private void startBossBar(Player player, int totalSeconds) {
-        if (activeBossBar != null) {
-            activeBossBar.removeAll();
-        }
-        if (bossBarTask != null) {
-            bossBarTask.cancel();
-        }
+        stopBossBar();
 
         String titleFormat = plugin.getConfig().getString("messages.bossbar-title", "&dEncuesta: &f%time%s restantes");
         String initialTitle = titleFormat.replace("%time%", String.valueOf(totalSeconds));
@@ -214,6 +243,17 @@ public class TwitchManager {
             activeBossBar.setProgress((double) timeRemaining[0] / totalSeconds);
 
         }, 20L, 20L);
+    }
+
+    private void stopBossBar() {
+        if (activeBossBar != null) {
+            activeBossBar.removeAll();
+            activeBossBar = null;
+        }
+        if (bossBarTask != null) {
+            bossBarTask.cancel();
+            bossBarTask = null;
+        }
     }
 
     private void onPollEnd(ChannelPollEndEvent event) {

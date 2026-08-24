@@ -16,7 +16,7 @@ public final class TwitchPolls extends JavaPlugin {
         saveResource("gui.yml", false);
         actionManager = new ActionManager(this);
         twitchManager = new TwitchManager(this, actionManager);
-        testCommand = new TestCommand(this, actionManager);
+        testCommand = new TestCommand(this, actionManager, twitchManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
         TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, testCommand);
         getCommand("twitch").setExecutor(twitchCommand);
