@@ -13,7 +13,7 @@ public final class TwitchPolls extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        actionManager = new ActionManager();
+        actionManager = new ActionManager(this);
         twitchManager = new TwitchManager(this, actionManager);
         twitchManager.connect();
     }

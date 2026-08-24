@@ -35,26 +35,53 @@ messages:
 events:
   polls:
     creepers:
-      title: "Creepers Eléctricos"
+      title: "Kaboom"
       action: "SPAWN_CREEPER"
-      spawn_min: 1
-      spawn_max: 3
-      radius: 2.0
+      spawn_min: 2
+      spawn_max: 5
+      radius: 3.0
     levitation:
-      title: "Vuelo Sin Motor"
+      title: "Vuela vuela"
       action: "EFFECT_LEVITATION"
       time_min: 100
       time_max: 300
       amplifier: 5
-    diamonds:
-      title: "Lluvia de Diamantes"
-      action: "DROP_DIAMONDS"
+    ores:
+      title: "Lluvia de Minerales"
+      action: "DROP_ORES"
       spawn_min: 1
       spawn_max: 5
       radius: 1.0
     launch:
-      title: "Viaje Espacial"
+      title: "A viajar al espacio"
       action: "LAUNCH_PLAYER"
+    random_tp:
+      title: "Giro inesperado"
+      action: "RANDOM_TELEPORT"
+    potato:
+      title: "Patata premium"
+      action: "POTATO_PREMIUM"
+    inv_random:
+      title: "Inventory random"
+      action: "INVENTORY_RANDOM"
+    floor_lava:
+      title: "El suelo es lava"
+      action: "FLOOR_IS_LAVA"
+    warden:
+      title: "No mires atrás"
+      action: "WARDEN_JUMPSCARE"
+    food:
+      title: "Comidita"
+      action: "MAX_FOOD"
+    zombie:
+      title: "Clon"
+      action: "MINI_ZOMBIE"
+    nothing:
+      title: "No pasó nada"
+      action: "NOTHING"
+    random_effect:
+      title: "100% científico"
+      action: "RANDOM_EFFECT"
   donations:
     creepers:
       title: "Creepers por Donación"
