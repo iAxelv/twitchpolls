@@ -249,7 +249,10 @@ public class TwitchManager {
                 String title = plugin.getConfig().getString("messages.poll-end-title");
                 String sub = plugin.getConfig().getString("messages.poll-end-subtitle").replace("%winner%", winnerTitle);
                 player.showTitle(Title.title(formatColor(title), formatColor(sub), titleTimes()));
-                player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+                
+                if (actionConfig == null || !"RANDOM_SOUND".equals(actionConfig.getString("action"))) {
+                    player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+                }
 
                 if (actionConfig != null) {
                     actionManager.executeAction(player, actionConfig);
