@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
+import java.util.logging.Level;
 
 public class TwitchManager {
 
@@ -145,8 +146,10 @@ public class TwitchManager {
 
         try {
             twitchClient.getHelix().createPoll(oauthToken, poll).execute();
-        } catch (Exception ignored) {
-
+        } catch (Exception exception) {
+            plugin.getLogger().log(Level.SEVERE,
+                    "Failed to create Twitch poll for broadcaster " + broadcasterId,
+                    exception);
         }
     }
 
