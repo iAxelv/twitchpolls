@@ -1,7 +1,5 @@
 package com.foxy.twitchPolls;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.foxy.twitchPolls.commands.TestCommand;
 import com.foxy.twitchPolls.commands.TwitchCommand;

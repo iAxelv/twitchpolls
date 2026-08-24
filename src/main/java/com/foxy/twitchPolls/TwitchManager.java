@@ -31,6 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.logging.Level;
 
+@SuppressWarnings("deprecation")
 public class TwitchManager {
 
     private final TwitchPolls plugin;
@@ -221,7 +222,7 @@ public class TwitchManager {
         }
 
         int maxVotes = event.getChoices().stream()
-                .mapToInt(PollChoice::getVotes)
+                .mapToInt(choice -> choice.getVotes())
                 .max()
                 .orElse(0);
 

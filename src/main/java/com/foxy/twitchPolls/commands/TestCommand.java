@@ -21,6 +21,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public class TestCommand implements Listener {
     private final TwitchPolls plugin;
     private final ActionManager actionManager;
