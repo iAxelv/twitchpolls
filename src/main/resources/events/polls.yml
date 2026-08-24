@@ -27,10 +27,10 @@ random_tp:
   active: true
   title: "Giro inesperado"
   action: "RANDOM_TELEPORT"
-potato:
+random_item:
   active: true
-  title: "Patata premium"
-  action: "POTATO_PREMIUM"
+  title: "Intercambio aleatorio"
+  action: "RANDOM_ITEM_EXCHANGE"
 inv_random:
   active: true
   title: "Inventory random"

@@ -41,18 +41,18 @@ items:
     lore:
       - "&7Teletransporta al azar"
       - "&eClick para probar"
-  POTATO_PREMIUM:
-    event: POTATO_PREMIUM
+  RANDOM_ITEM_EXCHANGE:
+    event: RANDOM_ITEM_EXCHANGE
     slot: 5
-    item: POTATO
-    display-name: "&ePatata premium"
+    item: CHEST
+    display-name: "&eIntercambio aleatorio"
     lore:
-      - "&7Entrega una patata premium"
+      - "&7Cambia un item por otro aleatorio"
       - "&eClick para probar"
   INVENTORY_RANDOM:
     event: INVENTORY_RANDOM
     slot: 6
-    item: CHEST
+    item: ENDER_CHEST
     display-name: "&dInventario aleatorio"
     lore:
       - "&7Reorganiza el inventario"

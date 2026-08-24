@@ -58,7 +58,7 @@ public class ActionManager {
         strategies.put("DROP_ORES", new DropOresAction());
         strategies.put("LAUNCH_PLAYER", new LaunchPlayerAction());
         strategies.put("RANDOM_TELEPORT", new RandomTeleportAction());
-        strategies.put("POTATO_PREMIUM", new PotatoPremiumAction());
+        strategies.put("RANDOM_ITEM_EXCHANGE", new RandomItemExchangeAction());
         strategies.put("INVENTORY_RANDOM", new InventoryRandomAction());
         strategies.put("FLOOR_IS_LAVA", new FloorIsLavaAction());
         strategies.put("WARDEN_JUMPSCARE", new WardenJumpscareAction());
