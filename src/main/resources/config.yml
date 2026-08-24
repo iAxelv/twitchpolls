@@ -12,15 +12,15 @@ settings:
   broadcast-results: true
 
 messages:
-  poll-title: "¡Decide el destino del jugador!"
+  poll-title: "¡Decide el destino del streamer!"
   poll-start-title: "&d¡Nueva Encuesta!"
-  poll-start-subtitle: "&fVota en el chat de Twitch"
+  poll-start-subtitle: "&fLos viewers están votando.."
   poll-end-title: "&a¡Votación Terminada!"
   poll-end-subtitle: "&fGanó: &e%winner%"
 
   broadcast-start:
     - "&8&m---------------------------------"
-    - "&d[Twitch] &f¡Nueva encuesta iniciada en el directo!"
+    - "&d[Twitch] &f¡Nueva encuesta iniciada!"
     - "&fOpciones de la encuesta:"
     - "%options%"
     - "&8&m---------------------------------"
