@@ -87,10 +87,8 @@ public class TwitchManager {
     }
 
     public void reload() {
-        if (pollTask != null) {
-            pollTask.cancel();
-        }
-        startPollCycle();
+        disconnect();
+        connect();
     }
 
     private void startPollCycle() {
@@ -142,10 +140,9 @@ public class TwitchManager {
                 .withChoices(choices)
                 .withDurationSeconds(duration);
 
-        notifyStart(duration, choices);
-
         try {
             twitchClient.getHelix().createPoll(oauthToken, poll).execute();
+            notifyStart(duration, choices);
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE,
                     "Failed to create Twitch poll for broadcaster " + broadcasterId,
