@@ -206,6 +206,10 @@ public class TwitchManager {
     }
 
     private void onPollEnd(ChannelPollEndEvent event) {
+        if (event.getStatus() != null && !event.getStatus().toString().equalsIgnoreCase("completed")) {
+            return;
+        }
+
         String winnerTitle = event.getChoices().stream()
                 .max((c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes()))
                 .map(PollChoice::getTitle)
