@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Warden;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.Sound;
@@ -46,6 +48,7 @@ public class ActionManager {
                 int creeperMax = config.getInt("spawn_max", 3);
                 double creeperRadius = config.getDouble("radius", 2.0);
                 int creeperAmount = ThreadLocalRandom.current().nextInt(creeperMin, creeperMax + 1);
+
                 for (int i = 0; i < creeperAmount; i++) {
                     double angle = Math.random() * Math.PI * 2;
                     double radius = Math.random() * creeperRadius;
@@ -57,20 +60,24 @@ public class ActionManager {
                 }
                 world.playSound(loc, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 1.0f, 1.0f);
                 break;
+
             case "EFFECT_LEVITATION":
                 int timeMin = config.getInt("time_min", 100);
                 int timeMax = config.getInt("time_max", 300);
                 int amplifier = config.getInt("amplifier", 5);
                 int durationTicks = ThreadLocalRandom.current().nextInt(timeMin, timeMax + 1);
+
                 player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, durationTicks, amplifier));
                 world.playSound(loc, Sound.ENTITY_ENDER_DRAGON_FLAP, 1.0f, 1.0f);
                 break;
+
             case "DROP_ORES":
                 int oreMin = config.getInt("spawn_min", 1);
                 int oreMax = config.getInt("spawn_max", 5);
                 double oreRadius = config.getDouble("radius", 1.0);
                 int oreAmount = ThreadLocalRandom.current().nextInt(oreMin, oreMax + 1);
                 Material[] ores = {Material.IRON_INGOT, Material.LAPIS_LAZULI, Material.REDSTONE, Material.COAL, Material.EMERALD, Material.DIAMOND};
+
                 for (int i = 0; i < oreAmount; i++) {
                     double angle = Math.random() * Math.PI * 2;
                     double radius = Math.random() * oreRadius;
@@ -81,12 +88,14 @@ public class ActionManager {
                 }
                 world.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
                 break;
+
             case "LAUNCH_PLAYER":
                 Location launchLoc = loc.clone();
                 launchLoc.setY(ThreadLocalRandom.current().nextInt(150, 701));
                 player.teleport(launchLoc);
                 world.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1.0f, 1.0f);
                 break;
+
             case "RANDOM_TELEPORT":
                 double xOffset = (ThreadLocalRandom.current().nextBoolean() ? 1 : -1) * ThreadLocalRandom.current().nextDouble(5, 11);
                 double yOffset = (ThreadLocalRandom.current().nextBoolean() ? 1 : -1) * ThreadLocalRandom.current().nextDouble(5, 11);
@@ -94,15 +103,18 @@ public class ActionManager {
                 player.teleport(loc.clone().add(xOffset, yOffset, zOffset));
                 world.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
                 break;
+
             case "POTATO_PREMIUM":
                 PlayerInventory inv = player.getInventory();
                 List<Integer> filledSlots = new ArrayList<>();
+
                 for (int i = 0; i < 36; i++) {
                     ItemStack item = inv.getItem(i);
                     if (item != null && item.getType() != Material.AIR) {
                         filledSlots.add(i);
                     }
                 }
+
                 if (filledSlots.isEmpty()) {
                     inv.addItem(new ItemStack(Material.POTATO));
                 } else {
@@ -111,27 +123,33 @@ public class ActionManager {
                 }
                 world.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 1.0f, 1.0f);
                 break;
+
             case "INVENTORY_RANDOM":
                 PlayerInventory invRand = player.getInventory();
                 List<ItemStack> items = new ArrayList<>();
+
                 for (int i = 0; i < 36; i++) {
                     items.add(invRand.getItem(i));
                 }
                 Collections.shuffle(items);
+
                 for (int i = 0; i < 36; i++) {
                     invRand.setItem(i, items.get(i));
                 }
                 world.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0f, 1.0f);
                 break;
+
             case "FLOOR_IS_LAVA":
                 new BukkitRunnable() {
                     int ticks = 0;
+
                     @Override
                     public void run() {
                         if (ticks >= 200 || !player.isOnline()) {
                             this.cancel();
                             return;
                         }
+
                         if (player.getLocation().getBlock().getType() != Material.WATER) {
                             player.setFireTicks(40);
                         }
@@ -139,11 +157,13 @@ public class ActionManager {
                     }
                 }.runTaskTimer(plugin, 0L, 10L);
                 break;
+
             case "WARDEN_JUMPSCARE":
                 Vector dir = loc.getDirection().normalize().multiply(-10);
                 Location wardenLoc = loc.clone().add(dir);
                 wardenLoc.setY(world.getHighestBlockYAt(wardenLoc));
                 Warden warden = (Warden) world.spawnEntity(wardenLoc, EntityType.WARDEN);
+
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -153,26 +173,48 @@ public class ActionManager {
                     }
                 }.runTaskLater(plugin, 100L);
                 break;
+
             case "MAX_FOOD":
                 player.setFoodLevel(20);
                 player.setSaturation(20.0f);
                 world.playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1.0f, 1.0f);
                 break;
+
             case "MINI_ZOMBIE":
                 Zombie zombie = (Zombie) world.spawnEntity(loc, EntityType.ZOMBIE);
                 zombie.setBaby();
-                zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 1));
+                zombie.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 999999, 1));
+
+                String streamerName = plugin.getConfig().getString("settings.streamer-username", "Streamer");
+                zombie.setCustomName(streamerName);
+                zombie.setCustomNameVisible(true);
+
+                ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+                SkullMeta meta = (SkullMeta) head.getItemMeta();
+                if (meta != null) {
+                    meta.setOwningPlayer(Bukkit.getOfflinePlayer(streamerName));
+                    head.setItemMeta(meta);
+                }
+
+                if (zombie.getEquipment() != null) {
+                    zombie.getEquipment().setHelmet(head);
+                }
                 break;
+
             case "NOTHING":
                 break;
+
             case "RANDOM_EFFECT":
                 PotionEffectType[] effects = PotionEffectType.values();
                 PotionEffectType randomEffect = null;
+
                 while (randomEffect == null) {
                     randomEffect = effects[ThreadLocalRandom.current().nextInt(effects.length)];
                 }
+
                 player.addPotionEffect(new PotionEffect(randomEffect, 100, 4));
                 break;
+
             default:
                 break;
         }

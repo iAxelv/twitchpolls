@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class TwitchManager {
 
@@ -105,9 +107,11 @@ public class TwitchManager {
         String pollTitle = plugin.getConfig().getString("messages.poll-title");
 
         ConfigurationSection eventsSection = plugin.getConfig().getConfigurationSection("events.polls");
+
         if (eventsSection == null) {
             return;
         }
+
         List<String> eventKeys = new ArrayList<>(eventsSection.getKeys(false));
         if (eventKeys.isEmpty()) {
             return;
@@ -210,10 +214,17 @@ public class TwitchManager {
             return;
         }
 
-        String winnerTitle = event.getChoices().stream()
-                .max((c1, c2) -> Integer.compare(c1.getVotes(), c2.getVotes()))
-                .map(PollChoice::getTitle)
-                .orElse("");
+        int maxVotes = event.getChoices().stream()
+                .mapToInt(PollChoice::getVotes)
+                .max()
+                .orElse(0);
+
+        List<PollChoice> topChoices = event.getChoices().stream()
+                .filter(c -> c.getVotes() == maxVotes)
+                .collect(Collectors.toList());
+
+        String winnerTitle = topChoices.isEmpty() ? "" :
+                topChoices.get(ThreadLocalRandom.current().nextInt(topChoices.size())).getTitle();
 
         ConfigurationSection actionConfig = activePollChoices.get(winnerTitle);
 
