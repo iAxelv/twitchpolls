@@ -16,9 +16,9 @@ ores:
   active: true
   title: "Lluvia de Minerales"
   action: "DROP_ORES"
-  spawn_min: 1
-  spawn_max: 5
-  radius: 1.0
+  spawn_min: 6
+  spawn_max: 12
+  radius: 2.5
 launch:
   active: true
   title: "A viajar al espacio"
