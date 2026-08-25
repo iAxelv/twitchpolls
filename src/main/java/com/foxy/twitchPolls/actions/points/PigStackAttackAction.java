@@ -33,7 +33,7 @@ public class PigStackAttackAction implements ActionStrategy {
             @Override
             public void run() {
                 if (!context.player().isValid() || elapsed >= attackTicks
-                        || attackingPigs.stream().noneMatch(Pig::isValid)) {
+                        || attackingPigs.stream().noneMatch(pig -> pig.isValid())) {
                     cancel();
                     return;
                 }

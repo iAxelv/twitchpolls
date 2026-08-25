@@ -12,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.util.RayTraceResult;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,15 +44,6 @@ public class FakeDiamondAction implements ActionStrategy, Listener {
         Material replacement = Material.matchMaterial(context.config().getString("replacement", "COBWEB"));
         fakeBlocks.put(key, replacement == null ? Material.COBWEB : replacement);
         block.setType(Material.DIAMOND_BLOCK, false);
-        long duration = Math.max(1L, context.config().getLong("duration-seconds", 2L)) * 20L;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (fakeBlocks.remove(key) != null && block.getType() == Material.DIAMOND_BLOCK) {
-                    block.setType(Material.AIR);
-                }
-            }
-        }.runTaskLater(plugin, duration);
     }
 
     @EventHandler

@@ -10,7 +10,7 @@ spin_head:
   title: "¡Mira hacia atrás!"
   reward-title: "¡Mira hacia atrás!"
   action: SPIN_HEAD
-  duration-seconds: 3
+  duration-seconds: 10
   interval-ticks: 40
   degrees-per-turn: 90
 fake_diamond:
