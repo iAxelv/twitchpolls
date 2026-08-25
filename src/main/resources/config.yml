@@ -31,3 +31,6 @@ messages:
   command-success: "&aEncuesta enviada a Twitch exitosamente."
   command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
   command-reload: "&aConfiguración recargada correctamente."
+  points-event-title: "&c¡Evento de puntos!"
+  points-event-subtitle: "&f%event% &7(%value% puntos)"
+  points-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% puntos."

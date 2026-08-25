@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import com.foxy.twitchPolls.actions.polls.*;
+import com.foxy.twitchPolls.actions.points.*;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -78,5 +79,15 @@ public class ActionManager {
         strategies.put("SPAWN_VENECO", new SpawnVenecoAction());
         strategies.put("RANDOM_SOUND", new RandomSoundAction());
         strategies.put("CONFUSION", new ConfusionAction());
+        strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
+        strategies.put("SPIN_HEAD", new SpinHeadAction());
+        strategies.put("FAKE_DIAMOND", new FakeDiamondAction(plugin));
+        strategies.put("ANVIL_TRAP", new AnvilTrapAction());
+        strategies.put("PIG_STACK_ATTACK", new PigStackAttackAction());
+        strategies.put("INVERT_CONTROLS_EFFECT", new InvertControlsEffectAction());
+        strategies.put("SWAP_MAIN_OFFHAND", new SwapMainOffhandAction());
+        strategies.put("WEB_PRISON", new WebPrisonAction());
+        strategies.put("SILENT_PHANTOMS", new SilentPhantomsAction());
+        strategies.put("CLEAN_ARMOR", new CleanArmorAction());
     }
 }

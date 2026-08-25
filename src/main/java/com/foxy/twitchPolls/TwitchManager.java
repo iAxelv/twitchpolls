@@ -6,6 +6,8 @@ import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.eventsub.condition.ChannelPollEndCondition;
 import com.github.twitch4j.eventsub.domain.PollChoice;
 import com.github.twitch4j.eventsub.events.ChannelPollEndEvent;
+import com.github.twitch4j.eventsub.events.CustomRewardRedemptionAddEvent;
+import com.github.twitch4j.eventsub.condition.ChannelPointsCustomRewardRedemptionAddCondition;
 import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes;
 import com.github.twitch4j.helix.domain.Poll;
 import net.kyori.adventure.text.Component;
@@ -65,9 +67,14 @@ public class TwitchManager {
                 .build();
 
         twitchClient.getEventManager().onEvent(ChannelPollEndEvent.class, this::onPollEnd);
+        twitchClient.getEventManager().onEvent(CustomRewardRedemptionAddEvent.class, this::onPointRedemption);
         twitchClient.getEventSocket().register(
                 SubscriptionTypes.POLL_END,
                 ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build()
+        );
+        twitchClient.getEventSocket().register(
+            SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
+            ChannelPointsCustomRewardRedemptionAddCondition.builder().broadcasterUserId(broadcasterId).build()
         );
 
         startPollCycle();
@@ -185,6 +192,31 @@ public class TwitchManager {
             actionManager.executeAction(player, actionConfig);
             testPollTask = null;
         }, Math.max(1, duration) * 20L);
+    }
+
+    public void executePointAction(Player player, ConfigurationSection actionConfig) {
+        if (actionConfig == null || !player.isOnline()) {
+            return;
+        }
+
+        String eventTitle = actionConfig.getString("title", actionConfig.getName());
+        String title = plugin.getConfig().getString("messages.points-event-title", "");
+        String subtitle = plugin.getConfig().getString("messages.points-event-subtitle", "")
+                .replace("%event%", eventTitle)
+                .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)));
+        if (!title.isBlank() || !subtitle.isBlank()) {
+            player.showTitle(Title.title(formatColor(title), formatColor(subtitle), titleTimes()));
+        }
+
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
+        actionManager.executeAction(player, actionConfig);
+
+        String broadcast = plugin.getConfig().getString("messages.points-event-broadcast", "")
+                .replace("%event%", eventTitle)
+                .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)));
+        if (!broadcast.isBlank()) {
+            Bukkit.broadcast(formatColor(broadcast));
+        }
     }
 
     private void notifyStart(int durationSeconds, List<PollChoice> choices) {
@@ -305,6 +337,44 @@ public class TwitchManager {
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {
                 String broadcast = plugin.getConfig().getString("messages.broadcast-end").replace("%winner%", winnerTitle);
                 Bukkit.broadcast(formatColor(broadcast));
+            }
+        });
+    }
+
+    private void onPointRedemption(CustomRewardRedemptionAddEvent event) {
+        if (event.getReward() == null || event.getReward().getCost() == null) {
+            return;
+        }
+
+        ConfigurationSection points = plugin.getEventConfig("points");
+        if (points == null) {
+            return;
+        }
+
+        ConfigurationSection matched = null;
+        for (String key : points.getKeys(false)) {
+            ConfigurationSection candidate = points.getConfigurationSection(key);
+            if (candidate == null || !candidate.getBoolean("active", true)
+                    || candidate.getInt("value", -1) != event.getReward().getCost()) {
+                continue;
+            }
+            String rewardTitle = candidate.getString("reward-title", candidate.getString("title", key));
+            if (rewardTitle.equalsIgnoreCase(event.getReward().getTitle())) {
+                matched = candidate;
+                break;
+            }
+        }
+
+        if (matched == null) {
+            return;
+        }
+
+        ConfigurationSection selected = matched;
+        String streamerName = plugin.getConfig().getString("settings.streamer-username");
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Player player = Bukkit.getPlayer(streamerName);
+            if (player != null && player.isOnline()) {
+                executePointAction(player, selected);
             }
         });
     }

@@ -178,11 +178,83 @@ category-items:
         - "&7Ejecuta la action de donaciones"
         - "&eClick para probar"
   points:
-    EFFECT_LEVITATION:
-      event: EFFECT_LEVITATION
+    DROP_HAND_ITEM:
+      event: DROP_HAND_ITEM
       slot: 0
-      item: FEATHER
-      display-name: "&bLevitation"
+      item: DROPPER
+      display-name: "&eSuelta el objeto"
       lore:
-        - "&7Ejecuta la action de puntos"
+        - "&7Fuerza al streamer a soltar su objeto"
+        - "&eClick para probar"
+    SPIN_HEAD:
+      event: SPIN_HEAD
+      slot: 1
+      item: COMPASS
+      display-name: "&dGiro de cámara"
+      lore:
+        - "&7Gira la cámara y aplica ceguera"
+        - "&eClick para probar"
+    FAKE_DIAMOND:
+      event: FAKE_DIAMOND
+      slot: 2
+      item: DIAMOND_BLOCK
+      display-name: "&bDiamante falso"
+      lore:
+        - "&7Coloca un diamante trampa"
+        - "&eClick para probar"
+    ANVIL_TRAP:
+      event: ANVIL_TRAP
+      slot: 3
+      item: ANVIL
+      display-name: "&8Trampa de yunque"
+      lore:
+        - "&7Deja caer un yunque sobre el streamer"
+        - "&eClick para probar"
+    PIG_STACK_ATTACK:
+      event: PIG_STACK_ATTACK
+      slot: 4
+      item: PIG_SPAWN_EGG
+      display-name: "&dTorre de cerdos"
+      lore:
+        - "&7Invoca una torre de cerdos"
+        - "&eClick para probar"
+    INVERT_CONTROLS_EFFECT:
+      event: INVERT_CONTROLS_EFFECT
+      slot: 5
+      item: SLIME_BLOCK
+      display-name: "&aPegado al suelo"
+      lore:
+        - "&7Aplica lentitud y salto reducido"
+        - "&eClick para probar"
+    SWAP_MAIN_OFFHAND:
+      event: SWAP_MAIN_OFFHAND
+      slot: 6
+      item: GOLDEN_SWORD
+      display-name: "&6Manos cambiadas"
+      lore:
+        - "&7Intercambia las manos constantemente"
+        - "&eClick para probar"
+    WEB_PRISON:
+      event: WEB_PRISON
+      slot: 7
+      item: COBWEB
+      display-name: "&fPrisión de telarañas"
+      lore:
+        - "&7Encierra al streamer temporalmente"
+        - "&eClick para probar"
+    SILENT_PHANTOMS:
+      event: SILENT_PHANTOMS
+      slot: 8
+      item: PHANTOM_MEMBRANE
+      display-name: "&8Fantasmas silenciosos"
+      lore:
+        - "&7Invoca fantasmas invisibles"
+        - "&eClick para probar"
+    CLEAN_ARMOR:
+      event: CLEAN_ARMOR
+      slot: 9
+      item: ARMOR_STAND
+      display-name: "&cLimpiar armadura"
+      lore:
+        - "&7Desequipa y lanza la armadura"
         - "&eClick para probar"

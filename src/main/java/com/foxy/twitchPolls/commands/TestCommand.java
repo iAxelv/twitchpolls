@@ -169,7 +169,11 @@ public class TestCommand implements Listener {
         }
         ConfigurationSection actionConfig = actionManager.findActionConfig(action, holder.category);
         if (actionConfig != null) {
-            twitchManager.testPoll(player, actionConfig);
+            if ("points".equals(holder.category)) {
+                twitchManager.executePointAction(player, actionConfig);
+            } else {
+                twitchManager.testPoll(player, actionConfig);
+            }
         } else {
             player.sendMessage(ChatColor.RED + "No se encontró la configuración de " + action + ".");
         }

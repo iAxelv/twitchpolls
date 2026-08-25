@@ -1,7 +1,76 @@
-levitation:
+drop_hand_item:
   active: true
-  title: "Vuelo Sin Motor por Puntos"
-  action: "EFFECT_LEVITATION"
-  time_min: 300
-  time_max: 500
-  amplifier: 10
+  value: 100
+  title: "¡Suelta lo que tienes!"
+  reward-title: "¡Suelta lo que tienes!"
+  action: DROP_HAND_ITEM
+spin_head:
+  active: true
+  value: 150
+  title: "¡Mira hacia atrás!"
+  reward-title: "¡Mira hacia atrás!"
+  action: SPIN_HEAD
+  blindness-seconds: 1.5
+fake_diamond:
+  active: true
+  value: 250
+  title: "Diamante sospechoso"
+  reward-title: "Diamante sospechoso"
+  action: FAKE_DIAMOND
+  distance: 2.0
+  duration-seconds: 2
+  replacement: COBWEB
+anvil_trap:
+  active: true
+  value: 300
+  title: "¡Cuidado con el yunque!"
+  reward-title: "¡Cuidado con el yunque!"
+  action: ANVIL_TRAP
+  height: 6.0
+pig_stack_attack:
+  active: true
+  value: 350
+  title: "¡Torre de cerdos!"
+  reward-title: "¡Torre de cerdos!"
+  action: PIG_STACK_ATTACK
+  pigs: 4
+  height: 1.0
+invert_controls_effect:
+  active: true
+  value: 200
+  title: "Pegado al suelo"
+  reward-title: "Pegado al suelo"
+  action: INVERT_CONTROLS_EFFECT
+  duration-seconds: 6
+  slowness-amplifier: 5
+  jump-amplifier: 127
+swap_main_offhand:
+  active: true
+  value: 175
+  title: "¡Manos cambiadas!"
+  reward-title: "¡Manos cambiadas!"
+  action: SWAP_MAIN_OFFHAND
+  duration-seconds: 8
+  interval-seconds: 1
+web_prison:
+  active: true
+  value: 275
+  title: "Prisión de telarañas"
+  reward-title: "Prisión de telarañas"
+  action: WEB_PRISON
+  radius: 1
+  duration-seconds: 10
+silent_phantoms:
+  active: true
+  value: 400
+  title: "¡Algo te observa!"
+  reward-title: "¡Algo te observa!"
+  action: SILENT_PHANTOMS
+  amount: 3
+  duration-seconds: 20
+clean_armor:
+  active: true
+  value: 225
+  title: "¡Fuera armadura!"
+  reward-title: "¡Fuera armadura!"
+  action: CLEAN_ARMOR
