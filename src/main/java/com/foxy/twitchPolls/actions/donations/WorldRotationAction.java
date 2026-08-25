@@ -5,8 +5,6 @@ import com.foxy.twitchPolls.actions.ActionStrategy;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class WorldRotationAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         int rotations = Math.max(1, context.config().getInt("rotations", 4));

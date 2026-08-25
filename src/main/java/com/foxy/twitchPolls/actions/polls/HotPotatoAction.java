@@ -2,14 +2,12 @@ package com.foxy.twitchPolls.actions.polls;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
-import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class HotPotatoAction implements ActionStrategy {
@@ -18,7 +16,7 @@ public class HotPotatoAction implements ActionStrategy {
         int slot = ThreadLocalRandom.current().nextInt(9);
         ItemStack potato = new ItemStack(Material.POTATO);
         ItemMeta meta = potato.getItemMeta();
-        meta.displayName(Component.text(ChatColor.RED + "Patata caliente"));
+        meta.displayName(LegacyComponentSerializer.legacyAmpersand().deserialize("&cPatata caliente"));
         potato.setItemMeta(meta);
         inventory.setItem(slot, potato);
         int duration = Math.max(3, context.config().getInt("duration-seconds", 15));
@@ -26,7 +24,8 @@ public class HotPotatoAction implements ActionStrategy {
             int remaining = duration;
             @Override public void run() {
                 if (!context.player().isOnline()) { cancel(); return; }
-                context.player().sendActionBar(Component.text(ChatColor.RED + "Patata caliente: " + remaining + "s"));
+                context.player().sendActionBar(LegacyComponentSerializer.legacyAmpersand()
+                    .deserialize("&cPatata caliente: " + remaining + "s"));
                 if (remaining-- <= 0) {
                     ItemStack current = inventory.getItem(slot);
                     if (current != null && current.isSimilar(potato)) {

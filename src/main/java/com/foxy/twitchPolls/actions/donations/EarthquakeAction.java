@@ -10,8 +10,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class EarthquakeAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         int duration = Math.max(1, context.config().getInt("duration-seconds", 12));
