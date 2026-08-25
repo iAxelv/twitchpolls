@@ -2,13 +2,13 @@ drop_hand_item:
   active: true
   value: 100
   title: "¡Suelta lo que tienes!"
-  reward-title: "¡Suelta lo que tienes!"
+  reward-title: "Suelta eso"
   action: DROP_HAND_ITEM
 spin_head:
   active: true
   value: 150
   title: "¡Mira hacia atrás!"
-  reward-title: "¡Mira hacia atrás!"
+  reward-title: "Date la vuelta"
   action: SPIN_HEAD
   duration-seconds: 10
   interval-ticks: 40
@@ -17,7 +17,7 @@ fake_diamond:
   active: true
   value: 250
   title: "Bloque de diamante"
-  reward-title: "Bloque de diamante"
+  reward-title: "Diamante de mentira"
   action: FAKE_DIAMOND
   distance: 2.0
   duration-seconds: 2
@@ -26,7 +26,7 @@ replace_blocks:
   active: true
   value: 325
   title: "¡Todo es grava!"
-  reward-title: "¡Todo es grava!"
+  reward-title: "Grava total"
   action: REPLACE_BLOCKS
   duration-seconds: 60
   replacement: GRAVEL
@@ -34,7 +34,7 @@ anvil_trap:
   active: true
   value: 300
   title: "¡Cuidado con el yunque!"
-  reward-title: "¡Cuidado con el yunque!"
+  reward-title: "Yunque va"
   action: ANVIL_TRAP
   height: 6.0
   damage-per-block: 2.0
@@ -43,7 +43,7 @@ pig_stack_attack:
   active: true
   value: 350
   title: "¡Torre de cerdos!"
-  reward-title: "¡Torre de cerdos!"
+  reward-title: "Cerditos"
   action: PIG_STACK_ATTACK
   pigs: 4
   height: 1.0
@@ -53,7 +53,7 @@ invert_controls_effect:
   active: true
   value: 200
   title: "Pegado al suelo"
-  reward-title: "Pegado al suelo"
+  reward-title: "Pegado"
   action: INVERT_CONTROLS_EFFECT
   duration-seconds: 6
   slowness-amplifier: 5
@@ -62,7 +62,7 @@ swap_main_offhand:
   active: true
   value: 175
   title: "¡Manos cambiadas!"
-  reward-title: "¡Manos cambiadas!"
+  reward-title: "Manos locas"
   action: SWAP_MAIN_OFFHAND
   duration-seconds: 8
   interval-seconds: 1
@@ -70,14 +70,14 @@ pumpkin_head:
   active: true
   value: 800
   title: "Visión de Calabaza"
-  reward-title: "Visión de Calabaza"
+  reward-title: "Calabaza"
   action: PUMPKIN_HEAD
   duration-seconds: 10
 web_prison:
   active: true
   value: 275
   title: "Prisión de telarañas"
-  reward-title: "Prisión de telarañas"
+  reward-title: "Telarañas"
   action: WEB_PRISON
   radius: 1
   duration-seconds: 10
@@ -86,7 +86,7 @@ silent_phantoms:
   active: true
   value: 400
   title: "¡Algo te observa!"
-  reward-title: "¡Algo te observa!"
+  reward-title: "Fantasmas"
   action: SILENT_PHANTOMS
   amount: 3
   duration-seconds: 20
@@ -95,7 +95,7 @@ clean_armor:
   active: true
   value: 225
   title: "¡Fuera armadura!"
-  reward-title: "¡Fuera armadura!"
+  reward-title: "Sin armadura"
   action: CLEAN_ARMOR
   min-distance: 1.0
   max-distance: 3.0
@@ -103,14 +103,14 @@ disable_damage:
   active: true
   value: 250
   title: "¡Mobs intocables!"
-  reward-title: "¡Mobs intocables!"
+  reward-title: "Mobs de adorno"
   action: DISABLE_DAMAGE
   duration-seconds: 30
 disable_action:
   active: true
   value: 300
   title: "¡Manos atadas!"
-  reward-title: "¡Manos atadas!"
+  reward-title: "Manos atadas"
   action: DISABLE_ACTION
   duration-seconds: 30
   blocked-actions:
@@ -121,3 +121,11 @@ disable_action:
     - INTERACT_BLOCKS
     - ATTACK_MOBS
     - MOVE_ITEMS
+give_totems:
+  active: true
+  value: 500
+  title: "Regalo inesperado"
+  reward-title: "Regalito raro"
+  action: GIVE_TOTEMS
+  min-totems: 1
+  max-totems: 4

@@ -293,3 +293,11 @@ category-items:
         - "&7Bloquea una acción al azar"
         - "&7durante 30 segundos"
         - "&eClick para probar"
+    GIVE_TOTEMS:
+      event: GIVE_TOTEMS
+      slot: 13
+      item: TOTEM_OF_UNDYING
+      display-name: "&eRegalito raro"
+      lore:
+        - "&7Entrega entre 1 y 4 totems"
+        - "&eClick para probar"

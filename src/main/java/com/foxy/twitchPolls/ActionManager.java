@@ -93,5 +93,6 @@ public class ActionManager {
         strategies.put("CLEAN_ARMOR", new CleanArmorAction());
         strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin));
         strategies.put("DISABLE_ACTION", new DisableActionAction(plugin));
+        strategies.put("GIVE_TOTEMS", new GiveTotemsAction());
     }
 }
