@@ -27,6 +27,7 @@ messages:
 
   broadcast-end: "&d[Twitch] &fLa opción ganadora ha sido: &e%winner%"
   bossbar-title: "&dEncuesta: &f%time%s restantes"
+  next-poll-bossbar-title: "&dPróxima encuesta: &f%time%s"
   command-starting: "&aIniciando encuesta..."
   command-success: "&aEncuesta enviada a Twitch exitosamente."
   command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
