@@ -103,6 +103,7 @@ midas_touch:
   type: prime_sub
   value: 5
   duration-seconds: 60
+  preserve-bedrock: true
 wipe_enemies:
   active: true
   title: "¡Fuera enemigos!"

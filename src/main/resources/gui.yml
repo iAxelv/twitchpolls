@@ -268,10 +268,10 @@ category-items:
     MIDAS_TOUCH:
       event: MIDAS_TOUCH
       slot: 12
-      item: GRAVEL
-      display-name: "&6Toque de Midas"
+      item: BARRIER
+      display-name: "&6Pozo de Midas"
       lore:
-        - "&7Convierte en grava cada bloque pisado"
+        - "&7Abre un pozo 1x1 hasta la bedrock"
         - "&eClick para probar"
     WIPE_ENEMIES:
       event: WIPE_ENEMIES

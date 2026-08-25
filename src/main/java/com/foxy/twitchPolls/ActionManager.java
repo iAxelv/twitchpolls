@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ActionManager {
     private final TwitchPolls plugin;
     private final Map<String, ActionStrategy> strategies = new HashMap<>();
-    private final Map<UUID, BukkitTask> pointCountdowns = new HashMap<>();
+    private final Map<UUID, BukkitTask> eventCountdowns = new HashMap<>();
 
     public ActionManager(TwitchPolls plugin) {
         this.plugin = plugin;
@@ -41,6 +41,7 @@ public class ActionManager {
 
     public void executeDonationAction(Player player, ConfigurationSection config, String donorUsername) {
         executeAction(player, config, donorUsername);
+        startDurationCountdown(player, config);
     }
 
     public void executePointAction(Player player, ConfigurationSection config) {
@@ -49,14 +50,17 @@ public class ActionManager {
 
     public void executePointAction(Player player, ConfigurationSection config, String redeemerUsername) {
         executeAction(player, config, redeemerUsername);
+        startDurationCountdown(player, config);
+    }
 
+    private void startDurationCountdown(Player player, ConfigurationSection config) {
         if (!config.contains("duration-seconds")) {
             return;
         }
 
         int durationSeconds = Math.max(1, config.getInt("duration-seconds"));
         UUID playerId = player.getUniqueId();
-        BukkitTask previousTask = pointCountdowns.remove(playerId);
+        BukkitTask previousTask = eventCountdowns.remove(playerId);
         if (previousTask != null) {
             previousTask.cancel();
         }
@@ -73,14 +77,14 @@ public class ActionManager {
                 timeRemaining--;
                 if (timeRemaining <= 0) {
                     player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(""));
-                    pointCountdowns.remove(playerId);
+                    eventCountdowns.remove(playerId);
                     cancel();
                     return;
                 }
                 sendPointCountdown(player, messageFormat, timeRemaining);
             }
         }.runTaskTimer(plugin, 20L, 20L);
-        pointCountdowns.put(playerId, countdownTask);
+        eventCountdowns.put(playerId, countdownTask);
     }
 
     private void executeAction(Player player, ConfigurationSection config, String redeemerUsername) {
@@ -95,10 +99,10 @@ public class ActionManager {
     }
 
     public void cancelPointCountdowns() {
-        for (BukkitTask task : pointCountdowns.values()) {
+        for (BukkitTask task : eventCountdowns.values()) {
             task.cancel();
         }
-        pointCountdowns.clear();
+        eventCountdowns.clear();
     }
 
     private void sendPointCountdown(Player player, String messageFormat, int timeRemaining) {
