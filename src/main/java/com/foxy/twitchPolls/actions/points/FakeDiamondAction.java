@@ -17,11 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FakeDiamondAction implements ActionStrategy, Listener {
-    private final TwitchPolls plugin;
     private final Map<Location, Material> fakeBlocks = new HashMap<>();
 
     public FakeDiamondAction(TwitchPolls plugin) {
-        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
