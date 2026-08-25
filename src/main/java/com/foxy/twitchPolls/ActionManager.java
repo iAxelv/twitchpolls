@@ -2,6 +2,9 @@ package com.foxy.twitchPolls;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
@@ -12,10 +15,12 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 public class ActionManager {
     private final TwitchPolls plugin;
     private final Map<String, ActionStrategy> strategies = new HashMap<>();
+    private final Map<UUID, BukkitTask> pointCountdowns = new HashMap<>();
 
     public ActionManager(TwitchPolls plugin) {
         this.plugin = plugin;
@@ -31,6 +36,54 @@ public class ActionManager {
             String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
             strategy.execute(new ActionContext(plugin, player, config, streamerUsername));
         }
+    }
+
+    public void executePointAction(Player player, ConfigurationSection config) {
+        executeAction(player, config);
+
+        if (!config.contains("duration-seconds")) {
+            return;
+        }
+
+        int durationSeconds = Math.max(1, config.getInt("duration-seconds"));
+        UUID playerId = player.getUniqueId();
+        BukkitTask previousTask = pointCountdowns.remove(playerId);
+        if (previousTask != null) {
+            previousTask.cancel();
+        }
+
+        String messageFormat = plugin.getConfig().getString(
+                "messages.points-event-duration", "&eFinaliza: &f%time%s");
+        sendPointCountdown(player, messageFormat, durationSeconds);
+
+        BukkitTask countdownTask = new BukkitRunnable() {
+            private int timeRemaining = durationSeconds;
+
+            @Override
+            public void run() {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(""));
+                    pointCountdowns.remove(playerId);
+                    cancel();
+                    return;
+                }
+                sendPointCountdown(player, messageFormat, timeRemaining);
+            }
+        }.runTaskTimer(plugin, 20L, 20L);
+        pointCountdowns.put(playerId, countdownTask);
+    }
+
+    public void cancelPointCountdowns() {
+        for (BukkitTask task : pointCountdowns.values()) {
+            task.cancel();
+        }
+        pointCountdowns.clear();
+    }
+
+    private void sendPointCountdown(Player player, String messageFormat, int timeRemaining) {
+        player.sendActionBar(LegacyComponentSerializer.legacyAmpersand()
+                .deserialize(messageFormat.replace("%time%", String.valueOf(timeRemaining))));
     }
 
     public ConfigurationSection findActionConfig(String actionName) {

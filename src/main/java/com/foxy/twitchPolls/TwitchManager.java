@@ -213,7 +213,7 @@ public class TwitchManager {
         }
 
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
-        actionManager.executeAction(player, actionConfig);
+        actionManager.executePointAction(player, actionConfig);
 
         String broadcast = plugin.getConfig().getString("messages.points-event-broadcast", "")
                 .replace("%event%", eventTitle)

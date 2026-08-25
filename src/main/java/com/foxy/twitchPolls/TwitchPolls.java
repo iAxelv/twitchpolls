@@ -37,6 +37,9 @@ public final class TwitchPolls extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (actionManager != null) {
+            actionManager.cancelPointCountdowns();
+        }
         if (twitchManager != null) {
             twitchManager.disconnect();
         }
