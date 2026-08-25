@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("null")
 public class SilentPhantomsAction implements ActionStrategy {
     @Override
     public void execute(ActionContext context) {

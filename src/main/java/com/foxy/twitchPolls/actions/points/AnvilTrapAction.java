@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.data.BlockData;
 
+@SuppressWarnings("deprecation")
 public class AnvilTrapAction implements ActionStrategy {
     @Override
     public void execute(ActionContext context) {
