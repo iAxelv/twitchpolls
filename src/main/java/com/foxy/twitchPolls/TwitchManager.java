@@ -66,9 +66,10 @@ public class TwitchManager {
         String clientId = plugin.getConfig().getString("twitch.client-id");
         String clientSecret = plugin.getConfig().getString("twitch.client-secret");
         String oauthToken = cleanToken(plugin.getConfig().getString("twitch.oauth-token"));
+        String refreshToken = plugin.getConfig().getString("twitch.refresh-token", "");
         String broadcasterId = plugin.getConfig().getString("twitch.broadcaster-id");
 
-        OAuth2Credential credential = new OAuth2Credential("twitch", oauthToken);
+        OAuth2Credential credential = new OAuth2Credential("twitch", oauthToken, refreshToken, null, null, null, null);
 
         twitchClient = TwitchClientBuilder.builder()
                 .withClientId(clientId)
@@ -89,24 +90,24 @@ public class TwitchManager {
                 ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build()
         );
         twitchClient.getEventSocket().register(
-            SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
-            ChannelPointsCustomRewardRedemptionAddCondition.builder().broadcasterUserId(broadcasterId).build()
+                SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
+                ChannelPointsCustomRewardRedemptionAddCondition.builder().broadcasterUserId(broadcasterId).build()
         );
         twitchClient.getEventSocket().register(
-            SubscriptionTypes.CHANNEL_CHEER,
-            ChannelCheerCondition.builder().broadcasterUserId(broadcasterId).build()
+                SubscriptionTypes.CHANNEL_CHEER,
+                ChannelCheerCondition.builder().broadcasterUserId(broadcasterId).build()
         );
         twitchClient.getEventSocket().register(
-            SubscriptionTypes.CHANNEL_SUBSCRIBE,
-            ChannelSubscribeCondition.builder().broadcasterUserId(broadcasterId).build()
+                SubscriptionTypes.CHANNEL_SUBSCRIBE,
+                ChannelSubscribeCondition.builder().broadcasterUserId(broadcasterId).build()
         );
         twitchClient.getEventSocket().register(
-            SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT,
-            ChannelSubscriptionGiftCondition.builder().broadcasterUserId(broadcasterId).build()
+                SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT,
+                ChannelSubscriptionGiftCondition.builder().broadcasterUserId(broadcasterId).build()
         );
         twitchClient.getEventSocket().register(
-            SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE,
-            ChannelSubscriptionMessageCondition.builder().broadcasterUserId(broadcasterId).build()
+                SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE,
+                ChannelSubscriptionMessageCondition.builder().broadcasterUserId(broadcasterId).build()
         );
 
         startPollCycle();

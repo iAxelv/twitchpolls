@@ -3,6 +3,7 @@ twitch:
   client-secret: "YOUR_TWITCH_CLIENT_SECRET"
   oauth-token: "YOUR_TWITCH_OAUTH_TOKEN"
   broadcaster-id: "YOUR_TWITCH_BROADCASTER_ID"
+  refresh-token: "YOUR_TWITCH_REFRESH_TOKEN"
 
 settings:
   streamer-username: "iAx3lv"
