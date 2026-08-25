@@ -8,7 +8,8 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public record ActionContext(Plugin plugin, Player player, ConfigurationSection config, String streamerUsername) {
+public record ActionContext(Plugin plugin, Player player, ConfigurationSection config,
+                            String streamerUsername, String redeemerUsername) {
     public World world() { return player.getWorld(); }
     public Location location() { return player.getLocation(); }
 

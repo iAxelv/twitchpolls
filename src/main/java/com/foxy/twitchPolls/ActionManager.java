@@ -34,12 +34,16 @@ public class ActionManager {
         ActionStrategy strategy = strategies.get(config.getString("action"));
         if (strategy != null) {
             String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
-            strategy.execute(new ActionContext(plugin, player, config, streamerUsername));
+            strategy.execute(new ActionContext(plugin, player, config, streamerUsername, null));
         }
     }
 
     public void executePointAction(Player player, ConfigurationSection config) {
-        executeAction(player, config);
+        executePointAction(player, config, null);
+    }
+
+    public void executePointAction(Player player, ConfigurationSection config, String redeemerUsername) {
+        executeAction(player, config, redeemerUsername);
 
         if (!config.contains("duration-seconds")) {
             return;
@@ -72,6 +76,17 @@ public class ActionManager {
             }
         }.runTaskTimer(plugin, 20L, 20L);
         pointCountdowns.put(playerId, countdownTask);
+    }
+
+    private void executeAction(Player player, ConfigurationSection config, String redeemerUsername) {
+        if (config == null || !config.contains("action")) {
+            return;
+        }
+        ActionStrategy strategy = strategies.get(config.getString("action"));
+        if (strategy != null) {
+            String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
+            strategy.execute(new ActionContext(plugin, player, config, streamerUsername, redeemerUsername));
+        }
     }
 
     public void cancelPointCountdowns() {
@@ -125,6 +140,8 @@ public class ActionManager {
         strategies.put("FLOOR_IS_LAVA", new FloorIsLavaAction());
         strategies.put("WARDEN_JUMPSCARE", new WardenJumpscareAction());
         strategies.put("MAX_FOOD", new MaxFoodAction());
+        strategies.put("INSTANT_HEAL", new InstantHealAction());
+        strategies.put("SPAWN_GUARD", new SpawnGuardAction());
         strategies.put("MINI_ZOMBIE", new MiniZombieAction());
         strategies.put("NOTHING", new NothingAction());
         strategies.put("RANDOM_EFFECT", new RandomEffectAction());

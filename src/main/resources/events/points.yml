@@ -129,3 +129,17 @@ give_totems:
   action: GIVE_TOTEMS
   min-totems: 1
   max-totems: 4
+instant_heal:
+  active: true
+  value: 600
+  title: "¡Salvavidas!"
+  reward-title: "Salud al máximo"
+  action: INSTANT_HEAL
+spawn_guard:
+  active: true
+  value: 900
+  title: "¡Guardián de Twitch!"
+  reward-title: "Lobo guardián"
+  action: SPAWN_GUARD
+  resistance-duration-seconds: 99999
+  resistance-amplifier: 4

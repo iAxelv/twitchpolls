@@ -301,3 +301,19 @@ category-items:
       lore:
         - "&7Entrega entre 1 y 4 totems"
         - "&eClick para probar"
+    INSTANT_HEAL:
+      event: INSTANT_HEAL
+      slot: 14
+      item: GOLDEN_APPLE
+      display-name: "&aSalvavidas"
+      lore:
+        - "&7Restaura la salud y el hambre al máximo"
+        - "&eClick para probar"
+    SPAWN_GUARD:
+      event: SPAWN_GUARD
+      slot: 15
+      item: WOLF_SPAWN_EGG
+      display-name: "&bGuardián de Twitch"
+      lore:
+        - "&7Invoca un lobo domesticado que te defiende"
+        - "&eClick para probar"
