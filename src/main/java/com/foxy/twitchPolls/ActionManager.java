@@ -174,5 +174,16 @@ public class ActionManager {
         strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin));
         strategies.put("DISABLE_ACTION", new DisableActionAction(plugin));
         strategies.put("GIVE_TOTEMS", new GiveTotemsAction());
+        strategies.put("WITHER_STRIKE", new WitherStrikeAction());
+        strategies.put("DRAGON_ATTACK", new DragonAttackAction());
+        strategies.put("CHARGED_CREEPER_ARMY", new ChargedCreeperArmyAction());
+        strategies.put("APOCALYPSE_RAIN", new ApocalypseRainAction());
+        strategies.put("WELCOME_TO_HELL", new WelcomeToHellAction());
+        strategies.put("WARDEN_PIT", new WardenPitAction());
+        strategies.put("PIT_OF_DOOM", new PitOfDoomAction());
+        strategies.put("MIDAS_TOUCH", new MidasTouchAction(plugin));
+        strategies.put("WIPE_ENEMIES", new WipeEnemiesAction());
+        strategies.put("ULTIMATE_CARE_PACKAGE", new UltimateCarePackageAction());
+        strategies.put("TIME_FREEZE", new TimeFreezeAction());
     }
 }

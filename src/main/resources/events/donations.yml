@@ -38,3 +38,90 @@ god_mode:
   type: prime_sub
   value: 1
   duration-seconds: 120
+wither_strike:
+  active: true
+  title: "¡Golpe de Wither!"
+  action: WITHER_STRIKE
+  type: bits
+  value: 1000
+  height: 10.0
+dragon_attack:
+  active: true
+  title: "¡Ataque del dragón!"
+  action: DRAGON_ATTACK
+  type: bits
+  value: 5000
+  height: 20.0
+  duration-seconds: 300
+charged_creeper_army:
+  active: true
+  title: "Ejército de creepers eléctricos"
+  action: CHARGED_CREEPER_ARMY
+  type: bits
+  value: 2500
+  amount: 10
+  radius: 4.0
+apocalypse_rain:
+  active: true
+  title: "¡Lluvia del apocalipsis!"
+  action: APOCALYPSE_RAIN
+  type: bits
+  value: 3000
+  duration-seconds: 30
+  amount-per-wave: 3
+  radius: 15.0
+  height: 12
+  tnt-fuse-ticks: 40
+welcome_to_hell:
+  active: true
+  title: "Bienvenida al infierno"
+  action: WELCOME_TO_HELL
+  type: gift_sub
+  value: 10
+  size: 3
+warden_pit:
+  active: true
+  title: "¡Foso del Warden!"
+  action: WARDEN_PIT
+  type: bits
+  value: 4000
+  size: 12
+  height: 5
+  darkness-seconds: 10
+  duration-seconds: 60
+pit_of_doom:
+  active: true
+  title: "El foso de la perdición"
+  action: PIT_OF_DOOM
+  type: bits
+  value: 3500
+  preserve-bedrock: true
+midas_touch:
+  active: true
+  title: "El toque de Midas"
+  action: MIDAS_TOUCH
+  type: prime_sub
+  value: 5
+  duration-seconds: 60
+wipe_enemies:
+  active: true
+  title: "¡Fuera enemigos!"
+  action: WIPE_ENEMIES
+  type: gift_sub
+  value: 20
+  radius: 100.0
+ultimate_care_package:
+  active: true
+  title: "Paquete de cuidados definitivo"
+  action: ULTIMATE_CARE_PACKAGE
+  type: bits
+  value: 2000
+  totems: 5
+time_freeze:
+  active: true
+  title: "¡Tiempo congelado!"
+  action: TIME_FREEZE
+  type: bits
+  value: 4500
+  duration-seconds: 30
+  amplifier: 254

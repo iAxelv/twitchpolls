@@ -209,6 +209,94 @@ category-items:
       lore:
         - "&7Resistencia, fuerza y regeneración"
         - "&eClick para probar"
+    WITHER_STRIKE:
+      event: WITHER_STRIKE
+      slot: 5
+      item: WITHER_SKELETON_SKULL
+      display-name: "&8Golpe de Wither"
+      lore:
+        - "&7Invoca un Wither sobre el streamer"
+        - "&eClick para probar"
+    DRAGON_ATTACK:
+      event: DRAGON_ATTACK
+      slot: 6
+      item: DRAGON_HEAD
+      display-name: "&5Ataque del dragón"
+      lore:
+        - "&7Invoca un Ender Dragon"
+        - "&eClick para probar"
+    CHARGED_CREEPER_ARMY:
+      event: CHARGED_CREEPER_ARMY
+      slot: 7
+      item: CREEPER_HEAD
+      display-name: "&bEjército eléctrico"
+      lore:
+        - "&7Diez creepers cargados en círculo"
+        - "&eClick para probar"
+    APOCALYPSE_RAIN:
+      event: APOCALYPSE_RAIN
+      slot: 8
+      item: MAGMA_BLOCK
+      display-name: "&cLluvia del apocalipsis"
+      lore:
+        - "&7Yunques, magma y TNT durante 30 segundos"
+        - "&eClick para probar"
+    WELCOME_TO_HELL:
+      event: WELCOME_TO_HELL
+      slot: 9
+      item: OBSIDIAN
+      display-name: "&4Bienvenida al infierno"
+      lore:
+        - "&7Genera y enciende un portal"
+        - "&eClick para probar"
+    WARDEN_PIT:
+      event: WARDEN_PIT
+      slot: 10
+      item: SCULK
+      display-name: "&0Foso del Warden"
+      lore:
+        - "&7Encierra al streamer con un Warden"
+        - "&eClick para probar"
+    PIT_OF_DOOM:
+      event: PIT_OF_DOOM
+      slot: 11
+      item: BEDROCK
+      display-name: "&8Foso de la perdición"
+      lore:
+        - "&7Elimina el suelo hasta la bedrock"
+        - "&eClick para probar"
+    MIDAS_TOUCH:
+      event: MIDAS_TOUCH
+      slot: 12
+      item: GRAVEL
+      display-name: "&6Toque de Midas"
+      lore:
+        - "&7Convierte en grava cada bloque pisado"
+        - "&eClick para probar"
+    WIPE_ENEMIES:
+      event: WIPE_ENEMIES
+      slot: 13
+      item: IRON_SWORD
+      display-name: "&aFuera enemigos"
+      lore:
+        - "&7Elimina hostiles en 100 bloques"
+        - "&eClick para probar"
+    ULTIMATE_CARE_PACKAGE:
+      event: ULTIMATE_CARE_PACKAGE
+      slot: 14
+      item: NETHERITE_CHESTPLATE
+      display-name: "&ePaquete definitivo"
+      lore:
+        - "&7Armadura máxima, espada y tótems"
+        - "&eClick para probar"
+    TIME_FREEZE:
+      event: TIME_FREEZE
+      slot: 15
+      item: CLOCK
+      display-name: "&bTiempo congelado"
+      lore:
+        - "&7Congela entidades durante 30 segundos"
+        - "&eClick para probar"
   points:
     DROP_HAND_ITEM:
       event: DROP_HAND_ITEM
