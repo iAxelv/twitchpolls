@@ -11,18 +11,22 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.UUID;
 
 public class HotPotatoAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         var inventory = context.player().getInventory();
-        int slot = ThreadLocalRandom.current().nextInt(9);
         Material[] items = {Material.POTATO, Material.BAKED_POTATO, Material.APPLE, Material.CARROT,
             Material.BREAD, Material.COOKIE, Material.PUMPKIN_PIE, Material.MELON_SLICE};
         ItemStack potato = new ItemStack(items[ThreadLocalRandom.current().nextInt(items.length)]);
         ItemMeta meta = potato.getItemMeta();
-        meta.getPersistentDataContainer().set(new NamespacedKey(context.plugin(), "hot_potato"), PersistentDataType.BYTE, (byte) 1);
+        NamespacedKey potatoKey = new NamespacedKey(context.plugin(), "hot_potato_id");
+        String potatoId = UUID.randomUUID().toString();
+        meta.getPersistentDataContainer().set(potatoKey, PersistentDataType.STRING, potatoId);
         potato.setItemMeta(meta);
-        inventory.setItem(slot, potato);
+        var leftovers = inventory.addItem(potato);
+        leftovers.values().forEach(item -> context.player().getWorld().dropItemNaturally(
+            context.player().getLocation(), item));
         int duration = Math.max(3, context.config().getInt("duration-seconds", 15));
         new BukkitRunnable() {
             int remaining = duration;
@@ -31,13 +35,17 @@ public class HotPotatoAction implements ActionStrategy {
                 context.player().sendActionBar(LegacyComponentSerializer.legacyAmpersand()
                     .deserialize("&cPatata caliente: " + remaining + "s"));
                 if (remaining-- <= 0) {
-                    ItemStack current = inventory.getItem(slot);
-                        if (current != null && current.getItemMeta() != null
-                            && current.getItemMeta().getPersistentDataContainer().has(
-                            new NamespacedKey(context.plugin(), "hot_potato"), PersistentDataType.BYTE)) {
-                        inventory.setItem(slot, null);
-                        context.world().createExplosion(context.player().getLocation(),
+                    for (int slot = 0; slot < inventory.getSize(); slot++) {
+                        ItemStack current = inventory.getItem(slot);
+                        if (current == null || current.getItemMeta() == null) continue;
+                        String currentId = current.getItemMeta().getPersistentDataContainer()
+                            .get(potatoKey, PersistentDataType.STRING);
+                        if (potatoId.equals(currentId)) {
+                            inventory.setItem(slot, null);
+                            context.world().createExplosion(context.player().getLocation(),
                                 (float) context.config().getDouble("explosion-power", 1.0), false, false);
+                            break;
+                        }
                     }
                     cancel();
                 }
