@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,8 +20,12 @@ public class BlockSwapAction implements ActionStrategy, Listener {
     @Override public void execute(ActionContext context) {
         Material replacement = Material.matchMaterial(context.config().getString("replacement", "SPONGE"));
         if (replacement == null || !replacement.isBlock()) replacement = Material.SPONGE;
-        active.put(context.player().getUniqueId(), new ActiveEffect(System.currentTimeMillis()
-                + Math.max(1L, context.config().getLong("duration-seconds", 45)) * 1000L, replacement));
+        UUID playerId = context.player().getUniqueId();
+        long duration = Math.max(1L, context.config().getLong("duration-seconds", 45)) * 1000L;
+        active.put(playerId, new ActiveEffect(System.currentTimeMillis() + duration, replacement));
+        new BukkitRunnable() {
+            @Override public void run() { active.remove(playerId); }
+        }.runTaskLater(plugin, duration / 50L);
     }
     @EventHandler public void onBreak(BlockBreakEvent event) {
         ActiveEffect effect = active.get(event.getPlayer().getUniqueId());

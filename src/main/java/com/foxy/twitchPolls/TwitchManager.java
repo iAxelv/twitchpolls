@@ -322,6 +322,7 @@ public class TwitchManager {
 
                 if (actionConfig != null) {
                     actionManager.executeAction(player, actionConfig);
+                    uiManager.startEventCountdown(player, actionConfig);
                 }
             }
 

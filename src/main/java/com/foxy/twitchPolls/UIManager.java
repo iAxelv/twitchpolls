@@ -61,6 +61,7 @@ public class UIManager {
             if (!player.isOnline()) return;
             showPollEnd(player, config.getString("title", config.getName()), !"RANDOM_SOUND".equals(config.getString("action")));
             actionManager.executeAction(player, config);
+            startEventCountdown(player, config);
             testPollTask = null;
         }, duration * 20L);
     }

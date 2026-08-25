@@ -9,11 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomSlotSwitchAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         long interval = Math.max(1L, context.config().getLong("interval-seconds", 2)) * 20L;
-        int duration = Math.max(1, context.config().getInt("duration-seconds", 12));
+        long durationTicks = Math.max(1L, context.config().getLong("duration-seconds", 12)) * 20L;
+        long deadline = System.currentTimeMillis() + durationTicks * 50L;
         new BukkitRunnable() {
-            int remaining = duration;
             @Override public void run() {
-                if (!context.player().isOnline() || remaining-- <= 0) { cancel(); return; }
+                if (!context.player().isOnline() || System.currentTimeMillis() >= deadline) { cancel(); return; }
                 context.player().getInventory().setHeldItemSlot(ThreadLocalRandom.current().nextInt(9));
             }
         }.runTaskTimer(context.plugin(), 0L, interval);

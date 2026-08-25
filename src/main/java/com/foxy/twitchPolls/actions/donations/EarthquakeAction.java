@@ -10,10 +10,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class EarthquakeAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         int duration = Math.max(1, context.config().getInt("duration-seconds", 12));
         int amount = Math.max(1, context.config().getInt("debris-per-wave", 2));
+        int blocksPerWave = Math.max(1, context.config().getInt("blocks-per-wave", 2));
         double radius = Math.max(2.0, context.config().getDouble("radius", 8.0));
         new BukkitRunnable() {
             int waves = duration * 2;
@@ -29,6 +32,12 @@ public class EarthquakeAction implements ActionStrategy {
                     block.setBlockData(Material.COBBLESTONE.createBlockData());
                     block.setDropItem(false);
                     block.setHurtEntities(false);
+                }
+                for (int index = 0; index < blocksPerWave; index++) {
+                    int x = context.location().getBlockX() + ThreadLocalRandom.current().nextInt((int) -radius, (int) radius + 1);
+                    int z = context.location().getBlockZ() + ThreadLocalRandom.current().nextInt((int) -radius, (int) radius + 1);
+                    var ground = context.world().getHighestBlockAt(x, z);
+                    if (ground.getType().isSolid() && ground.getType() != Material.BEDROCK) ground.breakNaturally();
                 }
             }
         }.runTaskTimer(context.plugin(), 0L, 10L);
