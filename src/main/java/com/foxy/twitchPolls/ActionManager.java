@@ -96,6 +96,11 @@ public class ActionManager {
         strategies.put("RAIN_WEALTH", new RainWealthAction());
         strategies.put("GOD_MODE", new GodModeAction());
         strategies.put("SPAWN_CREEPER", new SpawnCreeperAction());
+        strategies.put("RANDOM_SIZE", new RandomSizeAction());
+        strategies.put("CHICKEN_CANNON", new ChickenCannonAction());
+        strategies.put("HOT_POTATO", new HotPotatoAction());
+        strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin));
+        strategies.put("RANDOM_WEATHER", new RandomWeatherAction());
         strategies.put("SPARK", new LightningStormAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
         strategies.put("DROP_ORES", new DropOresAction());
@@ -145,5 +150,13 @@ public class ActionManager {
         strategies.put("TIME_FREEZE", new TimeFreezeAction());
         strategies.put("THUNDERSTORM", new LightningStormAction());
         strategies.put("METEOR_SHOWER", new MeteorShowerAction());
+        strategies.put("BLACK_HOLE", new BlackHoleAction());
+        strategies.put("EARTHQUAKE", new EarthquakeAction());
+        strategies.put("WORLD_ROTATION", new WorldRotationAction());
+        strategies.put("SELECTED_SLOT_LOCK", new SelectedSlotLockAction(plugin));
+        strategies.put("RANDOM_SLOT_SWITCH", new RandomSlotSwitchAction());
+        strategies.put("DROP_RANDOM_ITEM", new DropRandomItemAction());
+        strategies.put("ITEM_NAME_SWAP", new ItemNameSwapAction());
+        strategies.put("ONE_HEART_CHALLENGE", new OneHeartChallengeAction());
     }
 }

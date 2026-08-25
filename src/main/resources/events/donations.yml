@@ -171,3 +171,30 @@ meteor_shower:
   amount-per-wave: 3
   radius: 12.0
   height: 16
+black_hole:
+  active: true
+  title: "¡Agujero negro!"
+  action: BLACK_HOLE
+  type: bits
+  value: 2000
+  duration-seconds: 10
+  radius: 12.0
+  strength: 0.15
+earthquake:
+  active: true
+  title: "¡Terremoto!"
+  action: EARTHQUAKE
+  type: bits
+  value: 2500
+  duration-seconds: 12
+  debris-per-wave: 2
+  radius: 8.0
+world_rotation:
+  active: true
+  title: "¡Vuelta por el mundo!"
+  action: WORLD_ROTATION
+  type: bits
+  value: 3000
+  rotations: 4
+  interval-seconds: 3
+  radius: 12.0

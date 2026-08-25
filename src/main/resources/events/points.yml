@@ -158,3 +158,39 @@ hotbar_shuffle:
   title: "¡Hotbar revuelta!"
   reward-title: "Objetos mezclados"
   action: HOTBAR_SHUFFLE
+selected_slot_lock:
+  active: true
+  value: 325
+  title: "Ranura bloqueada"
+  reward-title: "Bloquea mi ranura"
+  action: SELECTED_SLOT_LOCK
+  slot: 0
+  duration-seconds: 15
+random_slot_switch:
+  active: true
+  value: 375
+  title: "Ranura loca"
+  reward-title: "Cámbiame la ranura"
+  action: RANDOM_SLOT_SWITCH
+  duration-seconds: 12
+  interval-seconds: 2
+drop_random_item:
+  active: true
+  value: 425
+  title: "Objeto al azar fuera"
+  reward-title: "Tira un objeto"
+  action: DROP_RANDOM_ITEM
+item_name_swap:
+  active: true
+  value: 475
+  title: "Nombres malditos"
+  reward-title: "Cambia los nombres"
+  action: ITEM_NAME_SWAP
+  duration-seconds: 15
+one_heart_challenge:
+  active: true
+  value: 750
+  title: "¡Un solo corazón!"
+  reward-title: "Déjalo a un corazón"
+  action: ONE_HEART_CHALLENGE
+  duration-seconds: 10

@@ -91,3 +91,32 @@ spark:
   title: "Chispa de Zeus"
   action: SPARK
   lightning-amount: 1
+random_size:
+  active: true
+  title: "Tamaño sorpresa"
+  action: RANDOM_SIZE
+  duration-seconds: 20
+chicken_cannon:
+  active: true
+  title: "¡Cañón de pollos!"
+  action: CHICKEN_CANNON
+  amount: 6
+  speed: 1.2
+hot_potato:
+  active: true
+  title: "¡Patata caliente!"
+  action: HOT_POTATO
+  duration-seconds: 15
+  explosion-power: 1.0
+block_swap:
+  active: true
+  title: "Bloques absurdos"
+  action: BLOCK_SWAP
+  duration-seconds: 45
+  replacement: SPONGE
+random_weather:
+  active: true
+  title: "Clima esquizofrénico"
+  action: RANDOM_WEATHER
+  changes: 4
+  interval-seconds: 5

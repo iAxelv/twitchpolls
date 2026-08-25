@@ -175,6 +175,46 @@ items:
     lore:
       - "&7Un rayo directo al streamer"
       - "&eClick para probar"
+  RANDOM_SIZE:
+    event: RANDOM_SIZE
+    slot: 18
+    item: SLIME_BLOCK
+    display-name: "&dTamaño sorpresa"
+    lore:
+      - "&7Te hace enorme o diminuto"
+      - "&eClick para probar"
+  CHICKEN_CANNON:
+    event: CHICKEN_CANNON
+    slot: 19
+    item: CHICKEN_SPAWN_EGG
+    display-name: "&eCañón de pollos"
+    lore:
+      - "&7Lanza gallinas por los aires"
+      - "&eClick para probar"
+  HOT_POTATO:
+    event: HOT_POTATO
+    slot: 20
+    item: POTATO
+    display-name: "&cPatata caliente"
+    lore:
+      - "&7Encuentra y tira la patata a tiempo"
+      - "&eClick para probar"
+  BLOCK_SWAP:
+    event: BLOCK_SWAP
+    slot: 21
+    item: SPONGE
+    display-name: "&6Bloques absurdos"
+    lore:
+      - "&7Tus bloques se convierten en esponjas"
+      - "&eClick para probar"
+  RANDOM_WEATHER:
+    event: RANDOM_WEATHER
+    slot: 22
+    item: CLOCK
+    display-name: "&bClima esquizofrénico"
+    lore:
+      - "&7Cambia clima y hora varias veces"
+      - "&eClick para probar"
 category-items:
   donations:
     INVENTORY_BOMB:
@@ -320,6 +360,30 @@ category-items:
       display-name: "&cLluvia de meteoritos"
       lore:
         - "&7Hace caer meteoritos ardientes"
+        - "&eClick para probar"
+    BLACK_HOLE:
+      event: BLACK_HOLE
+      slot: 18
+      item: ENDER_EYE
+      display-name: "&8Agujero negro"
+      lore:
+        - "&7Atrae entidades cercanas"
+        - "&eClick para probar"
+    EARTHQUAKE:
+      event: EARTHQUAKE
+      slot: 19
+      item: COBBLESTONE
+      display-name: "&6Terremoto"
+      lore:
+        - "&7Sacude el suelo y lanza escombros"
+        - "&eClick para probar"
+    WORLD_ROTATION:
+      event: WORLD_ROTATION
+      slot: 20
+      item: COMPASS
+      display-name: "&5Vuelta por el mundo"
+      lore:
+        - "&7Te teletransporta varias veces"
         - "&eClick para probar"
   points:
     DROP_HAND_ITEM:
@@ -476,4 +540,44 @@ category-items:
       display-name: "&dHotbar revuelta"
       lore:
         - "&7Mezcla los objetos de la hotbar"
+        - "&eClick para probar"
+    SELECTED_SLOT_LOCK:
+      event: SELECTED_SLOT_LOCK
+      slot: 18
+      item: CHAIN
+      display-name: "&cRanura bloqueada"
+      lore:
+        - "&7Bloquea una ranura de la hotbar"
+        - "&eClick para probar"
+    RANDOM_SLOT_SWITCH:
+      event: RANDOM_SLOT_SWITCH
+      slot: 19
+      item: COMPASS
+      display-name: "&dRanura loca"
+      lore:
+        - "&7Cambia la ranura automáticamente"
+        - "&eClick para probar"
+    DROP_RANDOM_ITEM:
+      event: DROP_RANDOM_ITEM
+      slot: 20
+      item: DROPPER
+      display-name: "&eTira un objeto"
+      lore:
+        - "&7Suelta un objeto aleatorio"
+        - "&eClick para probar"
+    ITEM_NAME_SWAP:
+      event: ITEM_NAME_SWAP
+      slot: 21
+      item: NAME_TAG
+      display-name: "&bNombres malditos"
+      lore:
+        - "&7Cambia los nombres de la hotbar"
+        - "&eClick para probar"
+    ONE_HEART_CHALLENGE:
+      event: ONE_HEART_CHALLENGE
+      slot: 22
+      item: RED_DYE
+      display-name: "&cUn solo corazón"
+      lore:
+        - "&7Te deja con un corazón temporalmente"
         - "&eClick para probar"
