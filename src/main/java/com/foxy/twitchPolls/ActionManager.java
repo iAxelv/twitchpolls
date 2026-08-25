@@ -82,6 +82,7 @@ public class ActionManager {
         strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
         strategies.put("SPIN_HEAD", new SpinHeadAction());
         strategies.put("FAKE_DIAMOND", new FakeDiamondAction(plugin));
+        strategies.put("REPLACE_BLOCKS", new ReplaceBlocksAction(plugin));
         strategies.put("ANVIL_TRAP", new AnvilTrapAction());
         strategies.put("PIG_STACK_ATTACK", new PigStackAttackAction());
         strategies.put("INVERT_CONTROLS_EFFECT", new InvertControlsEffectAction());

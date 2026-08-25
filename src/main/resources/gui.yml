@@ -202,6 +202,15 @@ category-items:
       lore:
         - "&7Coloca un diamante trampa"
         - "&eClick para probar"
+    REPLACE_BLOCKS:
+      event: REPLACE_BLOCKS
+      slot: 10
+      item: GRAVEL
+      display-name: "&7¡Todo es grava!"
+      lore:
+        - "&7Convierte los bloques minados en grava"
+        - "&7durante un minuto"
+        - "&eClick para probar"
     ANVIL_TRAP:
       event: ANVIL_TRAP
       slot: 3

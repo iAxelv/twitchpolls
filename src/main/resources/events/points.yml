@@ -22,6 +22,14 @@ fake_diamond:
   distance: 2.0
   duration-seconds: 2
   replacement: COBWEB
+replace_blocks:
+  active: true
+  value: 325
+  title: "¡Todo es grava!"
+  reward-title: "¡Todo es grava!"
+  action: REPLACE_BLOCKS
+  duration-seconds: 60
+  replacement: GRAVEL
 anvil_trap:
   active: true
   value: 300
