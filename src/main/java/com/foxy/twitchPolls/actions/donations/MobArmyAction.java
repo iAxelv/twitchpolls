@@ -2,6 +2,7 @@ package com.foxy.twitchPolls.actions.donations;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Vindicator;
@@ -20,7 +21,7 @@ public class MobArmyAction implements ActionStrategy {
         for (int index = 0; index < amount; index++) {
             Location spawnLocation = context.randomLocation(radius, 0);
             Vindicator vindicator = (Vindicator) context.world().spawnEntity(spawnLocation, EntityType.VINDICATOR);
-            vindicator.setCustomName(username);
+            vindicator.customName(Component.text(username));
             vindicator.setCustomNameVisible(true);
             vindicator.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, speedAmplifier));
             vindicator.setTarget(context.player());
