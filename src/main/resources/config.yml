@@ -33,4 +33,4 @@ messages:
   command-reload: "&aConfiguración recargada correctamente."
   points-event-title: "&c¡Evento de puntos!"
   points-event-subtitle: "&f%event% &7(%value% puntos)"
-  points-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% puntos."
+  points-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% puntos &7(%username%)"

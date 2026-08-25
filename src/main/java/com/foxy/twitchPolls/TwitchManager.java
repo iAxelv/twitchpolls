@@ -195,6 +195,10 @@ public class TwitchManager {
     }
 
     public void executePointAction(Player player, ConfigurationSection actionConfig) {
+        executePointAction(player, actionConfig, "desconocido");
+    }
+
+    public void executePointAction(Player player, ConfigurationSection actionConfig, String username) {
         if (actionConfig == null || !player.isOnline()) {
             return;
         }
@@ -213,7 +217,8 @@ public class TwitchManager {
 
         String broadcast = plugin.getConfig().getString("messages.points-event-broadcast", "")
                 .replace("%event%", eventTitle)
-                .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)));
+            .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)))
+            .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
         if (!broadcast.isBlank()) {
             Bukkit.broadcast(formatColor(broadcast));
         }
@@ -370,11 +375,12 @@ public class TwitchManager {
         }
 
         ConfigurationSection selected = matched;
+        String username = event.getUserName();
         String streamerName = plugin.getConfig().getString("settings.streamer-username");
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = Bukkit.getPlayer(streamerName);
             if (player != null && player.isOnline()) {
-                executePointAction(player, selected);
+                executePointAction(player, selected, username);
             }
         });
     }
