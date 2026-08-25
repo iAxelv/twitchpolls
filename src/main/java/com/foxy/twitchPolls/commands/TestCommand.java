@@ -171,6 +171,8 @@ public class TestCommand implements Listener {
         if (actionConfig != null) {
             if ("points".equals(holder.category)) {
                 twitchManager.executePointAction(player, actionConfig);
+            } else if ("donations".equals(holder.category)) {
+                twitchManager.executeDonationAction(player, actionConfig);
             } else {
                 twitchManager.testPoll(player, actionConfig);
             }

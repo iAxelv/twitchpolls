@@ -8,6 +8,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
+import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
 
@@ -36,6 +37,10 @@ public class ActionManager {
             String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
             strategy.execute(new ActionContext(plugin, player, config, streamerUsername, null));
         }
+    }
+
+    public void executeDonationAction(Player player, ConfigurationSection config, String donorUsername) {
+        executeAction(player, config, donorUsername);
     }
 
     public void executePointAction(Player player, ConfigurationSection config) {
@@ -130,6 +135,11 @@ public class ActionManager {
     }
 
     private void registerStrategies() {
+        strategies.put("INVENTORY_BOMB", new InventoryBombAction());
+        strategies.put("NUKE_STRIKE", new NukeStrikeAction());
+        strategies.put("MOB_ARMY", new MobArmyAction());
+        strategies.put("RAIN_WEALTH", new RainWealthAction());
+        strategies.put("GOD_MODE", new GodModeAction());
         strategies.put("SPAWN_CREEPER", new SpawnCreeperAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
         strategies.put("DROP_ORES", new DropOresAction());

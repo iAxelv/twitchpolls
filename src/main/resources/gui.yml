@@ -169,13 +169,45 @@ items:
       - "&eClick para probar"
 category-items:
   donations:
-    SPAWN_CREEPER:
-      event: SPAWN_CREEPER
+    INVENTORY_BOMB:
+      event: INVENTORY_BOMB
       slot: 0
-      item: CREEPER_HEAD
-      display-name: "&aSpawn Creeper"
+      item: CHEST
+      display-name: "&6Piñata de inventario"
       lore:
-        - "&7Ejecuta la action de donaciones"
+        - "&7Lanza inventario y armadura"
+        - "&eClick para probar"
+    NUKE_STRIKE:
+      event: NUKE_STRIKE
+      slot: 1
+      item: TNT
+      display-name: "&cAtaque nuclear"
+      lore:
+        - "&7Deja caer TNT encendida"
+        - "&eClick para probar"
+    MOB_ARMY:
+      event: MOB_ARMY
+      slot: 2
+      item: IRON_AXE
+      display-name: "&4Ejército de vindicators"
+      lore:
+        - "&7Invoca vindicators veloces"
+        - "&eClick para probar"
+    RAIN_WEALTH:
+      event: RAIN_WEALTH
+      slot: 3
+      item: EMERALD
+      display-name: "&aLluvia de riqueza"
+      lore:
+        - "&7Diamantes y tesoros del cielo"
+        - "&eClick para probar"
+    GOD_MODE:
+      event: GOD_MODE
+      slot: 4
+      item: TOTEM_OF_UNDYING
+      display-name: "&eModo dios"
+      lore:
+        - "&7Resistencia, fuerza y regeneración"
         - "&eClick para probar"
   points:
     DROP_HAND_ITEM:

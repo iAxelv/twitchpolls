@@ -4,11 +4,20 @@ import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import com.github.twitch4j.eventsub.condition.ChannelPollEndCondition;
+import com.github.twitch4j.eventsub.condition.ChannelCheerCondition;
+import com.github.twitch4j.eventsub.condition.ChannelSubscribeCondition;
+import com.github.twitch4j.eventsub.condition.ChannelSubscriptionGiftCondition;
+import com.github.twitch4j.eventsub.condition.ChannelSubscriptionMessageCondition;
 import com.github.twitch4j.eventsub.domain.PollChoice;
 import com.github.twitch4j.eventsub.events.ChannelPollEndEvent;
+import com.github.twitch4j.eventsub.events.ChannelCheerEvent;
+import com.github.twitch4j.eventsub.events.ChannelSubscribeEvent;
+import com.github.twitch4j.eventsub.events.ChannelSubscriptionGiftEvent;
+import com.github.twitch4j.eventsub.events.ChannelSubscriptionMessageEvent;
 import com.github.twitch4j.eventsub.events.CustomRewardRedemptionAddEvent;
 import com.github.twitch4j.eventsub.condition.ChannelPointsCustomRewardRedemptionAddCondition;
 import com.github.twitch4j.eventsub.subscriptions.SubscriptionTypes;
+import com.github.twitch4j.common.enums.SubscriptionPlan;
 import com.github.twitch4j.helix.domain.Poll;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -71,6 +80,10 @@ public class TwitchManager {
 
         twitchClient.getEventManager().onEvent(ChannelPollEndEvent.class, this::onPollEnd);
         twitchClient.getEventManager().onEvent(CustomRewardRedemptionAddEvent.class, this::onPointRedemption);
+        twitchClient.getEventManager().onEvent(ChannelCheerEvent.class, this::onCheer);
+        twitchClient.getEventManager().onEvent(ChannelSubscribeEvent.class, this::onSubscribe);
+        twitchClient.getEventManager().onEvent(ChannelSubscriptionGiftEvent.class, this::onGiftSubscription);
+        twitchClient.getEventManager().onEvent(ChannelSubscriptionMessageEvent.class, this::onSubscriptionMessage);
         twitchClient.getEventSocket().register(
                 SubscriptionTypes.POLL_END,
                 ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build()
@@ -78,6 +91,22 @@ public class TwitchManager {
         twitchClient.getEventSocket().register(
             SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
             ChannelPointsCustomRewardRedemptionAddCondition.builder().broadcasterUserId(broadcasterId).build()
+        );
+        twitchClient.getEventSocket().register(
+            SubscriptionTypes.CHANNEL_CHEER,
+            ChannelCheerCondition.builder().broadcasterUserId(broadcasterId).build()
+        );
+        twitchClient.getEventSocket().register(
+            SubscriptionTypes.CHANNEL_SUBSCRIBE,
+            ChannelSubscribeCondition.builder().broadcasterUserId(broadcasterId).build()
+        );
+        twitchClient.getEventSocket().register(
+            SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT,
+            ChannelSubscriptionGiftCondition.builder().broadcasterUserId(broadcasterId).build()
+        );
+        twitchClient.getEventSocket().register(
+            SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE,
+            ChannelSubscriptionMessageCondition.builder().broadcasterUserId(broadcasterId).build()
         );
 
         startPollCycle();
@@ -279,6 +308,52 @@ public class TwitchManager {
         }
     }
 
+    public void executeDonationAction(Player player, ConfigurationSection actionConfig) {
+        executeDonationAction(player, actionConfig, "usuario de prueba");
+    }
+
+    public void executeDonationAction(Player player, ConfigurationSection actionConfig, String username) {
+        if (actionConfig == null || !player.isOnline()) {
+            return;
+        }
+
+        String eventTitle = actionConfig.getString("title", actionConfig.getName());
+        int value = actionConfig.getInt("value", 0);
+        String type = donationTypeLabel(actionConfig.getString("type", "donación"));
+        String title = plugin.getConfig().getString("messages.donation-event-title", "&c¡EVENTO DE DONACIÓN!");
+        String subtitle = plugin.getConfig().getString("messages.donation-event-subtitle", "&f%event% &7(%value% %type%)")
+                .replace("%event%", eventTitle)
+                .replace("%value%", String.valueOf(value))
+                .replace("%type%", type);
+        if (!title.isBlank() || !subtitle.isBlank()) {
+            player.showTitle(Title.title(formatColor(title), formatColor(subtitle), titleTimes()));
+        }
+
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
+        actionManager.executeDonationAction(player, actionConfig, username);
+
+        String broadcast = plugin.getConfig().getString(
+                "messages.donation-event-broadcast",
+                "&d[Twitch] &f%event% &7se activó por &e%value% %type% &7(%username%)")
+                .replace("%event%", eventTitle)
+                .replace("%value%", String.valueOf(value))
+                .replace("%type%", type)
+                .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
+        if (!broadcast.isBlank()) {
+            Bukkit.broadcast(formatColor(broadcast));
+        }
+    }
+
+    private String donationTypeLabel(String type) {
+        return switch (type.toLowerCase()) {
+            case "bits" -> "bits";
+            case "gift_sub" -> "subs de regalo";
+            case "prime_sub" -> "sub prime";
+            case "sub" -> "subs";
+            default -> type;
+        };
+    }
+
     private void notifyStart(int durationSeconds, List<PollChoice> choices) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             String streamerName = plugin.getConfig().getString("settings.streamer-username");
@@ -464,6 +539,60 @@ public class TwitchManager {
             Player player = Bukkit.getPlayer(streamerName);
             if (player != null && player.isOnline()) {
                 executePointAction(player, selected, username);
+            }
+        });
+    }
+
+    private void onCheer(ChannelCheerEvent event) {
+        if (event.getBits() != null) {
+            handleDonation("bits", event.getBits(), event.getUserName());
+        }
+    }
+
+    private void onSubscribe(ChannelSubscribeEvent event) {
+        String type = event.getTier() == SubscriptionPlan.TWITCH_PRIME
+                ? "prime_sub" : "sub";
+        handleDonation(type, 1, event.getUserName());
+    }
+
+    private void onGiftSubscription(ChannelSubscriptionGiftEvent event) {
+        if (event.getTotal() != null) {
+            handleDonation("gift_sub", event.getTotal(), event.getUserName());
+        }
+    }
+
+    private void onSubscriptionMessage(ChannelSubscriptionMessageEvent event) {
+        String type = event.getTier() == SubscriptionPlan.TWITCH_PRIME
+                ? "prime_sub" : "sub";
+        handleDonation(type, 1, event.getUserName());
+    }
+
+    private void handleDonation(String type, int value, String username) {
+        ConfigurationSection donations = plugin.getEventConfig("donations");
+        if (donations == null) {
+            return;
+        }
+
+        ConfigurationSection selected = null;
+        for (String key : donations.getKeys(false)) {
+            ConfigurationSection candidate = donations.getConfigurationSection(key);
+            if (candidate != null && candidate.getBoolean("active", true)
+                    && type.equalsIgnoreCase(candidate.getString("type", ""))
+                    && candidate.getInt("value", -1) == value) {
+                selected = candidate;
+                break;
+            }
+        }
+        if (selected == null) {
+            return;
+        }
+
+        ConfigurationSection actionConfig = selected;
+        String streamerName = plugin.getConfig().getString("settings.streamer-username");
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Player player = Bukkit.getPlayer(streamerName);
+            if (player != null && player.isOnline()) {
+                executeDonationAction(player, actionConfig, username);
             }
         });
     }

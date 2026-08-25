@@ -1,7 +1,40 @@
-creepers:
+inventory_bomb:
   active: true
-  title: "Creepers por Donación"
-  action: "SPAWN_CREEPER"
-  spawn_min: 5
-  spawn_max: 10
+  title: "¡Piñata de inventario!"
+  action: INVENTORY_BOMB
+  type: sub
+  value: 1
+nuke_strike:
+  active: true
+  title: "¡Ataque nuclear!"
+  action: NUKE_STRIKE
+  type: bits
+  value: 250
+  amount: 5
+  height: 18.0
+  fuse-ticks: 60
+mob_army:
+  active: true
+  title: "Ejército de vindicators"
+  action: MOB_ARMY
+  type: gift_sub
+  value: 1
+  amount: 5
   radius: 4.0
+  speed-amplifier: 1
+rain_wealth:
+  active: true
+  title: "¡Lluvia de riqueza!"
+  action: RAIN_WEALTH
+  type: bits
+  value: 500
+  amount: 4
+  radius: 5.0
+  height: 8.0
+god_mode:
+  active: true
+  title: "Modo dios"
+  action: GOD_MODE
+  type: prime_sub
+  value: 1
+  duration-seconds: 120
