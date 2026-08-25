@@ -13,10 +13,11 @@ public class PumpkinHeadAction implements ActionStrategy {
     public void execute(ActionContext context) {
         PlayerInventory inventory = context.player().getInventory();
         ItemStack originalHelmet = inventory.getHelmet();
-        boolean storedInInventory = originalHelmet != null && !originalHelmet.isEmpty();
+        ItemStack savedHelmet = originalHelmet == null ? new ItemStack(Material.AIR) : originalHelmet.clone();
+        boolean storedInInventory = !savedHelmet.isEmpty();
 
         if (storedInInventory) {
-            inventory.addItem(originalHelmet.clone());
+            inventory.addItem(savedHelmet.clone());
         }
 
         ItemStack pumpkin = new ItemStack(Material.CARVED_PUMPKIN);
@@ -32,9 +33,9 @@ public class PumpkinHeadAction implements ActionStrategy {
                     return;
                 }
                 if (storedInInventory) {
-                    inventory.removeItem(originalHelmet);
+                    inventory.removeItem(savedHelmet);
                 }
-                inventory.setHelmet(originalHelmet);
+                inventory.setHelmet(savedHelmet);
                 cancel();
             }
         }.runTaskLater(context.plugin(), duration);
