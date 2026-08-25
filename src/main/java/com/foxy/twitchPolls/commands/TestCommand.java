@@ -24,6 +24,7 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class TestCommand implements Listener {
+    private static final String[] EVENT_TYPES = {"polls", "donations", "points"};
     private final TwitchPolls plugin;
     private final ActionManager actionManager;
     private final TwitchManager twitchManager;
@@ -42,16 +43,45 @@ public class TestCommand implements Listener {
     }
 
     public void open(Player player) {
-        ConfigurationSection items = guiConfig.getConfigurationSection("items");
-        if (items == null) {
-            player.sendMessage(ChatColor.RED + "No hay acciones configuradas en gui.yml.");
+        ConfigurationSection categories = guiConfig.getConfigurationSection("categories");
+        if (categories == null) {
+            player.sendMessage(ChatColor.RED + "No hay categorías configuradas en gui.yml.");
             return;
         }
 
-        int rows = Math.max(1, Math.min(6, guiConfig.getInt("rows", 3)));
-        TestHolder holder = new TestHolder();
+        int rows = Math.max(1, Math.min(6, guiConfig.getInt("category-rows", 1)));
+        TestHolder holder = new TestHolder(null);
         Inventory inventory = Bukkit.createInventory(holder, rows * 9,
-                color(guiConfig.getString("title", "&5Probar acciones")));
+                color(guiConfig.getString("title", "&5Acciones")));
+        holder.inventory = inventory;
+
+        for (String category : EVENT_TYPES) {
+            ConfigurationSection itemConfig = categories.getConfigurationSection(category);
+            if (itemConfig == null || !itemConfig.getBoolean("enabled", true)) {
+                continue;
+            }
+            int slot = itemConfig.getInt("slot", -1);
+            if (slot < 0 || slot >= inventory.getSize()) {
+                continue;
+            }
+            holder.categories.put(slot, category);
+            inventory.setItem(slot, createItem(itemConfig));
+        }
+
+        player.openInventory(inventory);
+    }
+
+    private void openCategory(Player player, String category) {
+        ConfigurationSection items = getCategoryItems(category);
+        if (items == null) {
+            player.sendMessage(ChatColor.RED + "No hay acciones configuradas para " + category + ".");
+            return;
+        }
+
+        int rows = Math.max(1, Math.min(6, guiConfig.getInt("rows", 4)));
+        TestHolder holder = new TestHolder(category);
+        Inventory inventory = Bukkit.createInventory(holder, rows * 9,
+                color(guiConfig.getString("titles." + category, "&5Acciones " + category)));
         holder.inventory = inventory;
 
         for (String itemKey : items.getKeys(false)) {
@@ -63,15 +93,31 @@ public class TestCommand implements Listener {
             if (slot < 0 || slot >= inventory.getSize()) {
                 continue;
             }
-            String action = itemConfig.getString("event", itemKey);
-            if (!actionManager.getRegisteredActions().contains(action.toUpperCase())) {
+            String action = itemConfig.getString("event", itemKey).toUpperCase();
+            if (!actionManager.getRegisteredActions().contains(action)
+                    || actionManager.findActionConfig(action, category) == null) {
                 continue;
             }
             holder.actions.put(slot, action);
             inventory.setItem(slot, createItem(itemConfig));
         }
 
+        ConfigurationSection backConfig = guiConfig.getConfigurationSection("back-item");
+        if (backConfig != null) {
+            int backSlot = backConfig.getInt("slot", inventory.getSize() - 1);
+            if (backSlot >= 0 && backSlot < inventory.getSize()) {
+                holder.backSlots.put(backSlot, true);
+                inventory.setItem(backSlot, createItem(backConfig));
+            }
+        }
         player.openInventory(inventory);
+    }
+
+    private ConfigurationSection getCategoryItems(String category) {
+        if ("polls".equals(category)) {
+            return guiConfig.getConfigurationSection("items");
+        }
+        return guiConfig.getConfigurationSection("category-items." + category);
     }
 
     private ItemStack createItem(ConfigurationSection config) {
@@ -99,7 +145,20 @@ public class TestCommand implements Listener {
         if (event.getRawSlot() < 0 || event.getRawSlot() >= event.getView().getTopInventory().getSize()) {
             return;
         }
-        String action = holder.actions.get(event.getRawSlot());
+        int slot = event.getRawSlot();
+        if (holder.category == null) {
+            String category = holder.categories.get(slot);
+            if (category != null && event.getWhoClicked() instanceof Player player) {
+                openCategory(player, category);
+            }
+            return;
+        }
+        if (holder.backSlots.containsKey(slot) && event.getWhoClicked() instanceof Player player) {
+            open(player);
+            return;
+        }
+
+        String action = holder.actions.get(slot);
         if (action == null || !(event.getWhoClicked() instanceof Player player)) {
             return;
         }
@@ -108,7 +167,7 @@ public class TestCommand implements Listener {
         if (!player.isOnline()) {
             return;
         }
-        ConfigurationSection actionConfig = actionManager.findActionConfig(action);
+        ConfigurationSection actionConfig = actionManager.findActionConfig(action, holder.category);
         if (actionConfig != null) {
             twitchManager.testPoll(player, actionConfig);
         } else {
@@ -128,8 +187,15 @@ public class TestCommand implements Listener {
     }
 
     private static class TestHolder implements InventoryHolder {
+        private final String category;
         private final Map<Integer, String> actions = new HashMap<>();
+        private final Map<Integer, String> categories = new HashMap<>();
+        private final Map<Integer, Boolean> backSlots = new HashMap<>();
         private Inventory inventory;
+
+        private TestHolder(String category) {
+            this.category = category;
+        }
 
         @Override
         public Inventory getInventory() {

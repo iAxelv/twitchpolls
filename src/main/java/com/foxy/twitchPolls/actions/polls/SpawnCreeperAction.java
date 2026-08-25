@@ -1,4 +1,7 @@
-package com.foxy.twitchPolls.actions;
+package com.foxy.twitchPolls.actions.polls;
+
+import com.foxy.twitchPolls.actions.ActionContext;
+import com.foxy.twitchPolls.actions.ActionStrategy;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Creeper;

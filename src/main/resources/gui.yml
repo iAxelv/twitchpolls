@@ -1,5 +1,35 @@
 title: "&5Probar Eventos"
 rows: 4
+category-rows: 1
+titles:
+  polls: "&5Actions Polls"
+  donations: "&6Actions Donations"
+  points: "&bActions Points"
+categories:
+  polls:
+    slot: 2
+    item: CHEST
+    display-name: "&5Actions Polls"
+    lore:
+      - "&7Prueba las actions de polls"
+  donations:
+    slot: 4
+    item: GOLD_INGOT
+    display-name: "&6Actions Donations"
+    lore:
+      - "&7Prueba las actions de donations"
+  points:
+    slot: 6
+    item: DIAMOND
+    display-name: "&bActions Points"
+    lore:
+      - "&7Prueba las actions de points"
+back-item:
+  slot: 35
+  item: ARROW
+  display-name: "&cVolver"
+  lore:
+    - "&7Volver a las categorías"
 items:
   SPAWN_CREEPER:
     event: SPAWN_CREEPER
@@ -137,3 +167,22 @@ items:
     lore:
       - "&7Aplica confusion"
       - "&eClick para probar"
+category-items:
+  donations:
+    SPAWN_CREEPER:
+      event: SPAWN_CREEPER
+      slot: 0
+      item: CREEPER_HEAD
+      display-name: "&aSpawn Creeper"
+      lore:
+        - "&7Ejecuta la action de donaciones"
+        - "&eClick para probar"
+  points:
+    EFFECT_LEVITATION:
+      event: EFFECT_LEVITATION
+      slot: 0
+      item: FEATHER
+      display-name: "&bLevitation"
+      lore:
+        - "&7Ejecuta la action de puntos"
+        - "&eClick para probar"

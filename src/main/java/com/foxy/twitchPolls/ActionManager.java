@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
-import com.foxy.twitchPolls.actions.*;
+import com.foxy.twitchPolls.actions.polls.*;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -34,15 +34,23 @@ public class ActionManager {
 
     public ConfigurationSection findActionConfig(String actionName) {
         for (String eventType : new String[]{"polls", "donations", "points"}) {
-            ConfigurationSection events = plugin.getEventConfig(eventType);
-            if (events == null) {
-                continue;
+            ConfigurationSection action = findActionConfig(actionName, eventType);
+            if (action != null) {
+                return action;
             }
-            for (String eventName : events.getKeys(false)) {
-                ConfigurationSection event = events.getConfigurationSection(eventName);
-                if (event != null && actionName.equalsIgnoreCase(event.getString("action"))) {
-                    return event;
-                }
+        }
+        return null;
+    }
+
+    public ConfigurationSection findActionConfig(String actionName, String eventType) {
+        ConfigurationSection events = plugin.getEventConfig(eventType);
+        if (events == null) {
+            return null;
+        }
+        for (String eventName : events.getKeys(false)) {
+            ConfigurationSection event = events.getConfigurationSection(eventName);
+            if (event != null && actionName.equalsIgnoreCase(event.getString("action"))) {
+                return event;
             }
         }
         return null;
