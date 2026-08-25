@@ -27,5 +27,7 @@ public class SpawnGuardAction implements ActionStrategy {
         int amplifier = context.config().getInt("resistance-amplifier", 4);
         wolf.addPotionEffect(new PotionEffect(
                 PotionEffectType.RESISTANCE, durationSeconds * 20, amplifier));
+        context.plugin().getServer().getScheduler().runTaskLater(
+            context.plugin(), wolf::remove, 5 * 60 * 20L);
     }
 }
