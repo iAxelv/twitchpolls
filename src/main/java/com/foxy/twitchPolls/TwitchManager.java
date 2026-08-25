@@ -40,10 +40,12 @@ public class TwitchManager {
     private final ActionManager actionManager;
     private TwitchClient twitchClient;
     private BukkitTask pollTask;
+    private BukkitTask pollResumeTask;
     private BukkitTask pollBossBarTask;
     private BukkitTask testPollTask;
     private BossBar pollBossBar;
     private BossBar nextPollBossBar;
+    private volatile boolean automaticPollActive;
     private final Map<String, ConfigurationSection> activePollChoices = new HashMap<>();
 
     public TwitchManager(TwitchPolls plugin, ActionManager actionManager) {
@@ -84,7 +86,13 @@ public class TwitchManager {
     public void disconnect() {
         if (pollTask != null) {
             pollTask.cancel();
+            pollTask = null;
         }
+        if (pollResumeTask != null) {
+            pollResumeTask.cancel();
+            pollResumeTask = null;
+        }
+        automaticPollActive = false;
         if (testPollTask != null) {
             testPollTask.cancel();
         }
@@ -101,7 +109,8 @@ public class TwitchManager {
     }
 
     private void startPollCycle() {
-        if (!plugin.getConfig().getBoolean("settings.automatic-polls", false)) {
+        if (!plugin.getConfig().getBoolean("settings.automatic-polls", false)
+                || automaticPollActive || pollTask != null) {
             return;
         }
         int interval = plugin.getConfig().getInt("settings.poll-interval-seconds") * 20;
@@ -125,12 +134,36 @@ public class TwitchManager {
             updateNextPollBossBar(timeRemaining[0], intervalSeconds);
             if (timeRemaining[0] <= 0) {
                 timeRemaining[0] = intervalSeconds;
+                automaticPollActive = true;
+                pauseAutomaticPolls();
                 Bukkit.getScheduler().runTaskAsynchronously(plugin, this::createPoll);
             }
         }, 20L, 20L);
     }
 
+    private void pauseAutomaticPolls() {
+        if (pollTask != null) {
+            pollTask.cancel();
+            pollTask = null;
+        }
+        stopNextPollBossBar();
+    }
+
+    private void scheduleAutomaticPollRestart() {
+        if (pollResumeTask != null) {
+            pollResumeTask.cancel();
+        }
+        pollResumeTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            pollResumeTask = null;
+            automaticPollActive = false;
+            startPollCycle();
+        }, 5L * 20L);
+    }
+
     public void createPoll() {
+        automaticPollActive = true;
+        Bukkit.getScheduler().runTask(plugin, this::pauseAutomaticPolls);
+
         String broadcasterId = plugin.getConfig().getString("twitch.broadcaster-id");
         String oauthToken = cleanToken(plugin.getConfig().getString("twitch.oauth-token"));
         int duration = plugin.getConfig().getInt("settings.poll-duration-seconds");
@@ -139,6 +172,7 @@ public class TwitchManager {
         ConfigurationSection eventsSection = plugin.getEventConfig("polls");
 
         if (eventsSection == null) {
+            scheduleAutomaticPollRestart();
             return;
         }
 
@@ -150,6 +184,7 @@ public class TwitchManager {
         }
 
         if (eventKeys.isEmpty()) {
+            scheduleAutomaticPollRestart();
             return;
         }
 
@@ -178,6 +213,7 @@ public class TwitchManager {
             plugin.getLogger().log(Level.SEVERE,
                     "Failed to create Twitch poll for broadcaster " + broadcasterId,
                     exception);
+            scheduleAutomaticPollRestart();
         }
     }
 
@@ -385,6 +421,10 @@ public class TwitchManager {
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {
                 String broadcast = plugin.getConfig().getString("messages.broadcast-end").replace("%winner%", winnerTitle);
                 Bukkit.broadcast(formatColor(broadcast));
+            }
+
+            if (automaticPollActive) {
+                scheduleAutomaticPollRestart();
             }
         });
     }
