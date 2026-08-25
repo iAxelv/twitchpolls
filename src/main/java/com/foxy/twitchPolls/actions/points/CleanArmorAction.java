@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class CleanArmorAction implements ActionStrategy {
     @Override
     public void execute(ActionContext context) {
@@ -15,11 +17,16 @@ public class CleanArmorAction implements ActionStrategy {
         inventory.setArmorContents(new ItemStack[4]);
         Vector[] directions = {new Vector(1, 0.2, 0), new Vector(-1, 0.2, 0),
                 new Vector(0, 0.2, 1), new Vector(0, 0.2, -1)};
+        double minDistance = Math.max(0.0, context.config().getDouble("min-distance", 1.0));
+        double maxDistance = Math.max(minDistance, context.config().getDouble("max-distance", 3.0));
         Location origin = context.location().clone().add(0, 0.2, 0);
         for (int index = 0; index < armor.length; index++) {
             if (armor[index] != null && !armor[index].isEmpty()) {
                 var item = context.world().dropItem(origin, armor[index]);
-                item.setVelocity(directions[index].clone().multiply(0.35));
+                double distance = minDistance == maxDistance
+                    ? minDistance
+                    : ThreadLocalRandom.current().nextDouble(minDistance, maxDistance);
+                item.setVelocity(directions[index].clone().multiply(distance));
             }
         }
     }

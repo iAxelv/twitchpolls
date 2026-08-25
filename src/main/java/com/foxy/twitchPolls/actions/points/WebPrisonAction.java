@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -30,6 +32,9 @@ public class WebPrisonAction implements ActionStrategy {
         }
         context.world().playSound(context.location(), Sound.ENTITY_SPIDER_AMBIENT, 1.0f, 1.0f);
         long duration = Math.max(1L, context.config().getLong("duration-seconds", 10L)) * 20L;
+        int poisonAmplifier = Math.max(0, context.config().getInt("poison-amplifier", 0));
+        int poisonDuration = (int) Math.min(Integer.MAX_VALUE, duration);
+        context.player().addPotionEffect(new PotionEffect(PotionEffectType.POISON, poisonDuration, poisonAmplifier));
         new BukkitRunnable() {
             @Override
             public void run() {

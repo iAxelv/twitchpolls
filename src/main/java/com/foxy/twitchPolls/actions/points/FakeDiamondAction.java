@@ -35,7 +35,7 @@ public class FakeDiamondAction implements ActionStrategy, Listener {
         Location key = block.getLocation();
         Material replacement = Material.matchMaterial(context.config().getString("replacement", "COBWEB"));
         fakeBlocks.put(key, replacement == null ? Material.COBWEB : replacement);
-        block.setType(Material.DIAMOND_BLOCK);
+        block.setType(Material.DIAMOND_BLOCK, false);
         long duration = Math.max(1L, context.config().getLong("duration-seconds", 2L)) * 20L;
         new BukkitRunnable() {
             @Override

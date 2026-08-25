@@ -10,7 +10,9 @@ spin_head:
   title: "¡Mira hacia atrás!"
   reward-title: "¡Mira hacia atrás!"
   action: SPIN_HEAD
-  blindness-seconds: 1.5
+  duration-seconds: 3
+  interval-ticks: 2
+  degrees-per-turn: 90
 fake_diamond:
   active: true
   value: 250
@@ -27,6 +29,8 @@ anvil_trap:
   reward-title: "¡Cuidado con el yunque!"
   action: ANVIL_TRAP
   height: 6.0
+  damage-per-block: 2.0
+  max-damage: 40
 pig_stack_attack:
   active: true
   value: 350
@@ -35,6 +39,8 @@ pig_stack_attack:
   action: PIG_STACK_ATTACK
   pigs: 4
   height: 1.0
+  attack-duration-seconds: 10
+  attack-damage: 2.0
 invert_controls_effect:
   active: true
   value: 200
@@ -60,6 +66,7 @@ web_prison:
   action: WEB_PRISON
   radius: 1
   duration-seconds: 10
+  poison-amplifier: 0
 silent_phantoms:
   active: true
   value: 400
@@ -68,9 +75,12 @@ silent_phantoms:
   action: SILENT_PHANTOMS
   amount: 3
   duration-seconds: 20
+  strength-amplifier: 0
 clean_armor:
   active: true
   value: 225
   title: "¡Fuera armadura!"
   reward-title: "¡Fuera armadura!"
   action: CLEAN_ARMOR
+  min-distance: 1.0
+  max-distance: 3.0
