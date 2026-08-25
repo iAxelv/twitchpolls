@@ -90,5 +90,7 @@ public class ActionManager {
         strategies.put("WEB_PRISON", new WebPrisonAction());
         strategies.put("SILENT_PHANTOMS", new SilentPhantomsAction());
         strategies.put("CLEAN_ARMOR", new CleanArmorAction());
+        strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin));
+        strategies.put("DISABLE_ACTION", new DisableActionAction(plugin));
     }
 }

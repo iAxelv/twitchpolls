@@ -267,3 +267,21 @@ category-items:
       lore:
         - "&7Desequipa y lanza la armadura"
         - "&eClick para probar"
+    DISABLE_DAMAGE:
+      event: DISABLE_DAMAGE
+      slot: 10
+      item: SHIELD
+      display-name: "&cMobs intocables"
+      lore:
+        - "&7Impide dañar a cualquier mob"
+        - "&7durante 30 segundos"
+        - "&eClick para probar"
+    DISABLE_ACTION:
+      event: DISABLE_ACTION
+      slot: 11
+      item: CHAIN
+      display-name: "&6Manos atadas"
+      lore:
+        - "&7Bloquea una acción al azar"
+        - "&7durante 30 segundos"
+        - "&eClick para probar"

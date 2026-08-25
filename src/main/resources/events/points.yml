@@ -92,3 +92,25 @@ clean_armor:
   action: CLEAN_ARMOR
   min-distance: 1.0
   max-distance: 3.0
+disable_damage:
+  active: true
+  value: 250
+  title: "¡Mobs intocables!"
+  reward-title: "¡Mobs intocables!"
+  action: DISABLE_DAMAGE
+  duration-seconds: 30
+disable_action:
+  active: true
+  value: 300
+  title: "¡Manos atadas!"
+  reward-title: "¡Manos atadas!"
+  action: DISABLE_ACTION
+  duration-seconds: 30
+  blocked-actions:
+    - WALK
+    - JUMP
+    - BREAK_BLOCKS
+    - PLACE_BLOCKS
+    - INTERACT_BLOCKS
+    - ATTACK_MOBS
+    - MOVE_ITEMS
