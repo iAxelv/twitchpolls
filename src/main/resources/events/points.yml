@@ -16,8 +16,8 @@ spin_head:
 fake_diamond:
   active: true
   value: 250
-  title: "Diamante spawn"
-  reward-title: "Diamante spawn"
+  title: "Bloque de diamante"
+  reward-title: "Bloque de diamante"
   action: FAKE_DIAMOND
   distance: 2.0
   duration-seconds: 2
