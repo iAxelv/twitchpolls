@@ -26,7 +26,8 @@ public class CleanArmorAction implements ActionStrategy {
                 double distance = minDistance == maxDistance
                     ? minDistance
                     : ThreadLocalRandom.current().nextDouble(minDistance, maxDistance);
-                item.setVelocity(directions[index].clone().multiply(distance));
+                double launchSpeed = Math.min(0.8, 0.25 + distance * 0.15);
+                item.setVelocity(directions[index].clone().multiply(launchSpeed));
             }
         }
     }

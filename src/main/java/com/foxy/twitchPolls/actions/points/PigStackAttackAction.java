@@ -6,25 +6,25 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PigStackAttackAction implements ActionStrategy {
     @Override
     public void execute(ActionContext context) {
         Pig bottom = null;
-        Pig attacker = null;
+        List<Pig> attackers = new ArrayList<>();
         int count = Math.max(1, context.config().getInt("pigs", 4));
         double height = context.config().getDouble("height", 1.0);
         for (int index = 0; index < count; index++) {
             Pig pig = (Pig) context.world().spawnEntity(context.location().clone().add(0, 1.0 + index * height, 0), EntityType.PIG);
-            if (attacker == null) {
-                attacker = pig;
-            }
+            attackers.add(pig);
             if (bottom != null) {
                 bottom.addPassenger(pig);
             }
             bottom = pig;
         }
-        final Pig attackingPig = attacker;
-        attackingPig.setTarget(context.player());
+        final List<Pig> attackingPigs = List.copyOf(attackers);
         double damage = Math.max(0.0, context.config().getDouble("attack-damage", 2.0));
         long attackTicks = Math.max(1L, context.config().getLong("attack-duration-seconds", 10L)) * 20L;
         new BukkitRunnable() {
@@ -32,17 +32,20 @@ public class PigStackAttackAction implements ActionStrategy {
 
             @Override
             public void run() {
-                if (!attackingPig.isValid() || !context.player().isValid() || elapsed >= attackTicks) {
+                if (!context.player().isValid() || elapsed >= attackTicks
+                        || attackingPigs.stream().noneMatch(Pig::isValid)) {
                     cancel();
                     return;
                 }
-                attackingPig.setTarget(context.player());
-                attackingPig.getPathfinder().moveTo(context.player());
-                if (attackingPig.getLocation().distanceSquared(context.player().getLocation()) <= 4.0) {
-                    context.player().damage(damage, attackingPig);
-                    context.player().setVelocity(context.player().getVelocity().add(
-                            context.player().getLocation().toVector().subtract(attackingPig.getLocation().toVector())
-                                    .normalize().multiply(0.15)));
+                for (Pig attackingPig : attackingPigs) {
+                    if (!attackingPig.isValid()) {
+                        continue;
+                    }
+                    attackingPig.setTarget(context.player());
+                    attackingPig.getPathfinder().moveTo(context.player());
+                    if (attackingPig.getLocation().distanceSquared(context.player().getLocation()) <= 4.0) {
+                        context.player().damage(damage, attackingPig);
+                    }
                 }
                 elapsed += 10L;
             }

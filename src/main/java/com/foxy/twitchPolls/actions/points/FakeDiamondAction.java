@@ -10,6 +10,8 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.FluidCollisionMode;
+import org.bukkit.util.RayTraceResult;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -26,9 +28,16 @@ public class FakeDiamondAction implements ActionStrategy, Listener {
 
     @Override
     public void execute(ActionContext context) {
-        Location location = context.location().clone().add(context.location().getDirection().normalize()
-                .multiply(context.config().getDouble("distance", 2.0)));
-        Block block = location.getBlock();
+        Location eyeLocation = context.player().getEyeLocation();
+        double distance = Math.max(1.0, context.config().getDouble("distance", 2.0));
+        RayTraceResult hit = context.world().rayTraceBlocks(eyeLocation, eyeLocation.getDirection(), distance,
+                FluidCollisionMode.NEVER, true);
+        Block block;
+        if (hit != null && hit.getHitBlock() != null && hit.getHitBlockFace() != null) {
+            block = hit.getHitBlock().getRelative(hit.getHitBlockFace());
+        } else {
+            block = eyeLocation.clone().add(eyeLocation.getDirection().normalize().multiply(distance)).getBlock();
+        }
         if (!block.getType().isAir()) {
             return;
         }
