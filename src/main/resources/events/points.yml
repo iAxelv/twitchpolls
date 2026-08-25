@@ -152,3 +152,9 @@ divine_punishment:
   lightning-amount: 3
   lightning-per-wave: 1
   interval-ticks: 20
+hotbar_shuffle:
+  active: true
+  value: 275
+  title: "¡Hotbar revuelta!"
+  reward-title: "Objetos mezclados"
+  action: HOTBAR_SHUFFLE

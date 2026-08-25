@@ -116,6 +116,7 @@ public class ActionManager {
         strategies.put("RANDOM_SOUND", new RandomSoundAction());
         strategies.put("CONFUSION", new ConfusionAction());
         strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
+        strategies.put("HOTBAR_SHUFFLE", new HotbarShuffleAction());
         strategies.put("SPIN_HEAD", new SpinHeadAction());
         strategies.put("DIVINE_PUNISHMENT", new LightningStormAction());
         strategies.put("FAKE_DIAMOND", new FakeDiamondAction(plugin));
@@ -143,5 +144,6 @@ public class ActionManager {
         strategies.put("ULTIMATE_CARE_PACKAGE", new UltimateCarePackageAction());
         strategies.put("TIME_FREEZE", new TimeFreezeAction());
         strategies.put("THUNDERSTORM", new LightningStormAction());
+        strategies.put("METEOR_SHOWER", new MeteorShowerAction());
     }
 }

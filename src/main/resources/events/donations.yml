@@ -161,3 +161,13 @@ the_apocalypse:
         mending: 1
         unbreaking: 3
         sweeping: 3
+meteor_shower:
+  active: true
+  title: "¡Lluvia de meteoritos!"
+  action: METEOR_SHOWER
+  type: bits
+  value: 1500
+  duration-seconds: 20
+  amount-per-wave: 3
+  radius: 12.0
+  height: 16

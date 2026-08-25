@@ -313,6 +313,14 @@ category-items:
       lore:
         - "&712 rayos y aparece Zeus"
         - "&eClick para probar"
+    METEOR_SHOWER:
+      event: METEOR_SHOWER
+      slot: 17
+      item: MAGMA_BLOCK
+      display-name: "&cLluvia de meteoritos"
+      lore:
+        - "&7Hace caer meteoritos ardientes"
+        - "&eClick para probar"
   points:
     DROP_HAND_ITEM:
       event: DROP_HAND_ITEM
@@ -460,4 +468,12 @@ category-items:
       display-name: "&eCastigo Divino"
       lore:
         - "&73 rayos con 1 segundo entre cada uno"
+        - "&eClick para probar"
+    HOTBAR_SHUFFLE:
+      event: HOTBAR_SHUFFLE
+      slot: 17
+      item: CHEST
+      display-name: "&dHotbar revuelta"
+      lore:
+        - "&7Mezcla los objetos de la hotbar"
         - "&eClick para probar"
