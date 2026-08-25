@@ -13,6 +13,8 @@ public final class TwitchPolls extends JavaPlugin {
 
     private TwitchManager twitchManager;
     private ActionManager actionManager;
+    private UIManager uiManager;
+    private SessionManager sessionManager;
     private TestCommand testCommand;
     private final Map<String, YamlConfiguration> eventConfigs = new HashMap<>();
 
@@ -25,9 +27,12 @@ public final class TwitchPolls extends JavaPlugin {
         saveResource("events/donations.yml", false);
         saveResource("events/points.yml", false);
         reloadEventConfigs();
-        actionManager = new ActionManager(this);
-        twitchManager = new TwitchManager(this, actionManager);
-        testCommand = new TestCommand(this, actionManager, twitchManager);
+        uiManager = new UIManager(this);
+        sessionManager = new SessionManager(this);
+        getServer().getPluginManager().registerEvents(sessionManager, this);
+        actionManager = new ActionManager(this, sessionManager, uiManager);
+        twitchManager = new TwitchManager(this, actionManager, uiManager, sessionManager);
+        testCommand = new TestCommand(this, actionManager, uiManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
         TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, testCommand);
         getCommand("twitch").setExecutor(twitchCommand);
@@ -37,8 +42,8 @@ public final class TwitchPolls extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (actionManager != null) {
-            actionManager.cancelPointCountdowns();
+        if (uiManager != null) {
+            uiManager.cancelAll();
         }
         if (twitchManager != null) {
             twitchManager.disconnect();

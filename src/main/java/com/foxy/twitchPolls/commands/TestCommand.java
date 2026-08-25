@@ -2,7 +2,7 @@ package com.foxy.twitchPolls.commands;
 
 import com.foxy.twitchPolls.ActionManager;
 import com.foxy.twitchPolls.TwitchPolls;
-import com.foxy.twitchPolls.TwitchManager;
+import com.foxy.twitchPolls.UIManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,26 +14,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class TestCommand implements Listener {
     private static final String[] EVENT_TYPES = {"polls", "donations", "points"};
     private final TwitchPolls plugin;
     private final ActionManager actionManager;
-    private final TwitchManager twitchManager;
+    private final UIManager uiManager;
     private YamlConfiguration guiConfig;
 
-    public TestCommand(TwitchPolls plugin, ActionManager actionManager, TwitchManager twitchManager) {
+    public TestCommand(TwitchPolls plugin, ActionManager actionManager, UIManager uiManager) {
         this.plugin = plugin;
         this.actionManager = actionManager;
-        this.twitchManager = twitchManager;
+        this.uiManager = uiManager;
         reload();
     }
 
@@ -53,7 +50,7 @@ public class TestCommand implements Listener {
         TestHolder holder = new TestHolder(null);
         Inventory inventory = Bukkit.createInventory(holder, rows * 9,
                 color(guiConfig.getString("title", "&5Acciones")));
-        holder.inventory = inventory;
+        holder.setInventory(inventory);
 
         for (String category : EVENT_TYPES) {
             ConfigurationSection itemConfig = categories.getConfigurationSection(category);
@@ -82,7 +79,7 @@ public class TestCommand implements Listener {
         TestHolder holder = new TestHolder(category);
         Inventory inventory = Bukkit.createInventory(holder, rows * 9,
                 color(guiConfig.getString("titles." + category, "&5Acciones " + category)));
-        holder.inventory = inventory;
+        holder.setInventory(inventory);
 
         for (String itemKey : items.getKeys(false)) {
             ConfigurationSection itemConfig = items.getConfigurationSection(itemKey);
@@ -170,11 +167,13 @@ public class TestCommand implements Listener {
         ConfigurationSection actionConfig = actionManager.findActionConfig(action, holder.category);
         if (actionConfig != null) {
             if ("points".equals(holder.category)) {
-                twitchManager.executePointAction(player, actionConfig);
+                uiManager.showPointEvent(player, actionConfig);
+                actionManager.executePointAction(player, actionConfig);
             } else if ("donations".equals(holder.category)) {
-                twitchManager.executeDonationAction(player, actionConfig);
+                uiManager.showDonationEvent(player, actionConfig);
+                actionManager.executeDonationAction(player, actionConfig, "desconocido");
             } else {
-                twitchManager.testPoll(player, actionConfig);
+                uiManager.testPoll(player, actionConfig, actionManager);
             }
         } else {
             player.sendMessage(ChatColor.RED + "No se encontró la configuración de " + action + ".");
@@ -192,20 +191,7 @@ public class TestCommand implements Listener {
         return ChatColor.translateAlternateColorCodes('&', text == null ? "" : text);
     }
 
-    private static class TestHolder implements InventoryHolder {
-        private final String category;
-        private final Map<Integer, String> actions = new HashMap<>();
-        private final Map<Integer, String> categories = new HashMap<>();
-        private final Map<Integer, Boolean> backSlots = new HashMap<>();
-        private Inventory inventory;
-
-        private TestHolder(String category) {
-            this.category = category;
-        }
-
-        @Override
-        public Inventory getInventory() {
-            return inventory;
-        }
+    private static class TestHolder extends GUIHolder {
+        private TestHolder(String category) { super(category); }
     }
 }

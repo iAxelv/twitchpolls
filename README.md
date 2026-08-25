@@ -7,7 +7,12 @@ Paper plugin that creates Twitch polls from Minecraft events.
 - Java 21
 - Gradle 8+
 - Paper 1.21.8
-- A Twitch application and an OAuth token with permission to manage polls
+- A Twitch application and a broadcaster OAuth token with these scopes:
+- `channel:manage:polls` to create polls
+- `channel:read:polls` to receive poll results
+- `channel:read:redemptions` to receive Channel Point redemptions
+- `bits:read` to receive Bits events
+- `channel:read:subscriptions` to receive subscription, gift subscription, and resubscription events
 
 ## Configuration
 
@@ -15,7 +20,7 @@ Paper plugin that creates Twitch polls from Minecraft events.
 2. Copy `build/libs/TwitchPolls-1.0.jar` to the server `plugins/` directory.
 3. Start the server once, then edit `plugins/TwitchPolls/config.yml` and the files in `plugins/TwitchPolls/events/`.
 4. Replace the `YOUR_TWITCH_*` values with the Twitch application credentials and broadcaster ID.
-5. Grant the OAuth token the `channel:read:redemptions` scope and create Twitch rewards whose title and cost match `reward-title` and `value` in `events/points.yml`.
+5. Generate a broadcaster OAuth token with all required scopes listed above. Create Twitch rewards whose title and cost match `reward-title` and `value` in `events/points.yml`.
 6. Restart the server or use `/twitch reload`.
 
 The credentials in the local server configuration must never be committed. The `run/` directory is intentionally ignored by Git.

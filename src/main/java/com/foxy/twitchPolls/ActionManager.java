@@ -2,29 +2,27 @@ package com.foxy.twitchPolls;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
+import java.util.HashMap;
 
 public class ActionManager {
     private final TwitchPolls plugin;
+    private final SessionManager sessionManager;
+    private final UIManager uiManager;
     private final Map<String, ActionStrategy> strategies = new HashMap<>();
-    private final Map<UUID, BukkitTask> eventCountdowns = new HashMap<>();
 
-    public ActionManager(TwitchPolls plugin) {
+    public ActionManager(TwitchPolls plugin, SessionManager sessionManager, UIManager uiManager) {
         this.plugin = plugin;
+        this.sessionManager = sessionManager;
+        this.uiManager = uiManager;
         registerStrategies();
     }
 
@@ -34,14 +32,13 @@ public class ActionManager {
         }
         ActionStrategy strategy = strategies.get(config.getString("action"));
         if (strategy != null) {
-            String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
-            strategy.execute(new ActionContext(plugin, player, config, streamerUsername, null));
+            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(), null));
         }
     }
 
     public void executeDonationAction(Player player, ConfigurationSection config, String donorUsername) {
         executeAction(player, config, donorUsername);
-        startDurationCountdown(player, config);
+        uiManager.startEventCountdown(player, config);
     }
 
     public void executePointAction(Player player, ConfigurationSection config) {
@@ -50,41 +47,7 @@ public class ActionManager {
 
     public void executePointAction(Player player, ConfigurationSection config, String redeemerUsername) {
         executeAction(player, config, redeemerUsername);
-        startDurationCountdown(player, config);
-    }
-
-    private void startDurationCountdown(Player player, ConfigurationSection config) {
-        if (!config.contains("duration-seconds")) {
-            return;
-        }
-
-        int durationSeconds = Math.max(1, config.getInt("duration-seconds"));
-        UUID playerId = player.getUniqueId();
-        BukkitTask previousTask = eventCountdowns.remove(playerId);
-        if (previousTask != null) {
-            previousTask.cancel();
-        }
-
-        String messageFormat = plugin.getConfig().getString(
-                "messages.points-event-duration", "&eFinaliza: &f%time%s");
-        sendPointCountdown(player, messageFormat, durationSeconds);
-
-        BukkitTask countdownTask = new BukkitRunnable() {
-            private int timeRemaining = durationSeconds;
-
-            @Override
-            public void run() {
-                timeRemaining--;
-                if (timeRemaining <= 0) {
-                    player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(""));
-                    eventCountdowns.remove(playerId);
-                    cancel();
-                    return;
-                }
-                sendPointCountdown(player, messageFormat, timeRemaining);
-            }
-        }.runTaskTimer(plugin, 20L, 20L);
-        eventCountdowns.put(playerId, countdownTask);
+        uiManager.startEventCountdown(player, config);
     }
 
     private void executeAction(Player player, ConfigurationSection config, String redeemerUsername) {
@@ -93,21 +56,8 @@ public class ActionManager {
         }
         ActionStrategy strategy = strategies.get(config.getString("action"));
         if (strategy != null) {
-            String streamerUsername = plugin.getConfig().getString("settings.streamer-username", "Streamer");
-            strategy.execute(new ActionContext(plugin, player, config, streamerUsername, redeemerUsername));
+            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(), redeemerUsername));
         }
-    }
-
-    public void cancelPointCountdowns() {
-        for (BukkitTask task : eventCountdowns.values()) {
-            task.cancel();
-        }
-        eventCountdowns.clear();
-    }
-
-    private void sendPointCountdown(Player player, String messageFormat, int timeRemaining) {
-        player.sendActionBar(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(messageFormat.replace("%time%", String.valueOf(timeRemaining))));
     }
 
     public ConfigurationSection findActionConfig(String actionName) {
