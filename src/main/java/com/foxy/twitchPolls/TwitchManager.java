@@ -309,7 +309,7 @@ public class TwitchManager {
     }
 
     public void executeDonationAction(Player player, ConfigurationSection actionConfig) {
-        executeDonationAction(player, actionConfig, "usuario de prueba");
+        executeDonationAction(player, actionConfig, "desconocido");
     }
 
     public void executeDonationAction(Player player, ConfigurationSection actionConfig, String username) {
