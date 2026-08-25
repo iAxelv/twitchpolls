@@ -1,8 +1,10 @@
-package com.foxy.twitchPolls.actions;
+package com.foxy.twitchPolls.actions.common;
 
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import com.foxy.twitchPolls.actions.ActionContext;
+import com.foxy.twitchPolls.actions.ActionStrategy;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -82,7 +84,7 @@ public class LightningStormAction implements ActionStrategy {
         }, despawnTicks);
     }
 
-    private void applyEquipment(WitherSkeleton zeus, org.bukkit.configuration.ConfigurationSection config) {
+    private void applyEquipment(WitherSkeleton zeus, ConfigurationSection config) {
         EntityEquipment equipment = zeus.getEquipment();
         if (equipment == null) {
             return;
@@ -99,7 +101,7 @@ public class LightningStormAction implements ActionStrategy {
         equipment.setItemInMainHandDropChance(0.0f);
     }
 
-    private ItemStack item(String materialName, org.bukkit.configuration.ConfigurationSection config, String slot) {
+    private ItemStack item(String materialName, ConfigurationSection config, String slot) {
         Material material = Material.matchMaterial(materialName);
         ItemStack item = new ItemStack(material == null ? Material.NETHERITE_HELMET : material);
         ItemMeta meta = item.getItemMeta();
@@ -108,10 +110,9 @@ public class LightningStormAction implements ActionStrategy {
             var enchantments = config.getConfigurationSection("equipment." + slot + "-enchantments");
             if (enchantments != null) {
                 for (String key : enchantments.getKeys(false)) {
-                                Enchantment enchantment = RegistryAccess.registryAccess()
-                                    .getRegistry(RegistryKey.ENCHANTMENT)
-                                    .get(
-                            NamespacedKey.minecraft(key.toLowerCase(Locale.ROOT)));
+                    Enchantment enchantment = RegistryAccess.registryAccess()
+                            .getRegistry(RegistryKey.ENCHANTMENT)
+                            .get(NamespacedKey.minecraft(key.toLowerCase(Locale.ROOT)));
                     if (enchantment != null) {
                         meta.addEnchant(enchantment, Math.max(1, enchantments.getInt(key)), true);
                     }
