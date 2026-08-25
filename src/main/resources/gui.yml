@@ -243,6 +243,14 @@ category-items:
       lore:
         - "&7Intercambia las manos constantemente"
         - "&eClick para probar"
+    PUMPKIN_HEAD:
+      event: PUMPKIN_HEAD
+      slot: 12
+      item: CARVED_PUMPKIN
+      display-name: "&6Visión de calabaza"
+      lore:
+        - "&7Cubre la visión durante 10 segundos"
+        - "&eClick para probar"
     WEB_PRISON:
       event: WEB_PRISON
       slot: 7

@@ -66,6 +66,13 @@ swap_main_offhand:
   action: SWAP_MAIN_OFFHAND
   duration-seconds: 8
   interval-seconds: 1
+pumpkin_head:
+  active: true
+  value: 800
+  title: "Visión de Calabaza"
+  reward-title: "Visión de Calabaza"
+  action: PUMPKIN_HEAD
+  duration-seconds: 10
 web_prison:
   active: true
   value: 275

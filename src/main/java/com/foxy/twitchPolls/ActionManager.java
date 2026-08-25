@@ -87,6 +87,7 @@ public class ActionManager {
         strategies.put("PIG_STACK_ATTACK", new PigStackAttackAction());
         strategies.put("INVERT_CONTROLS_EFFECT", new InvertControlsEffectAction());
         strategies.put("SWAP_MAIN_OFFHAND", new SwapMainOffhandAction());
+        strategies.put("PUMPKIN_HEAD", new PumpkinHeadAction());
         strategies.put("WEB_PRISON", new WebPrisonAction());
         strategies.put("SILENT_PHANTOMS", new SilentPhantomsAction());
         strategies.put("CLEAN_ARMOR", new CleanArmorAction());

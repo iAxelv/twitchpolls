@@ -2,6 +2,7 @@ package com.foxy.twitchPolls.actions.points;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -23,6 +24,7 @@ public class SwapMainOffhandAction implements ActionStrategy {
                 var main = inventory.getItemInMainHand();
                 inventory.setItemInMainHand(inventory.getItemInOffHand());
                 inventory.setItemInOffHand(main);
+                context.player().playSound(context.player().getLocation(), Sound.ENTITY_ITEM_PICKUP, 1.0f, 1.0f);
                 elapsed += interval;
             }
         }.runTaskTimer(context.plugin(), interval, interval);
