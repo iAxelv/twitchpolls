@@ -2,7 +2,6 @@ package com.foxy.twitchPolls.actions.points;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Material;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Locale;
 
 public class DisableActionAction implements ActionStrategy, Listener {
     private final Map<UUID, ActiveAction> activePlayers = new HashMap<>();
@@ -46,8 +46,9 @@ public class DisableActionAction implements ActionStrategy, Listener {
     @Override
     public void execute(ActionContext context) {
         List<String> configuredActions = context.config().getStringList("blocked-actions").stream()
-                .map(String::toUpperCase)
-                .filter(actionNames::containsKey)
+            .filter(action -> action != null)
+            .map(action -> action.toUpperCase(Locale.ROOT))
+            .filter(action -> actionNames.containsKey(action))
                 .toList();
         if (configuredActions.isEmpty()) {
             configuredActions = List.copyOf(actionNames.keySet());
@@ -58,9 +59,10 @@ public class DisableActionAction implements ActionStrategy, Listener {
         activePlayers.put(context.player().getUniqueId(),
                 new ActiveAction(action, System.currentTimeMillis() + durationMillis));
 
+        String title = context.plugin().getConfig().getString("messages.points-event-title", "");
         String subtitle = "&cAcción bloqueada: &f" + actionNames.get(action);
         context.player().showTitle(Title.title(
-                Component.empty(),
+            LegacyComponentSerializer.legacyAmpersand().deserialize(title),
                 LegacyComponentSerializer.legacyAmpersand().deserialize(subtitle),
                 Title.Times.times(Duration.ZERO, Duration.ofSeconds(2), Duration.ofMillis(500))));
     }
