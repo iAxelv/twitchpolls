@@ -86,3 +86,8 @@ nausea:
   action: "CONFUSION"
   time: 300
   amplifier: 2
+spark:
+  active: true
+  title: "Chispa de Zeus"
+  action: SPARK
+  lightning-amount: 1

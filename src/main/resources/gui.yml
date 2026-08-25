@@ -167,6 +167,14 @@ items:
     lore:
       - "&7Aplica confusion"
       - "&eClick para probar"
+  SPARK:
+    event: SPARK
+    slot: 17
+    item: LIGHTNING_ROD
+    display-name: "&eChispa de Zeus"
+    lore:
+      - "&7Un rayo directo al streamer"
+      - "&eClick para probar"
 category-items:
   donations:
     INVENTORY_BOMB:
@@ -296,6 +304,14 @@ category-items:
       display-name: "&bTiempo congelado"
       lore:
         - "&7Congela entidades durante 30 segundos"
+        - "&eClick para probar"
+    THUNDERSTORM:
+      event: THUNDERSTORM
+      slot: 16
+      item: LIGHTNING_ROD
+      display-name: "&dTHE APOCALYPSE"
+      lore:
+        - "&712 rayos y aparece Zeus"
         - "&eClick para probar"
   points:
     DROP_HAND_ITEM:
@@ -436,4 +452,12 @@ category-items:
       display-name: "&bGuardián de Twitch"
       lore:
         - "&7Invoca un lobo domesticado que te defiende"
+        - "&eClick para probar"
+    DIVINE_PUNISHMENT:
+      event: DIVINE_PUNISHMENT
+      slot: 16
+      item: LIGHTNING_ROD
+      display-name: "&eCastigo Divino"
+      lore:
+        - "&73 rayos con 1 segundo entre cada uno"
         - "&eClick para probar"

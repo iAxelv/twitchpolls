@@ -126,3 +126,38 @@ time_freeze:
   value: 4500
   duration-seconds: 30
   amplifier: 254
+the_apocalypse:
+  active: true
+  title: "THE APOCALYPSE"
+  action: THUNDERSTORM
+  type: bits
+  value: 6000
+  lightning-amount: 12
+  lightning-per-wave: 3
+  interval-ticks: 20
+  spawn-zeus: true
+  zeus:
+    nametag: "&dZEUS"
+    nametag-visible: true
+    speed-duration-ticks: 99999
+    speed-amplifier: 10
+    despawn-seconds: 120
+    equipment:
+      helmet: NETHERITE_HELMET
+      chestplate: NETHERITE_CHESTPLATE
+      leggings: NETHERITE_LEGGINGS
+      boots: NETHERITE_BOOTS
+      weapon: GOLDEN_SWORD
+      helmet-unbreakable: true
+      chestplate-unbreakable: true
+      leggings-unbreakable: true
+      boots-unbreakable: true
+      weapon-unbreakable: true
+      weapon-enchantments:
+        sharpness: 5
+        fire_aspect: 2
+        looting: 3
+        knockback: 2
+        mending: 1
+        unbreaking: 3
+        sweeping: 3

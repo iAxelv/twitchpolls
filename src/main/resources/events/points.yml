@@ -143,3 +143,12 @@ spawn_guard:
   action: SPAWN_GUARD
   resistance-duration-seconds: 99999
   resistance-amplifier: 4
+divine_punishment:
+  active: true
+  value: 1000
+  title: "Castigo Divino"
+  reward-title: "DIVINE PUNISHMENT"
+  action: DIVINE_PUNISHMENT
+  lightning-amount: 3
+  lightning-per-wave: 1
+  interval-ticks: 20

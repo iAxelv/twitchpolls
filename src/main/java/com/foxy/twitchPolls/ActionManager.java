@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
+import com.foxy.twitchPolls.actions.LightningStormAction;
 import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
@@ -95,6 +96,7 @@ public class ActionManager {
         strategies.put("RAIN_WEALTH", new RainWealthAction());
         strategies.put("GOD_MODE", new GodModeAction());
         strategies.put("SPAWN_CREEPER", new SpawnCreeperAction());
+        strategies.put("SPARK", new LightningStormAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
         strategies.put("DROP_ORES", new DropOresAction());
         strategies.put("LAUNCH_PLAYER", new LaunchPlayerAction());
@@ -115,6 +117,7 @@ public class ActionManager {
         strategies.put("CONFUSION", new ConfusionAction());
         strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
         strategies.put("SPIN_HEAD", new SpinHeadAction());
+        strategies.put("DIVINE_PUNISHMENT", new LightningStormAction());
         strategies.put("FAKE_DIAMOND", new FakeDiamondAction(plugin));
         strategies.put("REPLACE_BLOCKS", new ReplaceBlocksAction(plugin));
         strategies.put("ANVIL_TRAP", new AnvilTrapAction());
@@ -139,5 +142,6 @@ public class ActionManager {
         strategies.put("WIPE_ENEMIES", new WipeEnemiesAction());
         strategies.put("ULTIMATE_CARE_PACKAGE", new UltimateCarePackageAction());
         strategies.put("TIME_FREEZE", new TimeFreezeAction());
+        strategies.put("THUNDERSTORM", new LightningStormAction());
     }
 }
