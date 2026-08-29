@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.points;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
@@ -18,8 +19,10 @@ import java.util.UUID;
 public class DisableDamageAction implements ActionStrategy, Listener {
     private final Map<UUID, Long> activePlayers = new HashMap<>();
 
-    public DisableDamageAction(TwitchPolls plugin) {
+    public DisableDamageAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(activePlayers::remove);
     }
 
     @Override

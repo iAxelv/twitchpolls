@@ -53,11 +53,11 @@ public class TwitchManager {
     }
 
     public void connect() {
-        String clientId = plugin.getConfig().getString("twitch.client-id");
-        String clientSecret = plugin.getConfig().getString("twitch.client-secret");
-        String oauthToken = cleanToken(plugin.getConfig().getString("twitch.oauth-token"));
-        String refreshToken = plugin.getConfig().getString("twitch.refresh-token", "");
-        String broadcasterId = plugin.getConfig().getString("twitch.broadcaster-id");
+        String clientId = plugin.getCredentialsManager().getCredential("twitch.client-id");
+        String clientSecret = plugin.getCredentialsManager().getCredential("twitch.client-secret");
+        String oauthToken = cleanToken(plugin.getCredentialsManager().getCredential("twitch.oauth-token"));
+        String refreshToken = plugin.getCredentialsManager().getCredential("twitch.refresh-token", "");
+        String broadcasterId = plugin.getCredentialsManager().getCredential("twitch.broadcaster-id");
 
         OAuth2Credential credential = new OAuth2Credential("twitch", oauthToken, refreshToken, null, null, null, null);
 
@@ -176,10 +176,15 @@ public class TwitchManager {
         automaticPollActive = true;
         Bukkit.getScheduler().runTask(plugin, this::pauseAutomaticPolls);
 
-        String broadcasterId = plugin.getConfig().getString("twitch.broadcaster-id");
-        String oauthToken = cleanToken(plugin.getConfig().getString("twitch.oauth-token"));
+        String broadcasterId = plugin.getCredentialsManager().getCredential("twitch.broadcaster-id");
+        String oauthToken = cleanToken(plugin.getCredentialsManager().getCredential("twitch.oauth-token"));
         int duration = plugin.getConfig().getInt("settings.poll-duration-seconds");
-        String pollTitle = plugin.getConfig().getString("messages.poll-title");
+        String pollTitle = plugin.getLanguageManager().getString("messages.poll-title", "Poll");
+        
+        if (pollTitle == null || pollTitle.isEmpty()) {
+            plugin.getLogger().log(Level.WARNING, "Poll title not configured in language file");
+            pollTitle = "Poll";
+        }
 
         ConfigurationSection eventsSection = plugin.getEventConfig("polls");
 
@@ -233,7 +238,7 @@ public class TwitchManager {
         if (actionConfig == null || !player.isOnline()) return;
         uiManager.showPointEvent(player, actionConfig);
         actionManager.executePointAction(player, actionConfig, username);
-        String broadcast = plugin.getConfig().getString("messages.points-event-broadcast", "")
+        String broadcast = plugin.getLanguageManager().getString("messages.points-event-broadcast", "")
                 .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
             .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)))
             .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
@@ -249,7 +254,7 @@ public class TwitchManager {
         String eventTitle = actionConfig.getString("title", actionConfig.getName());
         int value = actionConfig.getInt("value", 0);
         String type = donationTypeLabel(actionConfig.getString("type", "donación"));
-        String broadcast = plugin.getConfig().getString(
+        String broadcast = plugin.getLanguageManager().getString(
                 "messages.donation-event-broadcast",
                 "&d[Twitch] &f%event% &7se activó por &e%value% %type% &7(%username%)")
                 .replace("%event%", eventTitle)
@@ -280,7 +285,7 @@ public class TwitchManager {
             }
 
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {
-                List<String> broadcastLines = plugin.getConfig().getStringList("messages.broadcast-start");
+                List<String> broadcastLines = plugin.getLanguageManager().getStringList("messages.broadcast-start");
                 for (String line : broadcastLines) {
                     if (line.contains("%options%")) {
                         for (PollChoice choice : choices) {
@@ -327,7 +332,7 @@ public class TwitchManager {
             }
 
             if (plugin.getConfig().getBoolean("settings.broadcast-results")) {
-                String broadcast = plugin.getConfig().getString("messages.broadcast-end").replace("%winner%", winnerTitle);
+                String broadcast = plugin.getLanguageManager().getString("messages.broadcast-end", "").replace("%winner%", winnerTitle);
                 Bukkit.broadcast(formatColor(broadcast));
             }
 

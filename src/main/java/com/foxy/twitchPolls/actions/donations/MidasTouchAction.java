@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.donations;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import org.bukkit.Material;
@@ -15,8 +16,10 @@ import java.util.UUID;
 public class MidasTouchAction implements ActionStrategy, Listener {
     private final Map<UUID, ActiveEffect> activePlayers = new HashMap<>();
 
-    public MidasTouchAction(Plugin plugin) {
+    public MidasTouchAction(Plugin plugin, PlayerEffectRegistry effectRegistry) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(activePlayers::remove);
     }
 
     @Override

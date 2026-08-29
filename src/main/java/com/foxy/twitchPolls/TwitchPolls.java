@@ -16,12 +16,24 @@ public final class TwitchPolls extends JavaPlugin {
     private UIManager uiManager;
     private SessionManager sessionManager;
     private TestCommand testCommand;
+    private PlayerEffectRegistry effectRegistry;
+    private CredentialsManager credentialsManager;
+    private LanguageManager languageManager;
     private final Map<String, YamlConfiguration> eventConfigs = new HashMap<>();
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         saveResource("gui.yml", false);
+        saveResource("secrets.yml", false);
+        saveResource("lang/en.yml", false);
+        saveResource("lang/es.yml", false);
+        
+        // Initialize managers
+        effectRegistry = new PlayerEffectRegistry(this);
+        credentialsManager = new CredentialsManager(this);
+        languageManager = new LanguageManager(this);
+        
         migrateLegacyEventConfigs();
         saveResource("events/polls.yml", false);
         saveResource("events/donations.yml", false);
@@ -30,7 +42,7 @@ public final class TwitchPolls extends JavaPlugin {
         uiManager = new UIManager(this);
         sessionManager = new SessionManager(this);
         getServer().getPluginManager().registerEvents(sessionManager, this);
-        actionManager = new ActionManager(this, sessionManager, uiManager);
+        actionManager = new ActionManager(this, sessionManager, uiManager, effectRegistry);
         twitchManager = new TwitchManager(this, actionManager, uiManager, sessionManager);
         testCommand = new TestCommand(this, actionManager, uiManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
@@ -60,6 +72,18 @@ public final class TwitchPolls extends JavaPlugin {
 
     public YamlConfiguration getEventConfig(String eventType) {
         return eventConfigs.get(eventType);
+    }
+
+    public CredentialsManager getCredentialsManager() {
+        return credentialsManager;
+    }
+
+    public PlayerEffectRegistry getEffectRegistry() {
+        return effectRegistry;
+    }
+
+    public LanguageManager getLanguageManager() {
+        return languageManager;
     }
 
     private void migrateLegacyEventConfigs() {

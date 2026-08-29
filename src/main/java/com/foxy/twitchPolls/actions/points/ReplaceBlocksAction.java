@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.points;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
@@ -17,9 +18,11 @@ public class ReplaceBlocksAction implements ActionStrategy, Listener {
     private final TwitchPolls plugin;
     private final Map<UUID, ActiveEffect> activePlayers = new HashMap<>();
 
-    public ReplaceBlocksAction(TwitchPolls plugin) {
+    public ReplaceBlocksAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(activePlayers::remove);
     }
 
     @Override

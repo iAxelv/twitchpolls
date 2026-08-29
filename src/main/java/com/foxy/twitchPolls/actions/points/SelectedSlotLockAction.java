@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.points;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
@@ -14,7 +15,12 @@ import java.util.UUID;
 
 public class SelectedSlotLockAction implements ActionStrategy, Listener {
     private final Map<UUID, Effect> active = new HashMap<>();
-    public SelectedSlotLockAction(TwitchPolls plugin) { plugin.getServer().getPluginManager().registerEvents(this, plugin); }
+    
+    public SelectedSlotLockAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(active::remove);
+    }
     @Override public void execute(ActionContext context) {
         int slot = Math.max(0, Math.min(8, context.config().getInt("slot", context.player().getInventory().getHeldItemSlot())));
         active.put(context.player().getUniqueId(), new Effect(slot, System.currentTimeMillis()

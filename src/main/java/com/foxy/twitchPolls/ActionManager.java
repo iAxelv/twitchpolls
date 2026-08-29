@@ -18,12 +18,14 @@ public class ActionManager {
     private final TwitchPolls plugin;
     private final SessionManager sessionManager;
     private final UIManager uiManager;
+    private final PlayerEffectRegistry effectRegistry;
     private final Map<String, ActionStrategy> strategies = new HashMap<>();
 
-    public ActionManager(TwitchPolls plugin, SessionManager sessionManager, UIManager uiManager) {
+    public ActionManager(TwitchPolls plugin, SessionManager sessionManager, UIManager uiManager, PlayerEffectRegistry effectRegistry) {
         this.plugin = plugin;
         this.sessionManager = sessionManager;
         this.uiManager = uiManager;
+        this.effectRegistry = effectRegistry;
         registerStrategies();
     }
 
@@ -99,7 +101,7 @@ public class ActionManager {
         strategies.put("RANDOM_SIZE", new RandomSizeAction());
         strategies.put("CHICKEN_CANNON", new ChickenCannonAction());
         strategies.put("HOT_POTATO", new HotPotatoAction());
-        strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin));
+        strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin, effectRegistry));
         strategies.put("RANDOM_WEATHER", new RandomWeatherAction());
         strategies.put("SPARK", new LightningStormAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
@@ -125,7 +127,7 @@ public class ActionManager {
         strategies.put("SPIN_HEAD", new SpinHeadAction());
         strategies.put("DIVINE_PUNISHMENT", new LightningStormAction());
         strategies.put("FAKE_DIAMOND", new FakeDiamondAction(plugin));
-        strategies.put("REPLACE_BLOCKS", new ReplaceBlocksAction(plugin));
+        strategies.put("REPLACE_BLOCKS", new ReplaceBlocksAction(plugin, effectRegistry));
         strategies.put("ANVIL_TRAP", new AnvilTrapAction());
         strategies.put("PIG_STACK_ATTACK", new PigStackAttackAction());
         strategies.put("INVERT_CONTROLS_EFFECT", new InvertControlsEffectAction());
@@ -134,8 +136,8 @@ public class ActionManager {
         strategies.put("WEB_PRISON", new WebPrisonAction());
         strategies.put("SILENT_PHANTOMS", new SilentPhantomsAction());
         strategies.put("CLEAN_ARMOR", new CleanArmorAction());
-        strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin));
-        strategies.put("DISABLE_ACTION", new DisableActionAction(plugin));
+        strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin, effectRegistry));
+        strategies.put("DISABLE_ACTION", new DisableActionAction(plugin, effectRegistry));
         strategies.put("GIVE_TOTEMS", new GiveTotemsAction());
         strategies.put("WITHER_STRIKE", new WitherStrikeAction());
         strategies.put("DRAGON_ATTACK", new DragonAttackAction());
@@ -144,7 +146,7 @@ public class ActionManager {
         strategies.put("WELCOME_TO_HELL", new WelcomeToHellAction());
         strategies.put("WARDEN_PIT", new WardenPitAction());
         strategies.put("PIT_OF_DOOM", new PitOfDoomAction());
-        strategies.put("MIDAS_TOUCH", new MidasTouchAction(plugin));
+        strategies.put("MIDAS_TOUCH", new MidasTouchAction(plugin, effectRegistry));
         strategies.put("WIPE_ENEMIES", new WipeEnemiesAction());
         strategies.put("ULTIMATE_CARE_PACKAGE", new UltimateCarePackageAction());
         strategies.put("TIME_FREEZE", new TimeFreezeAction());
@@ -153,7 +155,7 @@ public class ActionManager {
         strategies.put("BLACK_HOLE", new BlackHoleAction());
         strategies.put("EARTHQUAKE", new EarthquakeAction());
         strategies.put("WORLD_ROTATION", new WorldRotationAction());
-        strategies.put("SELECTED_SLOT_LOCK", new SelectedSlotLockAction(plugin));
+        strategies.put("SELECTED_SLOT_LOCK", new SelectedSlotLockAction(plugin, effectRegistry));
         strategies.put("RANDOM_SLOT_SWITCH", new RandomSlotSwitchAction());
         strategies.put("DROP_RANDOM_ITEM", new DropRandomItemAction());
         strategies.put("ITEM_NAME_SWAP", new ItemNameSwapAction());

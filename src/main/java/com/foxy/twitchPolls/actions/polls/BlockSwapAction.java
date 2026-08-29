@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.polls;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
@@ -16,7 +17,13 @@ import java.util.UUID;
 public class BlockSwapAction implements ActionStrategy, Listener {
     private final TwitchPolls plugin;
     private final Map<UUID, ActiveEffect> active = new HashMap<>();
-    public BlockSwapAction(TwitchPolls plugin) { this.plugin = plugin; plugin.getServer().getPluginManager().registerEvents(this, plugin); }
+    
+    public BlockSwapAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
+        this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(active::remove);
+    }
     @Override public void execute(ActionContext context) {
         Material replacement = Material.matchMaterial(context.config().getString("replacement", "SPONGE"));
         if (replacement == null || !replacement.isBlock()) replacement = Material.SPONGE;

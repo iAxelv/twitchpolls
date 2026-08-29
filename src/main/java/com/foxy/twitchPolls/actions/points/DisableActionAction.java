@@ -1,5 +1,7 @@
 package com.foxy.twitchPolls.actions.points;
 
+import com.foxy.twitchPolls.PlayerEffectRegistry;
+import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -29,18 +31,24 @@ import java.util.Locale;
 
 public class DisableActionAction implements ActionStrategy, Listener {
     private final Map<UUID, ActiveAction> activePlayers = new HashMap<>();
-    private final Map<String, String> actionNames = Map.of(
-            "WALK", "Caminar",
-            "JUMP", "Saltar",
-            "BREAK_BLOCKS", "Romper bloques",
-            "PLACE_BLOCKS", "Colocar bloques",
-            "INTERACT_BLOCKS", "Interactuar con bloques",
-            "ATTACK_MOBS", "Golpear mobs",
-            "MOVE_ITEMS", "Mover objetos"
-    );
+    private final Map<String, String> actionNames;
 
-    public DisableActionAction(org.bukkit.plugin.Plugin plugin) {
+    public DisableActionAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        
+        // Load action names from language file with defaults
+        this.actionNames = Map.ofEntries(
+            Map.entry("WALK", plugin.getLanguageManager().getString("actions.disable-action.names.WALK", "Caminar")),
+            Map.entry("JUMP", plugin.getLanguageManager().getString("actions.disable-action.names.JUMP", "Saltar")),
+            Map.entry("BREAK_BLOCKS", plugin.getLanguageManager().getString("actions.disable-action.names.BREAK_BLOCKS", "Romper bloques")),
+            Map.entry("PLACE_BLOCKS", plugin.getLanguageManager().getString("actions.disable-action.names.PLACE_BLOCKS", "Colocar bloques")),
+            Map.entry("INTERACT_BLOCKS", plugin.getLanguageManager().getString("actions.disable-action.names.INTERACT_BLOCKS", "Interactuar con bloques")),
+            Map.entry("ATTACK_MOBS", plugin.getLanguageManager().getString("actions.disable-action.names.ATTACK_MOBS", "Golpear mobs")),
+            Map.entry("MOVE_ITEMS", plugin.getLanguageManager().getString("actions.disable-action.names.MOVE_ITEMS", "Mover objetos"))
+        );
+        
+        // Register cleanup handler for when players quit
+        effectRegistry.registerCleanupHandler(activePlayers::remove);
     }
 
     @Override

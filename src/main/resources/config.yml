@@ -1,9 +1,15 @@
-twitch:
-  client-id: "YOUR_TWITCH_CLIENT_ID"
-  client-secret: "YOUR_TWITCH_CLIENT_SECRET"
-  oauth-token: "YOUR_TWITCH_OAUTH_TOKEN"
-  broadcaster-id: "YOUR_TWITCH_BROADCASTER_ID"
-  refresh-token: "YOUR_TWITCH_REFRESH_TOKEN"
+# ============================================
+# TwitchPolls - Main Configuration
+# ============================================
+# For messages and language-specific content, see:
+#   - lang/en.yml (English)
+#   - lang/es.yml (Español)
+#
+# For Twitch API credentials, see:
+#   - secrets.yml (Keep this file confidential!)
+
+# Language configuration
+lang: es
 
 settings:
   streamer-username: "iAx3lv"
@@ -11,32 +17,3 @@ settings:
   poll-duration-seconds: 45
   poll-interval-seconds: 60
   broadcast-results: true
-
-messages:
-  poll-title: "¡Decide el destino del streamer!"
-  poll-start-title: "&d¡Nueva Encuesta!"
-  poll-start-subtitle: "&fLos viewers están votando.."
-  poll-end-title: "&a¡Votación Terminada!"
-  poll-end-subtitle: "&fGanó: &e%winner%"
-
-  broadcast-start:
-    - "&8&m---------------------------------"
-    - "&d[Twitch] &f¡Nueva encuesta iniciada!"
-    - "&fOpciones de la encuesta:"
-    - "%options%"
-    - "&8&m---------------------------------"
-
-  broadcast-end: "&d[Twitch] &fLa opción ganadora ha sido: &e%winner%"
-  bossbar-title: "&dEncuesta: &f%time%s restantes"
-  next-poll-bossbar-title: "&dPróxima encuesta: &f%time%s"
-  command-starting: "&aIniciando encuesta..."
-  command-success: "&aEncuesta enviada a Twitch exitosamente."
-  command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
-  command-reload: "&aConfiguración recargada correctamente."
-  points-event-title: "&c¡Evento de puntos!"
-  points-event-subtitle: "&f%event% &7(%value% puntos)"
-  points-event-duration: "&eFinaliza: &f%time%s"
-  points-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% puntos &7(%username%)"
-  donation-event-title: "&c¡EVENTO DE DONACIÓN!"
-  donation-event-subtitle: "&f%event% &7(%value% %type%)"
-  donation-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% %type% &7(%username%)"

@@ -1,0 +1,63 @@
+# ============================================
+# TwitchPolls - English Language Pack
+# ============================================
+
+settings:
+  streamer-username: "iAx3lv"
+  automatic-polls: false
+  poll-duration-seconds: 45
+  poll-interval-seconds: 60
+  broadcast-results: true
+
+messages:
+  poll-title: "Decide the streamer's destiny!"
+  poll-start-title: "&d[New Poll!]"
+  poll-start-subtitle: "&fViewers are voting.."
+  poll-end-title: "&a[Poll Ended!]"
+  poll-end-subtitle: "&fWinner: &e%winner%"
+
+  broadcast-start:
+    - "&8&m---------------------------------"
+    - "&d[Twitch] &f[New poll started!]"
+    - "&fPoll options:"
+    - "%options%"
+    - "&8&m---------------------------------"
+
+  broadcast-end: "&d[Twitch] &fWinning option: &e%winner%"
+  bossbar-title: "&dPoll: &f%time%s remaining"
+  next-poll-bossbar-title: "&dNext poll: &f%time%s"
+  command-starting: "&aStarting poll..."
+  command-success: "&aPoll sent to Twitch successfully."
+  command-error: "&cRequest was sent to Twitch, but there was a warning reading the response. Check the console if the poll didn't appear."
+  command-reload: "&aConfiguration reloaded successfully."
+  points-event-title: "&c[Points Event!]"
+  points-event-subtitle: "&f%event% &7(%value% points)"
+  points-event-duration: "&eEnds in: &f%time%s"
+  points-event-broadcast: "&d[Twitch] &f%event% &7was activated by &e%value% points &7(%username%)"
+  donation-event-title: "&c[DONATION EVENT!]"
+  donation-event-subtitle: "&f%event% &7(%value% %type%)"
+  donation-event-broadcast: "&d[Twitch] &f%event% &7was activated by &e%value% %type% &7(%username%)"
+
+# ============================================
+# ACTION-SPECIFIC CONFIGURATIONS
+# ============================================
+
+actions:
+  # Disable Action - Localized action names
+  disable-action:
+    names:
+      WALK: "Walk"
+      JUMP: "Jump"
+      BREAK_BLOCKS: "Break Blocks"
+      PLACE_BLOCKS: "Place Blocks"
+      INTERACT_BLOCKS: "Interact with Blocks"
+      ATTACK_MOBS: "Attack Mobs"
+      MOVE_ITEMS: "Move Items"
+
+  # Item Name Swap - Localized item fake names
+  item-name-swap:
+    item-names:
+      - "&cWhat is this?"
+      - "&dLegendary Potato"
+      - "&eSuspicious Object"
+      - "&bShiny Thing"
