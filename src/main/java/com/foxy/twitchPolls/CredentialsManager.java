@@ -4,10 +4,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Manages secure credentials storage and retrieval.
@@ -93,6 +96,46 @@ public class CredentialsManager {
      */
     public String getCredential(String path) {
         return getCredential(path, null);
+    }
+
+    /**
+     * Set a credential in the secrets configuration and persist it immediately.
+     */
+    public void setCredential(String path, String value) {
+        secretsConfig.set(path, value);
+        saveSecrets();
+    }
+
+    /**
+     * Persist the secrets config to disk.
+     */
+    public void saveSecrets() {
+        try {
+            secretsConfig.save(secretsFile);
+            restrictFilePermissions();
+        } catch (IOException exception) {
+            plugin.getLogger().log(java.util.logging.Level.SEVERE, "Failed to save Twitch credentials", exception);
+        }
+    }
+
+    public static String extractJsonString(String json, String key) {
+        if (json == null || json.isBlank()) {
+            return null;
+        }
+
+        String pattern = "\\\"" + Pattern.quote(key) + "\\\":\\s*\\\"([^\\\"]*?)\\\"";
+        Matcher matcher = Pattern.compile(pattern).matcher(json);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        String numericPattern = "\\\"" + Pattern.quote(key) + "\\\":\\s*(\\d+)";
+        Matcher numericMatcher = Pattern.compile(numericPattern).matcher(json);
+        if (numericMatcher.find()) {
+            return numericMatcher.group(1);
+        }
+
+        return null;
     }
 
     /**

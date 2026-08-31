@@ -3,6 +3,7 @@ package com.foxy.twitchPolls;
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
+import com.google.common.io.CharStreams;
 import com.github.twitch4j.eventsub.condition.ChannelPollEndCondition;
 import com.github.twitch4j.eventsub.condition.ChannelCheerCondition;
 import com.github.twitch4j.eventsub.condition.ChannelSubscribeCondition;
@@ -24,6 +25,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,6 +65,20 @@ public class TwitchManager {
         String oauthToken = cleanToken(plugin.getCredentialsManager().getCredential("twitch.oauth-token"));
         String refreshToken = plugin.getCredentialsManager().getCredential("twitch.refresh-token", "");
         String broadcasterId = plugin.getCredentialsManager().getCredential("twitch.broadcaster-id");
+
+        if (oauthToken == null || oauthToken.isBlank()) {
+            plugin.getLogger().warning("Twitch OAuth token is empty. Please configure it in secrets.yml.");
+            return;
+        }
+
+        if (!refreshToken.isBlank()) {
+            String refreshed = refreshAccessToken(clientId, clientSecret, refreshToken);
+            if (refreshed != null) {
+                oauthToken = refreshed;
+            }
+        }
+
+        plugin.getCredentialsManager().setCredential("twitch.oauth-token", oauthToken);
 
         OAuth2Credential credential = new OAuth2Credential("twitch", oauthToken, refreshToken, null, null, null, null);
 
@@ -177,9 +198,20 @@ public class TwitchManager {
         Bukkit.getScheduler().runTask(plugin, this::pauseAutomaticPolls);
 
         String broadcasterId = plugin.getCredentialsManager().getCredential("twitch.broadcaster-id");
+        String clientId = plugin.getCredentialsManager().getCredential("twitch.client-id");
+        String clientSecret = plugin.getCredentialsManager().getCredential("twitch.client-secret");
         String oauthToken = cleanToken(plugin.getCredentialsManager().getCredential("twitch.oauth-token"));
+        String refreshToken = plugin.getCredentialsManager().getCredential("twitch.refresh-token", "");
         int duration = plugin.getConfig().getInt("settings.poll-duration-seconds");
         String pollTitle = plugin.getLanguageManager().getString("messages.poll-title", "Poll");
+
+        if (!refreshToken.isBlank()) {
+            String refreshed = refreshAccessToken(clientId, clientSecret, refreshToken);
+            if (refreshed != null) {
+                oauthToken = refreshed;
+                plugin.getCredentialsManager().setCredential("twitch.oauth-token", oauthToken);
+            }
+        }
         
         if (pollTitle == null || pollTitle.isEmpty()) {
             plugin.getLogger().log(Level.WARNING, "Poll title not configured in language file");
@@ -436,6 +468,60 @@ public class TwitchManager {
     private String cleanToken(String token) {
         if (token == null) return "";
         return token.startsWith("oauth:") ? token.substring(6) : token;
+    }
+
+    private String refreshAccessToken(String clientId, String clientSecret, String refreshToken) {
+        if (clientId == null || clientId.isBlank() || clientSecret == null || clientSecret.isBlank() || refreshToken == null || refreshToken.isBlank()) {
+            return null;
+        }
+
+        try {
+            String encodedClientId = URLEncoder.encode(clientId, StandardCharsets.UTF_8);
+            String encodedClientSecret = URLEncoder.encode(clientSecret, StandardCharsets.UTF_8);
+            String encodedRefreshToken = URLEncoder.encode(refreshToken, StandardCharsets.UTF_8);
+
+            String url = "https://id.twitch.tv/oauth2/token"
+                    + "?client_id=" + encodedClientId
+                    + "&client_secret=" + encodedClientSecret
+                    + "&grant_type=refresh_token"
+                    + "&refresh_token=" + encodedRefreshToken;
+
+            HttpURLConnection connection = (HttpURLConnection) URI.create(url).toURL().openConnection();
+            connection.setRequestMethod("POST");
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
+            connection.setDoOutput(false);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+            int status = connection.getResponseCode();
+            String responseBody = status >= 200 && status < 300
+                    ? CharStreams.toString(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))
+                    : CharStreams.toString(new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8));
+
+            if (status < 200 || status >= 300) {
+                plugin.getLogger().log(Level.WARNING, "Twitch token refresh failed: {0}", responseBody);
+                return null;
+            }
+
+            String newAccessToken = CredentialsManager.extractJsonString(responseBody, "access_token");
+            String newRefreshToken = CredentialsManager.extractJsonString(responseBody, "refresh_token");
+
+            if (newAccessToken == null || newAccessToken.isBlank()) {
+                plugin.getLogger().warning("Twitch token refresh response did not include access_token");
+                return null;
+            }
+
+            plugin.getCredentialsManager().setCredential("twitch.oauth-token", newAccessToken);
+            if (newRefreshToken != null && !newRefreshToken.isBlank()) {
+                plugin.getCredentialsManager().setCredential("twitch.refresh-token", newRefreshToken);
+            }
+
+            plugin.getLogger().info("Twitch OAuth token refreshed successfully.");
+            return newAccessToken;
+        } catch (IOException exception) {
+            plugin.getLogger().log(Level.SEVERE, "Error refreshing Twitch OAuth token", exception);
+            return null;
+        }
     }
 
     private net.kyori.adventure.text.Component formatColor(String text) {
