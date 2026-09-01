@@ -20,8 +20,8 @@ public class TornadoAction implements ActionStrategy {
     public void execute(ActionContext context) {
         int durationSeconds = Math.max(1, context.config().getInt("duration-seconds", 30));
         double radius = Math.max(2.0, context.config().getDouble("radius", 8.0));
-        double pullStrength = Math.max(0.05, context.config().getDouble("pull-strength", 0.22));
-        int blocksPerTick = Math.max(1, context.config().getInt("blocks-per-tick", 12));
+        double pullStrength = Math.max(0.08, context.config().getDouble("pull-strength", 0.42));
+        int blocksPerTick = Math.max(3, context.config().getInt("blocks-per-tick", 22));
         boolean particles = context.config().getBoolean("particles", true);
 
         Location streamerLocation = context.player().getLocation().clone();
@@ -75,39 +75,39 @@ public class TornadoAction implements ActionStrategy {
     }
 
     private void applyTornadoPull(World world, Location center, Location streamerLocation, double radius, double pullStrength, int blocksPerTick) {
-        for (Entity entity : world.getNearbyEntities(center, radius, radius * 1.6, radius)) {
+        for (Entity entity : world.getNearbyEntities(center, radius, radius * 1.8, radius)) {
             if (entity.getLocation().distanceSquared(center) > radius * radius) continue;
 
             Vector toCenter = center.clone().subtract(entity.getLocation()).toVector();
             double distance = Math.max(0.1, toCenter.length());
-            toCenter.normalize().multiply(Math.max(0.08, pullStrength) / Math.max(1.0, distance * 0.35));
+            toCenter.normalize().multiply(Math.max(0.12, pullStrength) / Math.max(1.0, distance * 0.25));
 
             if (entity instanceof Player player) {
                 double playerDistance = player.getLocation().distance(center);
-                double liftLimit = Math.max(0.15, 0.9 - (playerDistance / radius));
-                Vector lift = new Vector(0, Math.max(0.0, 0.35 - liftLimit), 0);
+                double liftLimit = Math.max(0.1, 0.75 - (playerDistance / radius));
+                Vector lift = new Vector(0, Math.max(0.08, 0.48 - liftLimit), 0);
                 player.setVelocity(player.getVelocity().add(toCenter).add(lift));
                 if (playerDistance < 2.2) {
                     player.setVelocity(player.getVelocity().add(new Vector(
-                            ThreadLocalRandom.current().nextDouble(-0.2, 0.2),
-                            0.05,
-                            ThreadLocalRandom.current().nextDouble(-0.2, 0.2)
+                            ThreadLocalRandom.current().nextDouble(-0.35, 0.35),
+                            0.12,
+                            ThreadLocalRandom.current().nextDouble(-0.35, 0.35)
                     )));
                 }
                 continue;
             }
 
             if (entity.isDead() || entity.getType() == org.bukkit.entity.EntityType.ARMOR_STAND) continue;
-            entity.setVelocity(entity.getVelocity().add(toCenter).add(new Vector(0, 0.12, 0)));
+            entity.setVelocity(entity.getVelocity().add(toCenter).add(new Vector(0, 0.2, 0)));
         }
 
         for (int index = 0; index < blocksPerTick; index++) {
             double angle = ThreadLocalRandom.current().nextDouble(Math.PI * 2);
-            double distance = ThreadLocalRandom.current().nextDouble(radius * 0.8);
+            double distance = ThreadLocalRandom.current().nextDouble(radius * 1.2);
             double offsetX = Math.cos(angle) * distance;
             double offsetZ = Math.sin(angle) * distance;
             int x = center.getBlockX() + (int) Math.round(offsetX);
-            int y = center.getBlockY() + ThreadLocalRandom.current().nextInt(-2, 4);
+            int y = center.getBlockY() + ThreadLocalRandom.current().nextInt(-3, 6);
             int z = center.getBlockZ() + (int) Math.round(offsetZ);
             Location blockLocation = new Location(world, x, y, z);
             Material material = blockLocation.getBlock().getType();
@@ -115,14 +115,14 @@ public class TornadoAction implements ActionStrategy {
                 continue;
             }
 
-            if (blockLocation.distanceSquared(streamerLocation) < (radius * radius) * 0.8) {
+            if (blockLocation.distanceSquared(streamerLocation) < (radius * radius) * 1.1) {
                 FallingBlock fallingBlock = (FallingBlock) world.spawnEntity(blockLocation, org.bukkit.entity.EntityType.FALLING_BLOCK);
                 fallingBlock.setBlockData(material.createBlockData());
                 fallingBlock.setDropItem(false);
                 fallingBlock.setVelocity(new Vector(
-                        ThreadLocalRandom.current().nextDouble(-0.55, 0.55),
-                        0.55,
-                        ThreadLocalRandom.current().nextDouble(-0.55, 0.55)
+                        ThreadLocalRandom.current().nextDouble(-0.8, 0.8),
+                        0.7,
+                        ThreadLocalRandom.current().nextDouble(-0.8, 0.8)
                 ));
                 blockLocation.getBlock().setType(Material.AIR);
             }
