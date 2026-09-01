@@ -30,6 +30,17 @@ public class EarthquakeAction implements ActionStrategy {
                         Material.DIRT.createBlockData());
                 context.world().playSound(center, Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 0.6f, 0.5f);
 
+                Location playerLoc = context.player().getLocation().clone();
+                double shakeX = (ThreadLocalRandom.current().nextDouble() - 0.5) * 0.18;
+                double shakeY = (ThreadLocalRandom.current().nextDouble() - 0.5) * 0.08;
+                double shakeZ = (ThreadLocalRandom.current().nextDouble() - 0.5) * 0.18;
+                playerLoc.add(shakeX, shakeY, shakeZ);
+                float yawShake = (float) ((ThreadLocalRandom.current().nextDouble() - 0.5) * 6.0);
+                float pitchShake = (float) ((ThreadLocalRandom.current().nextDouble() - 0.5) * 4.0);
+                playerLoc.setYaw(playerLoc.getYaw() + yawShake);
+                playerLoc.setPitch(playerLoc.getPitch() + pitchShake);
+                context.player().teleport(playerLoc);
+
                 for (int index = 0; index < amount; index++) {
                     Location location = context.randomLocation(radius, 4 + ThreadLocalRandom.current().nextInt(0, 3));
                     FallingBlock block = (FallingBlock) context.world().spawnEntity(location, EntityType.FALLING_BLOCK);
