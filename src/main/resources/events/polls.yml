@@ -39,6 +39,7 @@ floor_lava:
   active: true
   title: "The floor is lava" # This title is shown in the poll option list.
   action: "FLOOR_IS_LAVA"
+  duration-seconds: 20
 warden:
   active: true
   title: "Do not look back" # This title is shown in the poll option list.
