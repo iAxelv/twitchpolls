@@ -1,12 +1,12 @@
 inventory_bomb:
   active: true
-  title: "¡Piñata de inventario!"
+  title: "Inventory Piñata!"
   action: INVENTORY_BOMB
   type: sub
   value: 1
 nuke_strike:
   active: true
-  title: "¡Ataque nuclear!"
+  title: "Nuclear strike!"
   action: NUKE_STRIKE
   type: bits
   value: 250
@@ -15,7 +15,7 @@ nuke_strike:
   fuse-ticks: 60
 mob_army:
   active: true
-  title: "Ejército de vindicators"
+  title: "Vindicator army"
   action: MOB_ARMY
   type: gift_sub
   value: 1
@@ -24,7 +24,7 @@ mob_army:
   speed-amplifier: 1
 rain_wealth:
   active: true
-  title: "¡Lluvia de riqueza!"
+  title: "Wealth rain!"
   action: RAIN_WEALTH
   type: bits
   value: 500
@@ -33,21 +33,21 @@ rain_wealth:
   height: 8.0
 god_mode:
   active: true
-  title: "Modo dios"
+  title: "God mode"
   action: GOD_MODE
   type: prime_sub
   value: 1
   duration-seconds: 120
 wither_strike:
   active: true
-  title: "¡Golpe de Wither!"
+  title: "Wither strike!"
   action: WITHER_STRIKE
   type: bits
   value: 1000
   height: 10.0
 dragon_attack:
   active: true
-  title: "¡Ataque del dragón!"
+  title: "Dragon attack!"
   action: DRAGON_ATTACK
   type: bits
   value: 5000
@@ -55,7 +55,7 @@ dragon_attack:
   duration-seconds: 300
 charged_creeper_army:
   active: true
-  title: "Ejército de creepers eléctricos"
+  title: "Charged creeper army"
   action: CHARGED_CREEPER_ARMY
   type: bits
   value: 2500
@@ -63,7 +63,7 @@ charged_creeper_army:
   radius: 4.0
 apocalypse_rain:
   active: true
-  title: "¡Lluvia del apocalipsis!"
+  title: "Apocalypse rain!"
   action: APOCALYPSE_RAIN
   type: bits
   value: 3000
@@ -74,14 +74,14 @@ apocalypse_rain:
   tnt-fuse-ticks: 40
 welcome_to_hell:
   active: true
-  title: "Bienvenida al infierno"
+  title: "Welcome to hell"
   action: WELCOME_TO_HELL
   type: gift_sub
   value: 10
   size: 3
 warden_pit:
   active: true
-  title: "¡Foso del Warden!"
+  title: "Warden pit!"
   action: WARDEN_PIT
   type: bits
   value: 4000
@@ -91,14 +91,14 @@ warden_pit:
   duration-seconds: 60
 pit_of_doom:
   active: true
-  title: "El foso de la perdición"
+  title: "Pit of doom"
   action: PIT_OF_DOOM
   type: bits
   value: 3500
   preserve-bedrock: true
 midas_touch:
   active: true
-  title: "El toque de Midas"
+  title: "Midas touch"
   action: MIDAS_TOUCH
   type: prime_sub
   value: 5
@@ -106,21 +106,21 @@ midas_touch:
   preserve-bedrock: true
 wipe_enemies:
   active: true
-  title: "¡Fuera enemigos!"
+  title: "Enemies out!"
   action: WIPE_ENEMIES
   type: gift_sub
   value: 20
   radius: 100.0
 ultimate_care_package:
   active: true
-  title: "Paquete de cuidados definitivo"
+  title: "Ultimate care package"
   action: ULTIMATE_CARE_PACKAGE
   type: bits
   value: 2000
   totems: 5
 time_freeze:
   active: true
-  title: "¡Tiempo congelado!"
+  title: "Time frozen!"
   action: TIME_FREEZE
   type: bits
   value: 4500
@@ -163,7 +163,7 @@ the_apocalypse:
         sweeping: 3
 meteor_shower:
   active: true
-  title: "¡Lluvia de meteoritos!"
+  title: "Meteor shower!"
   action: METEOR_SHOWER
   type: bits
   value: 1500
@@ -176,7 +176,7 @@ meteor_shower:
   break-blocks: false
 black_hole:
   active: true
-  title: "¡Agujero negro!"
+  title: "Black hole!"
   action: BLACK_HOLE
   type: bits
   value: 2000
@@ -185,7 +185,7 @@ black_hole:
   strength: 0.15
 earthquake:
   active: true
-  title: "¡Terremoto!"
+  title: "Earthquake!"
   action: EARTHQUAKE
   type: bits
   value: 2500
@@ -195,7 +195,7 @@ earthquake:
   radius: 8.0
 world_rotation:
   active: true
-  title: "¡Vuelta por el mundo!"
+  title: "World rotation!"
   action: WORLD_ROTATION
   type: bits
   value: 3000

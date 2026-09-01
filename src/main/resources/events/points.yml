@@ -1,14 +1,14 @@
 drop_hand_item:
   active: true
   value: 100
-  title: "¡Suelta lo que tienes!"
-  reward-title: "Suelta eso"
+  title: "Drop what you have!"
+  reward-title: "Drop it" # This is the name to put in the points reward item name.
   action: DROP_HAND_ITEM
 spin_head:
   active: true
   value: 150
-  title: "¡Mira hacia atrás!"
-  reward-title: "Date la vuelta"
+  title: "Look behind you!"
+  reward-title: "Turn around" # This is the name to put in the points reward item name.
   action: SPIN_HEAD
   duration-seconds: 10
   interval-ticks: 40
@@ -16,8 +16,8 @@ spin_head:
 fake_diamond:
   active: true
   value: 250
-  title: "Bloque de diamante"
-  reward-title: "Diamante de mentira"
+  title: "Diamond block"
+  reward-title: "Fake diamond" # This is the name to put in the points reward item name.
   action: FAKE_DIAMOND
   distance: 2.0
   duration-seconds: 2
@@ -25,16 +25,16 @@ fake_diamond:
 replace_blocks:
   active: true
   value: 325
-  title: "¡Todo es grava!"
-  reward-title: "Grava total"
+  title: "Everything is gravel!"
+  reward-title: "Gravel everywhere" # This is the name to put in the points reward item name.
   action: REPLACE_BLOCKS
   duration-seconds: 60
   replacement: GRAVEL
 anvil_trap:
   active: true
   value: 300
-  title: "¡Cuidado con el yunque!"
-  reward-title: "Yunque va"
+  title: "Watch out for the anvil!"
+  reward-title: "Anvil incoming" # This is the name to put in the points reward item name.
   action: ANVIL_TRAP
   height: 6.0
   damage-per-block: 2.0
@@ -42,8 +42,8 @@ anvil_trap:
 pig_stack_attack:
   active: true
   value: 350
-  title: "¡Torre de cerdos!"
-  reward-title: "Cerditos"
+  title: "Pig tower!"
+  reward-title: "Piglets" # This is the name to put in the points reward item name.
   action: PIG_STACK_ATTACK
   pigs: 4
   height: 1.0
@@ -52,8 +52,8 @@ pig_stack_attack:
 invert_controls_effect:
   active: true
   value: 200
-  title: "Pegado al suelo"
-  reward-title: "Pegado"
+  title: "Stuck to the ground"
+  reward-title: "Stuck" # This is the name to put in the points reward item name.
   action: INVERT_CONTROLS_EFFECT
   duration-seconds: 6
   slowness-amplifier: 5
@@ -61,23 +61,23 @@ invert_controls_effect:
 swap_main_offhand:
   active: true
   value: 175
-  title: "¡Manos cambiadas!"
-  reward-title: "Manos locas"
+  title: "Swapped hands!"
+  reward-title: "Crazy hands" # This is the name to put in the points reward item name.
   action: SWAP_MAIN_OFFHAND
   duration-seconds: 8
   interval-seconds: 1
 pumpkin_head:
   active: true
   value: 800
-  title: "Visión de Calabaza"
-  reward-title: "Calabaza"
+  title: "Pumpkin vision"
+  reward-title: "Pumpkin" # This is the name to put in the points reward item name.
   action: PUMPKIN_HEAD
   duration-seconds: 10
 web_prison:
   active: true
   value: 275
-  title: "Prisión de telarañas"
-  reward-title: "Telarañas"
+  title: "Spider prison"
+  reward-title: "Cobwebs" # This is the name to put in the points reward item name.
   action: WEB_PRISON
   radius: 1
   duration-seconds: 10
@@ -85,8 +85,8 @@ web_prison:
 silent_phantoms:
   active: true
   value: 400
-  title: "¡Algo te observa!"
-  reward-title: "Fantasmas"
+  title: "Something is watching you!"
+  reward-title: "Ghosts" # This is the name to put in the points reward item name.
   action: SILENT_PHANTOMS
   amount: 3
   duration-seconds: 20
@@ -94,23 +94,23 @@ silent_phantoms:
 clean_armor:
   active: true
   value: 225
-  title: "¡Fuera armadura!"
-  reward-title: "Sin armadura"
+  title: "Armor off!"
+  reward-title: "No armor" # This is the name to put in the points reward item name.
   action: CLEAN_ARMOR
   min-distance: 1.0
   max-distance: 3.0
 disable_damage:
   active: true
   value: 250
-  title: "¡Mobs intocables!"
-  reward-title: "Mobs de adorno"
+  title: "Untouchable mobs!"
+  reward-title: "Decorative mobs" # This is the name to put in the points reward item name.
   action: DISABLE_DAMAGE
   duration-seconds: 30
 disable_action:
   active: true
   value: 300
-  title: "¡Manos atadas!"
-  reward-title: "Manos atadas"
+  title: "Hands tied!"
+  reward-title: "Hands tied" # This is the name to put in the points reward item name.
   action: DISABLE_ACTION
   duration-seconds: 30
   blocked-actions:
@@ -124,30 +124,30 @@ disable_action:
 give_totems:
   active: true
   value: 500
-  title: "Regalo inesperado"
-  reward-title: "Regalito raro"
+  title: "Unexpected gift"
+  reward-title: "Weird gift" # This is the name to put in the points reward item name.
   action: GIVE_TOTEMS
   min-totems: 1
   max-totems: 4
 instant_heal:
   active: true
   value: 600
-  title: "¡Salvavidas!"
-  reward-title: "Salud al máximo"
+  title: "Lifesaver!"
+  reward-title: "Max health" # This is the name to put in the points reward item name.
   action: INSTANT_HEAL
 spawn_guard:
   active: true
   value: 900
-  title: "¡Guardián de Twitch!"
-  reward-title: "Lobo guardián"
+  title: "Twitch Guardian!"
+  reward-title: "Guardian wolf" # This is the name to put in the points reward item name.
   action: SPAWN_GUARD
   resistance-duration-seconds: 99999
   resistance-amplifier: 4
 divine_punishment:
   active: true
   value: 1000
-  title: "Castigo Divino"
-  reward-title: "DIVINE PUNISHMENT"
+  title: "Divine punishment"
+  reward-title: "DIVINE PUNISHMENT" # This is the name to put in the points reward item name.
   action: DIVINE_PUNISHMENT
   lightning-amount: 3
   lightning-per-wave: 1
@@ -155,42 +155,42 @@ divine_punishment:
 hotbar_shuffle:
   active: true
   value: 275
-  title: "¡Hotbar revuelta!"
-  reward-title: "Objetos mezclados"
+  title: "Chaotic hotbar!"
+  reward-title: "Mixed items" # This is the name to put in the points reward item name.
   action: HOTBAR_SHUFFLE
 selected_slot_lock:
   active: true
   value: 325
-  title: "Ranura bloqueada"
-  reward-title: "Bloquea mi ranura"
+  title: "Locked slot"
+  reward-title: "Lock my slot" # This is the name to put in the points reward item name.
   action: SELECTED_SLOT_LOCK
   slot: 0
   duration-seconds: 15
 random_slot_switch:
   active: true
   value: 375
-  title: "Ranura loca"
-  reward-title: "Cámbiame la ranura"
+  title: "Crazy slot"
+  reward-title: "Switch my slot" # This is the name to put in the points reward item name.
   action: RANDOM_SLOT_SWITCH
   duration-seconds: 12
   interval-seconds: 2
 drop_random_item:
   active: true
   value: 425
-  title: "Objeto al azar fuera"
-  reward-title: "Tira un objeto"
+  title: "Random item dropped"
+  reward-title: "Drop an item" # This is the name to put in the points reward item name.
   action: DROP_RANDOM_ITEM
 item_name_swap:
   active: true
   value: 475
-  title: "Nombres malditos"
-  reward-title: "Cambia los nombres"
+  title: "Cursed names"
+  reward-title: "Change the names" # This is the name to put in the points reward item name.
   action: ITEM_NAME_SWAP
   duration-seconds: 15
 one_heart_challenge:
   active: true
   value: 750
-  title: "¡Un solo corazón!"
-  reward-title: "Déjalo a un corazón"
+  title: "One heart only!"
+  reward-title: "Keep it to one heart" # This is the name to put in the points reward item name.
   action: ONE_HEART_CHALLENGE
   duration-seconds: 10

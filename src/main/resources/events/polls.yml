@@ -1,76 +1,76 @@
 creepers:
   active: true
-  title: "Kaboom"
+  title: "Kaboom" # This title is shown in the poll option list.
   action: "SPAWN_CREEPER"
   spawn_min: 2
   spawn_max: 5
   radius: 3.0
 levitation:
   active: true
-  title: "Vuela vuela"
+  title: "Fly, fly" # This title is shown in the poll option list.
   action: "EFFECT_LEVITATION"
   time_min: 100
   time_max: 300
   amplifier: 5
 ores:
   active: true
-  title: "Lluvia de Minerales"
+  title: "Ore rain" # This title is shown in the poll option list.
   action: "DROP_ORES"
   spawn_min: 6
   spawn_max: 12
   radius: 2.5
 launch:
   active: true
-  title: "A viajar al espacio"
+  title: "Off to space" # This title is shown in the poll option list.
   action: "LAUNCH_PLAYER"
 random_tp:
   active: true
-  title: "Giro inesperado"
+  title: "Unexpected spin" # This title is shown in the poll option list.
   action: "RANDOM_TELEPORT"
 random_item:
   active: true
-  title: "Intercambio aleatorio"
+  title: "Random exchange" # This title is shown in the poll option list.
   action: "RANDOM_ITEM_EXCHANGE"
 inv_random:
   active: true
-  title: "Inventory random"
+  title: "Random inventory" # This title is shown in the poll option list.
   action: "INVENTORY_RANDOM"
 floor_lava:
   active: true
-  title: "El suelo es lava"
+  title: "The floor is lava" # This title is shown in the poll option list.
   action: "FLOOR_IS_LAVA"
 warden:
   active: true
-  title: "No mires atrás"
+  title: "Do not look back" # This title is shown in the poll option list.
   action: "WARDEN_JUMPSCARE"
 food:
   active: true
-  title: "Comidita"
+  title: "Snack time" # This title is shown in the poll option list.
   action: "MAX_FOOD"
 zombie:
   active: true
-  title: "Clon"
+  title: "Clone" # This title is shown in the poll option list.
   action: "MINI_ZOMBIE"
 nothing:
   active: true
-  title: "No pasó nada"
+  title: "Nothing happened" # This title is shown in the poll option list.
   action: "NOTHING"
 random_effect:
   active: true
-  title: "100% científico"
+  title: "100% scientific" # This title is shown in the poll option list.
   action: "RANDOM_EFFECT"
 bee_swarm:
   active: true
-  title: "¡Abejas Picantes!"
+  title: "Hot bees!" # This title is shown in the poll option list.
   action: "SPAWN_BEE_SWARM"
 veneco:
   active: true
-  title: "Llegó el Rappi"
+  title: "Rappi has arrived" # This title is shown in the poll option list.
   action: "SPAWN_VENECO"
   radius: true
 paranoia:
   active: true
-  title: "Esquizofrenia"
+  title: "Paranoia" # This title is shown in the poll option list.
   action: "RANDOM_SOUND"
   sounds:
     - ENTITY_CREEPER_PRIMED
@@ -82,41 +82,41 @@ paranoia:
     - ITEM_GOAT_HORN_SOUND_0
 nausea:
   active: true
-  title: "Resaca Mortal"
+  title: "Deadly hangover" # This title is shown in the poll option list.
   action: "CONFUSION"
   time: 300
   amplifier: 2
 spark:
   active: true
-  title: "Chispa de Zeus"
+  title: "Zeus's spark" # This title is shown in the poll option list.
   action: SPARK
   lightning-amount: 1
 random_size:
   active: true
-  title: "Tamaño sorpresa"
+  title: "Surprise size" # This title is shown in the poll option list.
   action: RANDOM_SIZE
   duration-seconds: 20
 chicken_cannon:
   active: true
-  title: "¡Cañón de pollos!"
+  title: "Chicken cannon!" # This title is shown in the poll option list.
   action: CHICKEN_CANNON
   amount: 6
   speed: 1.2
 hot_potato:
   active: true
-  title: "¡Patata caliente!"
+  title: "Hot potato!" # This title is shown in the poll option list.
   action: HOT_POTATO
   duration-seconds: 15
   explosion-power: 1.0
 block_swap:
   active: true
-  title: "Bloques absurdos"
+  title: "Absurd blocks" # This title is shown in the poll option list.
   action: BLOCK_SWAP
   duration-seconds: 45
   replacement: SPONGE
 random_weather:
   active: true
-  title: "Clima esquizofrénico"
+  title: "Schizophrenic weather" # This title is shown in the poll option list.
   action: RANDOM_WEATHER
   duration-seconds: 20
   changes: 4
