@@ -232,6 +232,7 @@ category-items:
       display-name: "&6Inventory Piñata"
       lore:
         - "&7Throw inventory and armor"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     NUKE_STRIKE:
       event: NUKE_STRIKE
@@ -240,6 +241,7 @@ category-items:
       display-name: "&cNuclear Strike"
       lore:
         - "&7Drop lit TNT"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     MOB_ARMY:
       event: MOB_ARMY
@@ -248,6 +250,7 @@ category-items:
       display-name: "&4Vindicator Army"
       lore:
         - "&7Summon swift vindicators"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     RAIN_WEALTH:
       event: RAIN_WEALTH
@@ -256,6 +259,7 @@ category-items:
       display-name: "&aWealth Rain"
       lore:
         - "&7Diamonds and treasures from the sky"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     GOD_MODE:
       event: GOD_MODE
@@ -264,6 +268,7 @@ category-items:
       display-name: "&eGod Mode"
       lore:
         - "&7Resistance, strength and regeneration"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WITHER_STRIKE:
       event: WITHER_STRIKE
@@ -272,6 +277,7 @@ category-items:
       display-name: "&8Wither Strike"
       lore:
         - "&7Summon a Wither on the streamer"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     DRAGON_ATTACK:
       event: DRAGON_ATTACK
@@ -280,6 +286,7 @@ category-items:
       display-name: "&5Dragon Attack"
       lore:
         - "&7Summon an Ender Dragon"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     CHARGED_CREEPER_ARMY:
       event: CHARGED_CREEPER_ARMY
@@ -288,6 +295,7 @@ category-items:
       display-name: "&bElectric Army"
       lore:
         - "&7Ten charged creepers in a circle"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     APOCALYPSE_RAIN:
       event: APOCALYPSE_RAIN
@@ -296,6 +304,7 @@ category-items:
       display-name: "&cApocalypse Rain"
       lore:
         - "&7Anvils, magma and TNT for 30 seconds"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WELCOME_TO_HELL:
       event: WELCOME_TO_HELL
@@ -304,6 +313,7 @@ category-items:
       display-name: "&4Welcome to Hell"
       lore:
         - "&7Create and ignite a portal"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WARDEN_PIT:
       event: WARDEN_PIT
@@ -312,6 +322,7 @@ category-items:
       display-name: "&0Warden Pit"
       lore:
         - "&7Trap the streamer with a Warden"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     PIT_OF_DOOM:
       event: PIT_OF_DOOM
@@ -320,6 +331,7 @@ category-items:
       display-name: "&8Pit of Doom"
       lore:
         - "&7Remove the floor down to bedrock"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     MIDAS_TOUCH:
       event: MIDAS_TOUCH
@@ -328,6 +340,7 @@ category-items:
       display-name: "&6Midas Pit"
       lore:
         - "&7Open a 1x1 pit down to bedrock"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WIPE_ENEMIES:
       event: WIPE_ENEMIES
@@ -336,6 +349,7 @@ category-items:
       display-name: "&aEnemy Sweep"
       lore:
         - "&7Remove hostiles within 100 blocks"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     ULTIMATE_CARE_PACKAGE:
       event: ULTIMATE_CARE_PACKAGE
@@ -344,6 +358,7 @@ category-items:
       display-name: "&eUltimate Care Package"
       lore:
         - "&7Max armor, sword and totems"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     TIME_FREEZE:
       event: TIME_FREEZE
@@ -352,6 +367,7 @@ category-items:
       display-name: "&bTime Freeze"
       lore:
         - "&7Freeze entities for 30 seconds"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     THUNDERSTORM:
       event: THUNDERSTORM
@@ -360,6 +376,7 @@ category-items:
       display-name: "&dTHE APOCALYPSE"
       lore:
         - "&712 lightning strikes and Zeus appears"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     METEOR_SHOWER:
       event: METEOR_SHOWER
@@ -368,6 +385,7 @@ category-items:
       display-name: "&cMeteor Shower"
       lore:
         - "&7Drop burning meteors"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     BLACK_HOLE:
       event: BLACK_HOLE
@@ -376,6 +394,7 @@ category-items:
       display-name: "&8Black Hole"
       lore:
         - "&7Pull nearby entities"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     EARTHQUAKE:
       event: EARTHQUAKE
@@ -384,6 +403,7 @@ category-items:
       display-name: "&6Earthquake"
       lore:
         - "&7Shake the ground and throw debris"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WORLD_ROTATION:
       event: WORLD_ROTATION
@@ -392,6 +412,7 @@ category-items:
       display-name: "&5World Spin"
       lore:
         - "&7Teleport you multiple times"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
   points:
     DROP_HAND_ITEM:
@@ -401,6 +422,7 @@ category-items:
       display-name: "&eDrop the Item"
       lore:
         - "&7Force the streamer to drop their held item"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     SPIN_HEAD:
       event: SPIN_HEAD
@@ -409,6 +431,7 @@ category-items:
       display-name: "&dCamera Spin"
       lore:
         - "&7Spin the camera and apply blindness"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     FAKE_DIAMOND:
       event: FAKE_DIAMOND
@@ -417,6 +440,7 @@ category-items:
       display-name: "&bFake Diamond"
       lore:
         - "&7Place a trap diamond"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     REPLACE_BLOCKS:
       event: REPLACE_BLOCKS
@@ -426,6 +450,7 @@ category-items:
       lore:
         - "&7Turn mined blocks into gravel"
         - "&7for one minute"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     ANVIL_TRAP:
       event: ANVIL_TRAP
@@ -434,6 +459,7 @@ category-items:
       display-name: "&8Anvil Trap"
       lore:
         - "&7Drop an anvil on the streamer"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     PIG_STACK_ATTACK:
       event: PIG_STACK_ATTACK
@@ -442,6 +468,7 @@ category-items:
       display-name: "&dPig Tower"
       lore:
         - "&7Summon a tower of pigs"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     INVERT_CONTROLS_EFFECT:
       event: INVERT_CONTROLS_EFFECT
@@ -450,6 +477,7 @@ category-items:
       display-name: "&aStuck to the Ground"
       lore:
         - "&7Apply slowness and reduced jump"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     SWAP_MAIN_OFFHAND:
       event: SWAP_MAIN_OFFHAND
@@ -458,6 +486,7 @@ category-items:
       display-name: "&6Hands Swapped"
       lore:
         - "&7Swap hands continuously"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     PUMPKIN_HEAD:
       event: PUMPKIN_HEAD
@@ -466,6 +495,7 @@ category-items:
       display-name: "&6Pumpkin Vision"
       lore:
         - "&7Cover the vision for 10 seconds"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     WEB_PRISON:
       event: WEB_PRISON
@@ -474,6 +504,7 @@ category-items:
       display-name: "&fWeb Prison"
       lore:
         - "&7Trap the streamer temporarily"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     SILENT_PHANTOMS:
       event: SILENT_PHANTOMS
@@ -482,6 +513,7 @@ category-items:
       display-name: "&8Silent Phantoms"
       lore:
         - "&7Summon invisible ghosts"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     CLEAN_ARMOR:
       event: CLEAN_ARMOR
@@ -490,6 +522,7 @@ category-items:
       display-name: "&cClean Armor"
       lore:
         - "&7Strip and throw the armor"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     DISABLE_DAMAGE:
       event: DISABLE_DAMAGE
@@ -499,6 +532,7 @@ category-items:
       lore:
         - "&7Prevent damage to any mob"
         - "&7for 30 seconds"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     DISABLE_ACTION:
       event: DISABLE_ACTION
@@ -508,6 +542,7 @@ category-items:
       lore:
         - "&7Block a random action"
         - "&7for 30 seconds"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     GIVE_TOTEMS:
       event: GIVE_TOTEMS
@@ -516,6 +551,7 @@ category-items:
       display-name: "&eRare Gift"
       lore:
         - "&7Give between 1 and 4 totems"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     INSTANT_HEAL:
       event: INSTANT_HEAL
@@ -524,6 +560,7 @@ category-items:
       display-name: "&aLifeline"
       lore:
         - "&7Restore health and hunger to maximum"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     SPAWN_GUARD:
       event: SPAWN_GUARD
@@ -532,6 +569,7 @@ category-items:
       display-name: "&bTwitch Guardian"
       lore:
         - "&7Summon a tamed wolf that defends you"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     DIVINE_PUNISHMENT:
       event: DIVINE_PUNISHMENT
@@ -540,6 +578,7 @@ category-items:
       display-name: "&eDivine Punishment"
       lore:
         - "&73 lightning strikes with 1 second between each"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     HOTBAR_SHUFFLE:
       event: HOTBAR_SHUFFLE
@@ -548,6 +587,7 @@ category-items:
       display-name: "&dShuffled Hotbar"
       lore:
         - "&7Mix the hotbar items"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     SELECTED_SLOT_LOCK:
       event: SELECTED_SLOT_LOCK
@@ -556,6 +596,7 @@ category-items:
       display-name: "&cLocked Slot"
       lore:
         - "&7Lock a hotbar slot"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     RANDOM_SLOT_SWITCH:
       event: RANDOM_SLOT_SWITCH
@@ -564,6 +605,7 @@ category-items:
       display-name: "&dCrazy Slot"
       lore:
         - "&7Switch the slot automatically"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     DROP_RANDOM_ITEM:
       event: DROP_RANDOM_ITEM
@@ -572,6 +614,7 @@ category-items:
       display-name: "&eDrop an Item"
       lore:
         - "&7Drop a random item"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     ITEM_NAME_SWAP:
       event: ITEM_NAME_SWAP
@@ -580,6 +623,7 @@ category-items:
       display-name: "&bCursed Names"
       lore:
         - "&7Change the names in the hotbar"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
     ONE_HEART_CHALLENGE:
       event: ONE_HEART_CHALLENGE
@@ -588,4 +632,5 @@ category-items:
       display-name: "&cOne Heart Only"
       lore:
         - "&7Leave you with one heart temporarily"
+        - "&7Cost: &e%value% %type%"
         - "&eClick to test"
