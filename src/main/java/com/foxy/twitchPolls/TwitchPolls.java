@@ -24,10 +24,10 @@ public final class TwitchPolls extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        saveResource("gui.yml", false);
-        saveResource("secrets.yml", false);
-        saveResource("lang/en.yml", false);
-        saveResource("lang/es.yml", false);
+        saveResourceIfMissing("gui.yml");
+        saveResourceIfMissing("secrets.yml");
+        saveResourceIfMissing("lang/en.yml");
+        saveResourceIfMissing("lang/es.yml");
         
         // Initialize managers
         effectRegistry = new PlayerEffectRegistry(this);
@@ -35,9 +35,9 @@ public final class TwitchPolls extends JavaPlugin {
         languageManager = new LanguageManager(this);
         
         migrateLegacyEventConfigs();
-        saveResource("events/polls.yml", false);
-        saveResource("events/donations.yml", false);
-        saveResource("events/points.yml", false);
+        saveResourceIfMissing("events/polls.yml");
+        saveResourceIfMissing("events/donations.yml");
+        saveResourceIfMissing("events/points.yml");
         reloadEventConfigs();
         uiManager = new UIManager(this);
         sessionManager = new SessionManager(this);
@@ -50,6 +50,12 @@ public final class TwitchPolls extends JavaPlugin {
         getCommand("twitch").setExecutor(twitchCommand);
         getCommand("twitch").setTabCompleter(twitchCommand);
         twitchManager.connect();
+    }
+
+    private void saveResourceIfMissing(String resourcePath) {
+        if (!new File(getDataFolder(), resourcePath).exists()) {
+            saveResource(resourcePath, false);
+        }
     }
 
     @Override
