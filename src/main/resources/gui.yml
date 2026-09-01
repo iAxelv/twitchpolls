@@ -215,6 +215,14 @@ items:
     lore:
       - "&7Change the weather and time multiple times"
       - "&eClick to test"
+  TORNADO:
+    event: TORNADO
+    slot: 23
+    item: WIND_CHARGE
+    display-name: "&bTornado"
+    lore:
+      - "&7A vortex of debris and chaos near the streamer"
+      - "&eClick to test"
 category-items:
   donations:
     INVENTORY_BOMB:

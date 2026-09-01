@@ -122,3 +122,12 @@ random_weather:
   duration-seconds: 20
   changes: 4
   interval-seconds: 5
+tornado:
+  active: true
+  title: "Tornado" # This title is shown in the poll option list.
+  action: TORNADO
+  duration-seconds: 30
+  radius: 8.0
+  pull-strength: 0.22
+  blocks-per-tick: 12
+  particles: true

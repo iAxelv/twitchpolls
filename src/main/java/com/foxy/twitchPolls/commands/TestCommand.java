@@ -18,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class TestCommand implements Listener {
@@ -63,7 +65,7 @@ public class TestCommand implements Listener {
                 continue;
             }
             holder.categories.put(slot, category);
-            inventory.setItem(slot, createItem(itemConfig));
+            inventory.setItem(slot, createItem(itemConfig, category));
         }
 
         player.openInventory(inventory);
@@ -99,7 +101,7 @@ public class TestCommand implements Listener {
                 continue;
             }
             holder.actions.put(slot, action);
-            inventory.setItem(slot, createItem(itemConfig));
+            inventory.setItem(slot, createItem(itemConfig, category));
         }
 
         ConfigurationSection backConfig = guiConfig.getConfigurationSection("back-item");
@@ -121,6 +123,10 @@ public class TestCommand implements Listener {
     }
 
     private ItemStack createItem(ConfigurationSection config) {
+        return createItem(config, null);
+    }
+
+    private ItemStack createItem(ConfigurationSection config, String category) {
         Material material;
         try {
             material = Material.valueOf(config.getString("item", "PAPER").toUpperCase());
@@ -131,9 +137,32 @@ public class TestCommand implements Listener {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(color(config.getString("display-name", "&fAcción")));
-        meta.setLore(config.getStringList("lore").stream().map(this::color).toList());
+        meta.setLore(buildLore(config, category).stream().map(this::color).toList());
         item.setItemMeta(meta);
         return item;
+    }
+
+    public static List<String> buildLore(ConfigurationSection config, String category) {
+        List<String> lore = new ArrayList<>();
+        if (config == null) {
+            return lore;
+        }
+
+        lore.addAll(config.getStringList("lore"));
+        if ("polls".equalsIgnoreCase(category)) {
+            return lore;
+        }
+
+        String type = config.getString("type");
+        if (type == null || type.isBlank()) {
+            type = "points".equalsIgnoreCase(category) ? "points" : "bits";
+        }
+        Object rawValue = config.get("value");
+        String value = rawValue == null ? "0" : String.valueOf(rawValue);
+
+        lore.add("&7Type: &f" + type.toLowerCase());
+        lore.add("&7Value: &f" + value);
+        return lore;
     }
 
     @EventHandler

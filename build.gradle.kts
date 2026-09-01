@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    testImplementation("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("com.github.twitch4j:twitch4j:1.19.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))

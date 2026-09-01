@@ -103,6 +103,7 @@ public class ActionManager {
         strategies.put("HOT_POTATO", new HotPotatoAction());
         strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin, effectRegistry));
         strategies.put("RANDOM_WEATHER", new RandomWeatherAction());
+        strategies.put("TORNADO", new TornadoAction());
         strategies.put("SPARK", new LightningStormAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
         strategies.put("DROP_ORES", new DropOresAction());
