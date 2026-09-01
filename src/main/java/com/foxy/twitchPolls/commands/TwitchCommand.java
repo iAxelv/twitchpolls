@@ -35,7 +35,9 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
 
         if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
             if (!(sender instanceof org.bukkit.entity.Player player)) {
-                sender.sendMessage("Este subcomando solo puede ejecutarse dentro del juego.");
+                sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(
+                        plugin.getLanguageManager().getString("messages.command-player-only",
+                                "&cThis subcommand can only be used in-game.")));
                 return true;
             }
             testCommand.open(player);
@@ -65,7 +67,7 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
     }
 
     private void sendMessage(CommandSender sender, String path, String fallback) {
-        String message = plugin.getConfig().getString(path, fallback);
+        String message = plugin.getLanguageManager().getString(path, fallback);
         sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize(message));
     }
 }

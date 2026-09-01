@@ -1,5 +1,6 @@
 package com.foxy.twitchPolls.actions.polls;
 
+import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 public class HotPotatoAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
+        TwitchPolls plugin = (TwitchPolls) context.plugin();
         var inventory = context.player().getInventory();
         Material[] items = {Material.POTATO, Material.BAKED_POTATO, Material.APPLE, Material.CARROT,
             Material.BREAD, Material.COOKIE, Material.PUMPKIN_PIE, Material.MELON_SLICE};
@@ -32,8 +34,10 @@ public class HotPotatoAction implements ActionStrategy {
             int remaining = duration;
             @Override public void run() {
                 if (!context.player().isOnline()) { cancel(); return; }
+                String format = plugin.getLanguageManager().getString(
+                        "messages.hot-potato-actionbar", "&cHot potato: %time%s");
                 context.player().sendActionBar(LegacyComponentSerializer.legacyAmpersand()
-                    .deserialize("&cPatata caliente: " + remaining + "s"));
+                    .deserialize(format.replace("%time%", String.valueOf(remaining))));
                 if (remaining-- <= 0) {
                     for (int slot = 0; slot < inventory.getSize(); slot++) {
                         ItemStack current = inventory.getItem(slot);

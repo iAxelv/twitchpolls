@@ -12,8 +12,8 @@
 lang: es
 
 settings:
-  streamer-username: "iAx3lv"
-  automatic-polls: false
-  poll-duration-seconds: 45
-  poll-interval-seconds: 60
-  broadcast-results: true
+  streamer-username: "123456789" # Replace with your Minecraft username
+  automatic-polls: false # Whether to automatically start polls at regular intervals
+  poll-duration-seconds: 45 # Minimum: 45 seconds
+  poll-interval-seconds: 60 # Minimum: 60 seconds
+  broadcast-results: true # Whether to broadcast poll results to the server

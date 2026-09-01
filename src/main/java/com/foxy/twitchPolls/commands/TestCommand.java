@@ -42,7 +42,8 @@ public class TestCommand implements Listener {
     public void open(Player player) {
         ConfigurationSection categories = guiConfig.getConfigurationSection("categories");
         if (categories == null) {
-            player.sendMessage(ChatColor.RED + "No hay categorías configuradas en gui.yml.");
+            player.sendMessage(color(plugin.getLanguageManager().getString(
+                    "messages.gui.categories-missing", "&cNo categories configured in gui.yml.")));
             return;
         }
 
@@ -71,7 +72,9 @@ public class TestCommand implements Listener {
     private void openCategory(Player player, String category) {
         ConfigurationSection items = getCategoryItems(category);
         if (items == null) {
-            player.sendMessage(ChatColor.RED + "No hay acciones configuradas para " + category + ".");
+            player.sendMessage(color(plugin.getLanguageManager().getString(
+                    "messages.gui.actions-missing", "&cNo actions configured for %category%.")
+                    .replace("%category%", category)));
             return;
         }
 
@@ -176,7 +179,9 @@ public class TestCommand implements Listener {
                 uiManager.testPoll(player, actionConfig, actionManager);
             }
         } else {
-            player.sendMessage(ChatColor.RED + "No se encontró la configuración de " + action + ".");
+            player.sendMessage(color(plugin.getLanguageManager().getString(
+                    "messages.gui.action-missing", "&cNo configuration found for %action%.")
+                    .replace("%action%", action)));
         }
     }
 

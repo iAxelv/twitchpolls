@@ -37,6 +37,14 @@ messages:
   donation-event-title: "&c¡EVENTO DE DONACIÓN!"
   donation-event-subtitle: "&f%event% &7(%value% %type%)"
   donation-event-broadcast: "&d[Twitch] &f%event% &7se activó por &e%value% %type% &7(%username%)"
+  command-player-only: "&cEste subcomando solo puede ejecutarse dentro del juego."
+  gui:
+    categories-missing: "&cNo hay categorías configuradas en gui.yml."
+    actions-missing: "&cNo hay acciones configuradas para %category%."
+    action-missing: "&cNo se encontró la configuración de %action%."
+  spawn-veneco-name: "VENECO PRIME"
+  spawn-veneco-broadcast: "Un veneco apareció en el mundo"
+  hot-potato-actionbar: "&cPatata caliente: %time%s"
 
 # ============================================
 # ACTION-SPECIFIC CONFIGURATIONS

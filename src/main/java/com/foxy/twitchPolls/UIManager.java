@@ -71,7 +71,7 @@ public class UIManager {
         UUID playerId = player.getUniqueId();
         BukkitTask previous = countdowns.remove(playerId);
         if (previous != null) previous.cancel();
-        String format = plugin.getConfig().getString("messages.points-event-duration", "&eFinaliza: &f%time%s");
+        String format = plugin.getLanguageManager().getString("messages.points-event-duration", "&eEnds in: &f%time%s");
         int duration = Math.max(1, config.getInt("duration-seconds"));
         sendCountdown(player, format, duration);
         BukkitTask task = new BukkitRunnable() {
@@ -100,7 +100,7 @@ public class UIManager {
 
     public void startNextPoll(Player player, int seconds) {
         if (nextPollBossBar != null) return;
-        String format = plugin.getConfig().getString("messages.next-poll-bossbar-title", "&dPróxima encuesta: &f%time%s");
+        String format = plugin.getLanguageManager().getString("messages.next-poll-bossbar-title", "&dNext poll: &f%time%s");
         nextPollBossBar = Bukkit.createBossBar(color(format.replace("%time%", String.valueOf(seconds))), BarColor.BLUE, BarStyle.SOLID);
         nextPollBossBar.addPlayer(player);
         nextPollBossBar.setProgress(1.0);
@@ -108,7 +108,7 @@ public class UIManager {
 
     public void updateNextPoll(int remaining, int total) {
         if (nextPollBossBar == null) return;
-        String format = plugin.getConfig().getString("messages.next-poll-bossbar-title", "&dPróxima encuesta: &f%time%s");
+        String format = plugin.getLanguageManager().getString("messages.next-poll-bossbar-title", "&dNext poll: &f%time%s");
         nextPollBossBar.setTitle(color(format.replace("%time%", String.valueOf(Math.max(0, remaining)))));
         nextPollBossBar.setProgress(Math.max(0.0, (double) remaining / total));
     }
@@ -118,7 +118,7 @@ public class UIManager {
 
     private void startPollBossBar(Player player, int total) {
         stopPollBossBar();
-        String format = plugin.getConfig().getString("messages.bossbar-title", "&dEncuesta: &f%time%s restantes");
+        String format = plugin.getLanguageManager().getString("messages.bossbar-title", "&dPoll: &f%time%s remaining");
         pollBossBar = Bukkit.createBossBar(color(format.replace("%time%", String.valueOf(total))), BarColor.PURPLE, BarStyle.SOLID);
         pollBossBar.addPlayer(player);
         final int[] remaining = {total};
@@ -141,8 +141,8 @@ public class UIManager {
     private void sendCountdown(Player player, String format, int seconds) { player.sendActionBar(LegacyComponentSerializer.legacyAmpersand().deserialize(format.replace("%time%", String.valueOf(seconds)))); }
 
     private void showTitle(Player player, String titlePath, String subtitlePath, String... replacements) {
-        String title = plugin.getConfig().getString(titlePath, "");
-        String subtitle = plugin.getConfig().getString(subtitlePath, "");
+        String title = plugin.getLanguageManager().getString(titlePath, "");
+        String subtitle = plugin.getLanguageManager().getString(subtitlePath, "");
         for (int i = 0; i + 1 < replacements.length; i += 2) { title = title.replace(replacements[i], replacements[i + 1]); subtitle = subtitle.replace(replacements[i], replacements[i + 1]); }
         if (!title.isBlank() || !subtitle.isBlank()) player.showTitle(Title.title(component(title), component(subtitle), Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(3), Duration.ofMillis(1000))));
     }
