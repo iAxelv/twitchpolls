@@ -101,7 +101,7 @@ public class TestCommand implements Listener {
                 continue;
             }
             holder.actions.put(slot, action);
-            inventory.setItem(slot, createItem(itemConfig, category));
+            inventory.setItem(slot, createItem(itemConfig, category, action));
         }
 
         ConfigurationSection backConfig = guiConfig.getConfigurationSection("back-item");
@@ -123,10 +123,14 @@ public class TestCommand implements Listener {
     }
 
     private ItemStack createItem(ConfigurationSection config) {
-        return createItem(config, null);
+        return createItem(config, null, null);
     }
 
     private ItemStack createItem(ConfigurationSection config, String category) {
+        return createItem(config, category, null);
+    }
+
+    private ItemStack createItem(ConfigurationSection config, String category, String actionName) {
         Material material;
         try {
             material = Material.valueOf(config.getString("item", "PAPER").toUpperCase());
@@ -136,32 +140,42 @@ public class TestCommand implements Listener {
 
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(color(config.getString("display-name", "&fAcción")));
-        meta.setLore(buildLore(config, category).stream().map(this::color).toList());
-        item.setItemMeta(meta);
+
+        if (meta != null) {
+            meta.setDisplayName(color(config.getString("display-name", "&fAction")));
+            meta.setLore(buildLore(config, category, actionName).stream().map(this::color).toList());
+            item.setItemMeta(meta);
+        }
+
         return item;
     }
 
-    public static List<String> buildLore(ConfigurationSection config, String category) {
+    private List<String> buildLore(ConfigurationSection config, String category, String actionName) {
         List<String> lore = new ArrayList<>();
         if (config == null) {
             return lore;
         }
 
-        lore.addAll(config.getStringList("lore"));
-        if ("polls".equalsIgnoreCase(category)) {
-            return lore;
+        List<String> configLore = config.getStringList("lore");
+
+        if (actionName == null || category == null || "polls".equalsIgnoreCase(category)) {
+            return configLore;
         }
 
-        String type = config.getString("type");
-        if (type == null || type.isBlank()) {
-            type = "points".equalsIgnoreCase(category) ? "points" : "bits";
-        }
-        Object rawValue = config.get("value");
-        String value = rawValue == null ? "0" : String.valueOf(rawValue);
+        ConfigurationSection actionConfig = actionManager.findActionConfig(actionName, category);
+        String type = "points".equalsIgnoreCase(category) ? "points" : "bits";
+        String value = "0";
 
-        lore.add("&7Type: &f" + type.toLowerCase());
-        lore.add("&7Value: &f" + value);
+        if (actionConfig != null) {
+            type = actionConfig.getString("type", type);
+            Object rawValue = actionConfig.get("value");
+            value = rawValue == null ? "0" : String.valueOf(rawValue);
+        }
+
+        for (String line : configLore) {
+            lore.add(line.replace("%type%", type).replace("%value%", value));
+        }
+
         return lore;
     }
 
@@ -203,7 +217,7 @@ public class TestCommand implements Listener {
                 actionManager.executePointAction(player, actionConfig);
             } else if ("donations".equals(holder.category)) {
                 uiManager.showDonationEvent(player, actionConfig);
-                actionManager.executeDonationAction(player, actionConfig, "desconocido");
+                actionManager.executeDonationAction(player, actionConfig, "unknown");
             } else {
                 uiManager.testPoll(player, actionConfig, actionManager);
             }
