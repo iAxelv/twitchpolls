@@ -66,26 +66,29 @@ public class TornadoAction implements ActionStrategy {
                     center.setZ(streamerLocation.getZ() + dz * scale);
                 }
 
-                center.setY(Math.max(world.getMinHeight() + 2, Math.min(center.getY() + 0.35, streamerLocation.getY() + 9.0)));
+                int groundY = world.getHighestBlockYAt(center.getBlockX(), center.getBlockZ());
+                int baseY = Math.max(world.getMinHeight() + 2, groundY + 1);
+                double maxHeight = Math.max(baseY + 5.0, streamerLocation.getY() + 2.5);
+                center.setY(Math.max(baseY, Math.min(center.getY(), maxHeight)));
                 if (particles) {
-                    for (int i = 0; i < 12; i++) {
-                        double spiralAngle = (elapsedTicks * 0.45) + (i * 0.6);
-                        double x = center.getX() + Math.cos(spiralAngle) * (1.8 + i * 0.22);
-                        double z = center.getZ() + Math.sin(spiralAngle) * (1.8 + i * 0.22);
-                        double y = center.getY() + ThreadLocalRandom.current().nextDouble(0.6, 4.2);
+                    for (int i = 0; i < 18; i++) {
+                        double spiralAngle = (elapsedTicks * 0.55) + (i * 0.7);
+                        double x = center.getX() + Math.cos(spiralAngle) * (1.8 + i * 0.26);
+                        double z = center.getZ() + Math.sin(spiralAngle) * (1.8 + i * 0.26);
+                        double y = Math.max(baseY, Math.min(center.getY() + 4.0, baseY + 5.0)) + ThreadLocalRandom.current().nextDouble(-0.1, 2.8);
                         world.spawnParticle(Particle.CLOUD, x, y, z, 2, 0.12, 0.12, 0.12, 0.01);
                         world.spawnParticle(Particle.SMOKE, x, y, z, 2, 0.12, 0.12, 0.12, 0.01);
                     }
                 }
 
                 world.playSound(center, Sound.ENTITY_WIND_CHARGE_WIND_BURST, 0.9f, 1.0f);
-                applyTornadoPull(world, center, streamerLocation, radius, pullStrength, blocksPerTick);
+                applyTornadoPull(world, center, streamerLocation, radius, pullStrength, blocksPerTick, baseY);
                 elapsedTicks += 1;
             }
         }.runTaskTimer(context.plugin(), 0L, 1L);
     }
 
-    private void applyTornadoPull(World world, Location center, Location streamerLocation, double radius, double pullStrength, int blocksPerTick) {
+    private void applyTornadoPull(World world, Location center, Location streamerLocation, double radius, double pullStrength, int blocksPerTick, int baseY) {
         for (Entity entity : world.getNearbyEntities(center, radius, radius * 2.2, radius)) {
             if (entity.getLocation().distanceSquared(center) > radius * radius) continue;
 
@@ -94,10 +97,15 @@ public class TornadoAction implements ActionStrategy {
             double attractionMultiplier = Math.min(2.2, 1.1 + (radius / 12.0));
             toCenter.normalize().multiply(Math.max(0.16, pullStrength * attractionMultiplier) / Math.max(1.0, distance * 0.2));
 
+            double verticalPull = Math.max(0.18, (center.getY() - entity.getLocation().getY()) * 0.05);
+            if (entity.getLocation().getY() < baseY + 2.0) {
+                verticalPull += 0.65;
+            }
+
             if (entity instanceof Player player) {
                 double playerDistance = player.getLocation().distance(center);
                 double liftLimit = Math.max(0.08, 0.9 - (playerDistance / radius));
-                Vector lift = new Vector(0, Math.max(0.12, 0.72 - liftLimit), 0);
+                Vector lift = new Vector(0, Math.max(0.08, 0.48 - liftLimit) + verticalPull, 0);
                 player.setVelocity(player.getVelocity().add(toCenter).add(lift));
                 if (playerDistance < 2.2 || ThreadLocalRandom.current().nextInt(0, 8) == 0) {
                     player.setVelocity(player.getVelocity().add(new Vector(
@@ -110,7 +118,7 @@ public class TornadoAction implements ActionStrategy {
             }
 
             if (entity.isDead() || entity.getType() == org.bukkit.entity.EntityType.ARMOR_STAND) continue;
-            entity.setVelocity(entity.getVelocity().add(toCenter).add(new Vector(0, 0.24, 0)));
+            entity.setVelocity(entity.getVelocity().add(toCenter).add(new Vector(0, 0.24 + verticalPull, 0)));
         }
 
         for (int index = 0; index < blocksPerTick; index++) {
@@ -119,7 +127,7 @@ public class TornadoAction implements ActionStrategy {
             double offsetX = Math.cos(angle) * distance;
             double offsetZ = Math.sin(angle) * distance;
             int x = center.getBlockX() + (int) Math.round(offsetX);
-            int y = center.getBlockY() + ThreadLocalRandom.current().nextInt(-4, 7);
+            int y = Math.max(baseY - 8, center.getBlockY() + ThreadLocalRandom.current().nextInt(-6, 9));
             int z = center.getBlockZ() + (int) Math.round(offsetZ);
             Location blockLocation = new Location(world, x, y, z);
             Material material = blockLocation.getBlock().getType();
