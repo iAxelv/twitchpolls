@@ -26,7 +26,6 @@ public class DragonAttackAction implements ActionStrategy {
 
         dragon.setPhase(EnderDragon.Phase.STRAFING);
 
-        // En Paper 1.21.8, el dragón no "ataca" solo por estar vivo: la fase es lo que activa su IA.
         Bukkit.getScheduler().runTaskTimer(context.plugin(), task -> {
             if (!dragon.isValid() || dragon.isDead()) {
                 task.cancel();
