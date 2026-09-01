@@ -37,6 +37,9 @@ public class TornadoAction implements ActionStrategy {
         new BukkitRunnable() {
             int elapsedTicks = 0;
             int totalTicks = durationSeconds * 20;
+            double driftX = ThreadLocalRandom.current().nextDouble(-1.6, 1.6);
+            double driftZ = ThreadLocalRandom.current().nextDouble(-1.6, 1.6);
+            int driftCooldown = 0;
 
             @Override
             public void run() {
@@ -46,13 +49,21 @@ public class TornadoAction implements ActionStrategy {
                 }
 
                 World world = context.world();
-                if (center.distanceSquared(streamerLocation) > radius * radius) {
-                    double dx = streamerLocation.getX() - center.getX();
-                    double dz = streamerLocation.getZ() - center.getZ();
-                    double len = Math.sqrt(dx * dx + dz * dz);
-                    if (len > 0.01) {
-                        center.add((dx / len) * 1.2, 0, (dz / len) * 1.2);
-                    }
+                if (driftCooldown-- <= 0) {
+                    driftCooldown = ThreadLocalRandom.current().nextInt(18, 42);
+                    driftX = ThreadLocalRandom.current().nextDouble(-1.8, 1.8);
+                    driftZ = ThreadLocalRandom.current().nextDouble(-1.8, 1.8);
+                }
+
+                center.add(driftX * 0.18, 0, driftZ * 0.18);
+                double maxDistance = radius * 1.4;
+                double dx = center.getX() - streamerLocation.getX();
+                double dz = center.getZ() - streamerLocation.getZ();
+                double distance = Math.hypot(dx, dz);
+                if (distance > maxDistance) {
+                    double scale = maxDistance / distance;
+                    center.setX(streamerLocation.getX() + dx * scale);
+                    center.setZ(streamerLocation.getZ() + dz * scale);
                 }
 
                 center.setY(Math.max(world.getMinHeight() + 2, Math.min(center.getY() + 0.35, streamerLocation.getY() + 9.0)));
