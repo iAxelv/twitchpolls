@@ -63,6 +63,12 @@ public class UIManager {
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
     }
 
+    public void showTikTokLikesEvent(Player player, ConfigurationSection config) {
+        showTitle(player, "messages.tiktok-likes-event-title", "messages.tiktok-likes-event-subtitle",
+                "%event%", config.getString("title", config.getName()));
+        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
+    }
+
     public void testPoll(Player player, ConfigurationSection config, ActionManager actionManager) {
         int duration = Math.max(1, plugin.getConfig().getInt("settings.poll-duration-seconds", 45));
         showPollStart(player, duration);

@@ -22,4 +22,5 @@ settings:
 
 tiktok:
   enabled: false
+  show-title: true # Whether to show the event title in the broadcast message
   streamer-username: "usuario_tiktok"

@@ -170,7 +170,9 @@ public final class TikTokManager {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
-                uiManager.showDonationEvent(player, actionConfig);
+                if (!plugin.getConfig().getBoolean("tiktok.show-title", false)) {
+                    uiManager.showDonationEvent(player, actionConfig);
+                }
                 actionManager.executeDonationAction(player, actionConfig, sender, combo);
                     int totalValue = actionConfig.getInt("value", 1) * combo;
                     String broadcast = plugin.getLanguageManager().getString(
@@ -210,7 +212,9 @@ public final class TikTokManager {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
-                uiManager.showTikTokFollowEvent(player, actionConfig);
+                if (!plugin.getConfig().getBoolean("tiktok.show-title", false)) {
+                    uiManager.showTikTokFollowEvent(player, actionConfig);
+                }
                 actionManager.executeDonationAction(player, actionConfig, follower);
                 String broadcast = plugin.getLanguageManager().getString(
                         "messages.tiktok-follow-event-broadcast",
@@ -251,9 +255,21 @@ public final class TikTokManager {
 
         ConfigurationSection actionConfig = matched;
         Bukkit.getScheduler().runTask(plugin, () -> {
+            String broadcast = plugin.getLanguageManager().getString(
+                    "messages.tiktok-likes-broadcast",
+                    "&d[TikTok] &f%event% &7was activated after &e%likes% likes")
+                    .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
+                    .replace("%likes%", String.valueOf(threshold));
+            for (long trigger = 0; trigger < triggerCount; trigger++) {
+                Bukkit.broadcast(LegacyComponentSerializer.legacyAmpersand().deserialize(broadcast));
+            }
+
             Player player = sessionManager.getStreamer();
             if (player == null || !player.isOnline()) {
                 return;
+            }
+            if (!plugin.getConfig().getBoolean("tiktok.show-title", false)) {
+                uiManager.showTikTokLikesEvent(player, actionConfig);
             }
             for (long trigger = 0; trigger < triggerCount; trigger++) {
                 actionManager.executeAction(player, actionConfig);

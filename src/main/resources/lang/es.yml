@@ -39,9 +39,12 @@ messages:
   donation-event-subtitle: "&f%event% &7(%value% %type%)"
   tiktok-follow-event-title: "&d¡FOLLOW DE TIKTOK!"
   tiktok-follow-event-subtitle: "&f%event%"
+  tiktok-likes-event-title: "&d¡LIKES DE TIKTOK!"
+  tiktok-likes-event-subtitle: "&f%event%"
   donation-event-broadcast: "&d[%provider%] &f%event% &7se activó por &e%value% %type% &7(%username%)"
   tiktok-gift-event-broadcast: "&d[TikTok] &f%event% &7se activó por &e%value% %gift% &7(%username%)"
   tiktok-follow-event-broadcast: "&d[TikTok] &f%event% &7se activó por un follow &7(%username%)"
+  tiktok-likes-broadcast: "&d[TikTok] &f%event% &7se activó al alcanzar &e%likes% likes"
   command-player-only: "&cEste subcomando solo puede ejecutarse dentro del juego."
   gui:
     categories-missing: "&cNo hay categorías configuradas en gui.yml."
