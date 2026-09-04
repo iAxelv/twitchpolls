@@ -30,8 +30,8 @@ public class HeartMeRouletteAction implements ActionStrategy {
         if (availableAt != null && availableAt > now) {
             return;
         }
-        ConfigurationSection tiktokEvents = ((TwitchPolls) context.plugin()).getEventConfig("tiktok");
-        List<ConfigurationSection> events = activeTikTokEvents(tiktokEvents);
+        ConfigurationSection donationEvents = ((TwitchPolls) context.plugin()).getEventConfig("donations");
+        List<ConfigurationSection> events = activeDonationEvents(donationEvents);
         if (events.isEmpty()) {
             return;
         }
@@ -66,13 +66,13 @@ public class HeartMeRouletteAction implements ActionStrategy {
         }.runTaskTimer(context.plugin(), 0L, intervalTicks);
     }
 
-    private List<ConfigurationSection> activeTikTokEvents(ConfigurationSection tiktokEvents) {
+    private List<ConfigurationSection> activeDonationEvents(ConfigurationSection donationEvents) {
         List<ConfigurationSection> events = new ArrayList<>();
-        if (tiktokEvents == null) {
+        if (donationEvents == null) {
             return events;
         }
-        for (String key : tiktokEvents.getKeys(false)) {
-            ConfigurationSection event = tiktokEvents.getConfigurationSection(key);
+        for (String key : donationEvents.getKeys(false)) {
+            ConfigurationSection event = donationEvents.getConfigurationSection(key);
             if (event != null && event.getBoolean("active", true)
                     && !"HEART_ME_ROULETTE".equalsIgnoreCase(event.getString("action", ""))) {
                 events.add(event);
