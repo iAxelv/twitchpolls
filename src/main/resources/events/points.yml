@@ -135,8 +135,15 @@ give_totems:
   title: "Unexpected gift"
   reward-title: "Weird gift" # This is the name to put in the points reward item name.
   action: GIVE_TOTEMS
-  min-totems: 1
-  max-totems: 4
+  amounts:
+    - 1
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 3
+    - 4
 instant_heal:
   active: true
   value: 600
