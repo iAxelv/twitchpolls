@@ -97,7 +97,7 @@ tsunami:
   wave-width: 16
   wave-speed: 1.2
   push-strength: 1.8
-  damage: 1.5
+  damage: 10
   damage-interval-ticks: 20
   clear-water-on-end: true
 zero_gravity:
