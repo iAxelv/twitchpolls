@@ -2,7 +2,6 @@ package com.foxy.twitchPolls.actions.tiktok;
 
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
-import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class WaveFireworksAction implements ActionStrategy {
@@ -10,7 +9,6 @@ public class WaveFireworksAction implements ActionStrategy {
     public void execute(ActionContext context) {
         int amount = Math.max(1, context.config().getInt("amount", 10));
         long intervalTicks = Math.max(1L, context.config().getLong("interval-ticks", 10L));
-        Location location = context.location().clone();
         new BukkitRunnable() {
             private int strikes;
 
@@ -20,7 +18,7 @@ public class WaveFireworksAction implements ActionStrategy {
                     cancel();
                     return;
                 }
-                context.world().strikeLightning(location);
+                context.player().getWorld().strikeLightning(context.player().getLocation());
                 strikes++;
             }
         }.runTaskTimer(context.plugin(), 0L, intervalTicks);

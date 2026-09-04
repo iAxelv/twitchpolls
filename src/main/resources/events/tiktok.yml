@@ -102,7 +102,7 @@ tiktok_paper_crane:
   value: 1
   display-name: "Paper Crane"
   amount: 10
-  radius: 4.0
+  height: 10.0
   fuse-ticks: 40
   scale-with-combo: true
 tiktok_money_gun:

@@ -48,6 +48,9 @@ tasks {
     }
 
     shadowJar {
+        archiveBaseName.set("StreamManager")
+        archiveClassifier.set("")
+
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
         exclude("META-INF/*.SF")
