@@ -73,7 +73,6 @@ tiktok_likes:
   likes-threshold: 500
   amount: 10
   radius: 4.0
-
 tiktok_wave_fireworks:
   active: true
   title: "Wave Fireworks"

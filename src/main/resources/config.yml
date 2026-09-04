@@ -9,7 +9,7 @@
 #   - secrets.yml (Keep this file confidential!)
 
 # Language configuration
-lang: es
+lang: en # Language code (e.g., "en" for English, "es" for Spanish)
 
 settings:
   streamer-username: "123456789" # Replace with your Minecraft username
@@ -21,6 +21,6 @@ settings:
   broadcast-results: true # Whether to broadcast poll results to the server
 
 tiktok:
-  enabled: false
+  enabled: false # configure event-provider "tiktok" to enable TikTok events
   show-title: true # Whether to show the event title in the broadcast message
-  streamer-username: "usuario_tiktok"
+  streamer-username: "user_tiktok"
