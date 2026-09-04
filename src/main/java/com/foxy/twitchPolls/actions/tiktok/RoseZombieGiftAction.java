@@ -9,7 +9,9 @@ import org.bukkit.entity.Zombie;
 public class RoseZombieGiftAction implements ActionStrategy {
     @Override
     public void execute(ActionContext context) {
-        int amount = Math.max(1, context.config().getInt("amount", 30));
+        long scaledAmount = (long) Math.max(1, context.config().getInt("amount", 30))
+            * context.eventMultiplier();
+        int amount = (int) Math.min(Integer.MAX_VALUE, scaledAmount);
         String donor = context.redeemerUsername() == null
                 ? "desconocido" : context.redeemerUsername();
 

@@ -32,13 +32,13 @@ public final class TikTokManager {
 
     public void connect() {
         if (!plugin.getConfig().getBoolean("tiktok.enabled", false)) {
-            plugin.getLogger().info("TikTok está deshabilitado en la configuración.");
+            plugin.getLogger().info("TikTok is disabled in the configuration.");
             return;
         }
 
         String username = plugin.getConfig().getString("tiktok.streamer-username", "").trim();
         if (username.isBlank() || "usuario_tiktok".equalsIgnoreCase(username)) {
-            plugin.getLogger().warning("TikTok está seleccionado, pero tiktok.streamer-username no está configurado.");
+            plugin.getLogger().warning("TikTok is selected, but tiktok.streamer-username is not configured.");
             return;
         }
 
@@ -49,10 +49,10 @@ public final class TikTokManager {
                         .onGift((liveClient, event) -> onGift(event))
                         .onFollow((liveClient, event) -> onFollow(event))
                         .onConnected((liveClient, event) -> plugin.getLogger().info(
-                                "Conectado al directo de TikTok de @" + username))
+                            "Connected to TikTok Live for @" + username))
                         .onDisconnected((liveClient, event) -> onDisconnected(liveClient, generation))
                         .onError((liveClient, event) -> plugin.getLogger().log(
-                                Level.WARNING, "Error en TikTok Live", event.getException()))
+                            Level.WARNING, "Error in TikTok Live", event.getException()))
                         .buildAndConnect();
                 synchronized (this) {
                     if (generation != connectionGeneration.get()
@@ -67,7 +67,7 @@ public final class TikTokManager {
             } catch (Exception exception) {
                 if (generation == connectionGeneration.get()) {
                     plugin.getLogger().log(Level.SEVERE,
-                        "No se pudo conectar al directo de TikTok de @" + username, exception);
+                        "Could not connect to TikTok Live for @" + username, exception);
                 }
             }
         });
@@ -85,7 +85,7 @@ public final class TikTokManager {
             try {
                 activeClient.disconnect();
             } catch (Exception exception) {
-                plugin.getLogger().log(Level.FINE, "Error cerrando TikTok Live", exception);
+                plugin.getLogger().log(Level.FINE, "Error closing TikTok Live", exception);
             }
         }
     }
@@ -108,7 +108,7 @@ public final class TikTokManager {
                 connect();
             }, 100L);
         }
-        plugin.getLogger().warning("TikTok Live se desconectó; se intentará reconectar.");
+        plugin.getLogger().warning("TikTok Live disconnected; retrying connection.");
     }
 
     private void onGift(TikTokGiftEvent event) {
@@ -149,18 +149,20 @@ public final class TikTokManager {
         }
 
         ConfigurationSection actionConfig = matched;
-        String sender = event.getUser() == null ? "desconocido" : event.getUser().getProfileName();
+        String sender = event.getUser() == null ? "unknown" : event.getUser().getProfileName();
+        int combo = Math.max(1, event.getCombo());
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
                 uiManager.showDonationEvent(player, actionConfig);
-                actionManager.executeDonationAction(player, actionConfig, sender);
+                actionManager.executeDonationAction(player, actionConfig, sender, combo);
+                    int totalValue = actionConfig.getInt("value", 1) * combo;
                     String broadcast = plugin.getLanguageManager().getString(
                         "messages.tiktok-gift-event-broadcast",
-                        "&d[TikTok] &f%event% &7se activó por &e%value% %gift% &7(%username%)")
+                        "&d[TikTok] &f%event% &7was activated by &e%value% %gift% &7(%username%)")
                         .replace("%provider%", "TikTok")
                         .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
-                        .replace("%value%", String.valueOf(actionConfig.getInt("value", 1)))
+                        .replace("%value%", String.valueOf(totalValue))
                         .replace("%gift%", actionConfig.getString("display-name", giftName))
                         .replace("%username%", sender);
                     Bukkit.broadcast(LegacyComponentSerializer.legacyAmpersand().deserialize(broadcast));
@@ -188,7 +190,7 @@ public final class TikTokManager {
         }
 
         ConfigurationSection actionConfig = matched;
-        String follower = event.getUser() == null ? "desconocido" : event.getUser().getProfileName();
+        String follower = event.getUser() == null ? "unknown" : event.getUser().getProfileName();
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
@@ -196,7 +198,7 @@ public final class TikTokManager {
                 actionManager.executeDonationAction(player, actionConfig, follower);
                 String broadcast = plugin.getLanguageManager().getString(
                         "messages.tiktok-follow-event-broadcast",
-                        "&d[TikTok] &f%event% &7se activó por un follow &7(%username%)")
+                        "&d[TikTok] &f%event% &7was activated by a follow &7(%username%)")
                         .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
                         .replace("%username%", follower);
                 Bukkit.broadcast(LegacyComponentSerializer.legacyAmpersand().deserialize(broadcast));

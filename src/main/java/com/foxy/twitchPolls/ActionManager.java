@@ -40,12 +40,17 @@ public class ActionManager {
         }
         ActionStrategy strategy = strategies.get(config.getString("action"));
         if (strategy != null) {
-            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(), null));
+            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(), null, 1));
         }
     }
 
     public void executeDonationAction(Player player, ConfigurationSection config, String donorUsername) {
-        executeAction(player, config, donorUsername);
+        executeDonationAction(player, config, donorUsername, 1);
+    }
+
+    public void executeDonationAction(Player player, ConfigurationSection config, String donorUsername,
+                                      int eventMultiplier) {
+        executeAction(player, config, donorUsername, eventMultiplier);
         uiManager.startEventCountdown(player, config);
     }
 
@@ -59,12 +64,18 @@ public class ActionManager {
     }
 
     private void executeAction(Player player, ConfigurationSection config, String redeemerUsername) {
+        executeAction(player, config, redeemerUsername, 1);
+    }
+
+    private void executeAction(Player player, ConfigurationSection config, String redeemerUsername,
+                               int eventMultiplier) {
         if (config == null || !config.contains("action")) {
             return;
         }
         ActionStrategy strategy = strategies.get(config.getString("action"));
         if (strategy != null) {
-            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(), redeemerUsername));
+            strategy.execute(new ActionContext(plugin, player, config, sessionManager.getStreamerUsername(),
+                    redeemerUsername, Math.max(1, eventMultiplier)));
         }
     }
 

@@ -6,7 +6,7 @@ tiktok_rose_example:
   gift-name: "Rose"
   value: 1
   display-name: "rosa"
-  amount: 30
+  amount: 30 # Multiplied by the gift combo (10x = 300 zombies)
   radius: 4
 tiktok_follow:
   active: true
