@@ -18,6 +18,47 @@ tiktok_doughnut:
   display-name: "doughnut"
   duration-seconds: 1
   interval-seconds: 5
+tiktok_cap:
+  active: true
+  title: "Circulo de Ghasts"
+  action: CAP_GHAST_CIRCLE
+  type: tiktok_gift
+  gift-name: "Cap"
+  value: 1
+  display-name: "gorra"
+  amount: 10
+  radius: 10.0
+tiktok_galaxy:
+  active: true
+  title: "Warden de Corgi"
+  action: GALAXY_WARDEN
+  type: tiktok_gift
+  gift-name: "Corgi"
+  value: 1
+  display-name: "Corgi"
+  speed-amplifier: 2
+  duration-seconds: 9999999
+tiktok_heart_me:
+  active: true
+  title: "Ruleta de eventos"
+  action: HEART_ME_ROULETTE
+  type: tiktok_gift
+  gift-name: "Heart Me"
+  value: 1
+  display-name: "Heart Me"
+  roulette-duration-seconds: 5
+  roulette-interval-ticks: 5
+  cooldown-seconds: 10
+tiktok_finger_heart:
+  active: true
+  title: "Recompensa Finger Heart"
+  action: FINGER_HEART_REWARD
+  type: tiktok_gift
+  gift-name: "Finger Heart"
+  value: 1
+  display-name: "Finger Heart"
+  totems: 2
+  notch-apples: 2
 tiktok_follow:
   active: true
   title: "TNT"
@@ -31,4 +72,97 @@ tiktok_likes:
   type: tiktok_likes
   likes-threshold: 500
   amount: 10
+  radius: 4.0
+
+tiktok_wave_fireworks:
+  active: true
+  title: "Wave Fireworks"
+  action: WAVE_FIREWORKS
+  type: tiktok_gift
+  gift-name: "Wave Fireworks"
+  value: 1
+  display-name: "Wave Fireworks"
+  amount: 10
+  interval-ticks: 10
+tiktok_hand_heart:
+  active: true
+  title: "Hand Heart"
+  action: HAND_HEART
+  type: tiktok_gift
+  gift-name: "Hand Heart"
+  value: 1
+  display-name: "Hand Heart"
+  amount: 10
+  radius: 4.0
+tiktok_paper_crane:
+  active: true
+  title: "Paper Crane"
+  action: PAPER_CRANE
+  type: tiktok_gift
+  gift-name: "Paper Crane"
+  value: 1
+  display-name: "Paper Crane"
+  amount: 10
+  radius: 4.0
+  fuse-ticks: 40
+  scale-with-combo: true
+tiktok_money_gun:
+  active: true
+  title: "Money Gun"
+  action: MONEY_GUN
+  type: tiktok_gift
+  gift-name: "Money Gun"
+  value: 1
+  display-name: "Money Gun"
+  amount: 3
+  radius: 3.0
+tiktok_galaxy:
+  active: true
+  title: "Galaxy"
+  action: GALAXY_TNT
+  type: tiktok_gift
+  gift-name: "Galaxy"
+  value: 1
+  display-name: "Galaxy"
+  amount: 500
+  radius: 10.0
+  fuse-ticks: 60
+tiktok_whale_diving:
+  active: true
+  title: "Whale Diving"
+  action: WHALE_DIVING
+  type: tiktok_gift
+  gift-name: "Whale Diving"
+  value: 1
+  display-name: "Whale Diving"
+  amount: 1000
+  radius: 12.0
+  fuse-ticks: 60
+tiktok_swan:
+  active: true
+  title: "Swan"
+  action: SWAN_CLEAR
+  type: tiktok_gift
+  gift-name: "Swan"
+  value: 1
+  display-name: "Swan"
+tiktok_perfume:
+  active: true
+  title: "Perfume"
+  action: PERFUME
+  type: tiktok_gift
+  gift-name: "Perfume"
+  value: 1
+  display-name: "Perfume"
+  amount: 5
+  radius: 4.0
+tiktok_rosa:
+  active: true
+  title: "Rosa"
+  action: TIKTOK_CHARGED_CREEPER_ARMY
+  type: tiktok_gift
+  gift-name: "Rosa"
+  value: 1
+  display-name: "Rosa"
+  amount: 15
   radius: 4.0

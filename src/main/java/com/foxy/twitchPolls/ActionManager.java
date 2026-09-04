@@ -11,7 +11,17 @@ import com.foxy.twitchPolls.actions.points.*;
 import com.foxy.twitchPolls.actions.tiktok.FollowTntAction;
 import com.foxy.twitchPolls.actions.tiktok.ChargedCreeperLikeAction;
 import com.foxy.twitchPolls.actions.tiktok.DoughnutDeleteChunkAction;
+import com.foxy.twitchPolls.actions.tiktok.CapGhastCircleAction;
+import com.foxy.twitchPolls.actions.tiktok.GalaxyWardenAction;
+import com.foxy.twitchPolls.actions.tiktok.HeartMeRouletteAction;
+import com.foxy.twitchPolls.actions.tiktok.FingerHeartRewardAction;
 import com.foxy.twitchPolls.actions.tiktok.RoseZombieGiftAction;
+import com.foxy.twitchPolls.actions.tiktok.WaveFireworksAction;
+import com.foxy.twitchPolls.actions.tiktok.HandHeartAction;
+import com.foxy.twitchPolls.actions.tiktok.TntCircleAction;
+import com.foxy.twitchPolls.actions.tiktok.MoneyGunAction;
+import com.foxy.twitchPolls.actions.tiktok.ClearInventoryAction;
+import com.foxy.twitchPolls.actions.tiktok.PerfumeAction;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -180,8 +190,20 @@ public class ActionManager {
         strategies.put("SURPRISE", context -> executeSurpriseAction(context.player()));
         strategies.put("ROSE_ZOMBIES", new RoseZombieGiftAction());
         strategies.put("DOUGHNUT_DELETE_CHUNK", new DoughnutDeleteChunkAction());
+        strategies.put("CAP_GHAST_CIRCLE", new CapGhastCircleAction());
+        strategies.put("GALAXY_WARDEN", new GalaxyWardenAction());
+        strategies.put("HEART_ME_ROULETTE", new HeartMeRouletteAction());
+        strategies.put("FINGER_HEART_REWARD", new FingerHeartRewardAction());
         strategies.put("FOLLOW_TNT", new FollowTntAction());
         strategies.put("TIKTOK_CHARGED_CREEPER_ARMY", new ChargedCreeperLikeAction());
+        strategies.put("WAVE_FIREWORKS", new WaveFireworksAction());
+        strategies.put("HAND_HEART", new HandHeartAction());
+        strategies.put("PAPER_CRANE", new TntCircleAction());
+        strategies.put("MONEY_GUN", new MoneyGunAction());
+        strategies.put("GALAXY_TNT", new TntCircleAction());
+        strategies.put("WHALE_DIVING", new TntCircleAction());
+        strategies.put("SWAN_CLEAR", new ClearInventoryAction());
+        strategies.put("PERFUME", new PerfumeAction());
     }
 
     private void executeSurpriseAction(Player player) {

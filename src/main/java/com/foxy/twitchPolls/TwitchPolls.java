@@ -116,6 +116,10 @@ public final class TwitchPolls extends JavaPlugin {
         return languageManager;
     }
 
+    public ActionManager getActionManager() {
+        return actionManager;
+    }
+
     private void migrateLegacyEventConfigs() {
         if (!getConfig().isConfigurationSection("events")) {
             return;

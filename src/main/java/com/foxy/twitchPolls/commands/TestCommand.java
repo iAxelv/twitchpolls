@@ -96,8 +96,7 @@ public class TestCommand implements Listener {
                 continue;
             }
             String action = itemConfig.getString("event", itemKey).toUpperCase();
-            if (!actionManager.getRegisteredActions().contains(action)
-                    || actionManager.findActionConfig(action, category) == null) {
+            if (!actionManager.getRegisteredActions().contains(action)) {
                 continue;
             }
             holder.actions.put(slot, action);

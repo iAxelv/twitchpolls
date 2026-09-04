@@ -673,7 +673,7 @@ category-items:
         - "&eClick to test"
     DOUGHNUT_DELETE_CHUNK:
       event: DOUGHNUT_DELETE_CHUNK
-      slot: 2
+      slot: 1
       item: TNT_MINECART
       display-name: "&4Doughnut Chunk"
       lore:
@@ -681,7 +681,7 @@ category-items:
         - "&eClick to test"
     FOLLOW_TNT:
       event: FOLLOW_TNT
-      slot: 1
+      slot: 2
       item: TNT
       display-name: "&cFollow TNT"
       lore:
@@ -694,4 +694,108 @@ category-items:
       display-name: "&aTikTok Likes"
       lore:
         - "&7Test the TikTok likes event"
+        - "&eClick to test"
+    CAP_GHAST_CIRCLE:
+      event: CAP_GHAST_CIRCLE
+      slot: 4
+      item: GHAST_SPAWN_EGG
+      display-name: "&fCap Ghasts"
+      lore:
+        - "&7Spawn Ghasts around the streamer"
+        - "&eClick to test"
+    GALAXY_WARDEN:
+      event: GALAXY_WARDEN
+      slot: 5
+      item: SCULK_SHRIEKER
+      display-name: "&5Galaxy Warden"
+      lore:
+        - "&7Spawn a fast Warden"
+        - "&eClick to test"
+    HEART_ME_ROULETTE:
+      event: HEART_ME_ROULETTE
+      slot: 6
+      item: RED_DYE
+      display-name: "&cHeart Me Roulette"
+      lore:
+        - "&7Spin through donation events"
+        - "&eClick to test"
+    FINGER_HEART_REWARD:
+      event: FINGER_HEART_REWARD
+      slot: 7
+      item: TOTEM_OF_UNDYING
+      display-name: "&eFinger Heart"
+      lore:
+        - "&7Give totems and Notch apples"
+        - "&eClick to test"
+    WAVE_FIREWORKS:
+      event: WAVE_FIREWORKS
+      slot: 8
+      item: FIREWORK_ROCKET
+      display-name: "&bWave Fireworks"
+      lore:
+        - "&7Strike the streamer ten times"
+        - "&eClick to test"
+    HAND_HEART:
+      event: HAND_HEART
+      slot: 9
+      item: ENDERMAN_SPAWN_EGG
+      display-name: "&5Hand Heart"
+      lore:
+        - "&7Summon attacking Endermen"
+        - "&eClick to test"
+    PAPER_CRANE:
+      event: PAPER_CRANE
+      slot: 10
+      item: PAPER
+      display-name: "&fPaper Crane"
+      lore:
+        - "&7Drop TNT around the streamer"
+        - "&eClick to test"
+    MONEY_GUN:
+      event: MONEY_GUN
+      slot: 11
+      item: GOLD_INGOT
+      display-name: "&6Money Gun"
+      lore:
+        - "&7Summon named Withers"
+        - "&eClick to test"
+    GALAXY_TNT:
+      event: GALAXY_TNT
+      slot: 12
+      item: TNT
+      display-name: "&dGalaxy"
+      lore:
+        - "&7Ignite a configurable TNT circle"
+        - "&eClick to test"
+    WHALE_DIVING:
+      event: WHALE_DIVING
+      slot: 13
+      item: TNT
+      display-name: "&3Whale Diving"
+      lore:
+        - "&7Ignite a massive TNT circle"
+        - "&eClick to test"
+    SWAN_CLEAR:
+      event: SWAN_CLEAR
+      slot: 14
+      item: WHITE_WOOL
+      display-name: "&fSwan"
+      lore:
+        - "&7Clear the streamer's inventory"
+        - "&eClick to test"
+    PERFUME:
+      event: PERFUME
+      slot: 15
+      item: BLAZE_SPAWN_EGG
+      display-name: "&ePerfume"
+      lore:
+        - "&7Summon named Blazes in a circle"
+        - "&eClick to test"
+    TIKTOK_ROSA:
+      event: TIKTOK_CHARGED_CREEPER_ARMY
+      slot: 16
+      item: CREEPER_HEAD
+      display-name: "&aRosa"
+      lore:
+        - "&7Summon 15 charged Creepers"
         - "&eClick to test"
