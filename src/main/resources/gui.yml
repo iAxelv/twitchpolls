@@ -5,25 +5,32 @@ titles:
   polls: "&5Poll Actions"
   donations: "&6Donation Actions"
   points: "&bPoint Actions"
+  tiktok: "&dTikTok Actions"
 categories:
   polls:
-    slot: 2
+    slot: 1
     item: CHEST
     display-name: "&5Poll Actions"
     lore:
       - "&7Test poll actions"
   donations:
-    slot: 4
+    slot: 3
     item: GOLD_INGOT
     display-name: "&6Donation Actions"
     lore:
       - "&7Test donation actions"
   points:
-    slot: 6
+    slot: 5
     item: DIAMOND
     display-name: "&bPoint Actions"
     lore:
       - "&7Test point actions"
+  tiktok:
+    slot: 7
+    item: NETHER_STAR
+    display-name: "&dTikTok Actions"
+    lore:
+      - "&7Test TikTok events"
 back-item:
   slot: 53
   item: ARROW
@@ -654,4 +661,21 @@ category-items:
       lore:
         - "&7Give between 1 and 4 Notch apples"
         - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+  tiktok:
+    ROSE_ZOMBIES:
+      event: ROSE_ZOMBIES
+      slot: 0
+      item: POPPY
+      display-name: "&dRose Zombies"
+      lore:
+        - "&7Summon zombies for each rose"
+        - "&eClick to test"
+    FOLLOW_TNT:
+      event: FOLLOW_TNT
+      slot: 1
+      item: TNT
+      display-name: "&cFollow TNT"
+      lore:
+        - "&7Test the TikTok follow event"
         - "&eClick to test"

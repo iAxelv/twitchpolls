@@ -194,7 +194,7 @@ public final class TikTokManager {
         Bukkit.getScheduler().runTask(plugin, () -> {
             Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
-                uiManager.showDonationEvent(player, actionConfig);
+                uiManager.showTikTokFollowEvent(player, actionConfig);
                 actionManager.executeDonationAction(player, actionConfig, follower);
                 String broadcast = plugin.getLanguageManager().getString(
                         "messages.tiktok-follow-event-broadcast",

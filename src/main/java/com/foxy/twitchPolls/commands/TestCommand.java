@@ -23,7 +23,7 @@ import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class TestCommand implements Listener {
-    private static final String[] EVENT_TYPES = {"polls", "donations", "points"};
+    private static final String[] EVENT_TYPES = {"polls", "donations", "points", "tiktok"};
     private final TwitchPolls plugin;
     private final ActionManager actionManager;
     private final UIManager uiManager;
@@ -218,6 +218,8 @@ public class TestCommand implements Listener {
             } else if ("donations".equals(holder.category)) {
                 uiManager.showDonationEvent(player, actionConfig);
                 actionManager.executeDonationAction(player, actionConfig, "unknown");
+            } else if ("tiktok".equals(holder.category)) {
+                actionManager.executeAction(player, actionConfig);
             } else {
                 uiManager.testPoll(player, actionConfig, actionManager);
             }

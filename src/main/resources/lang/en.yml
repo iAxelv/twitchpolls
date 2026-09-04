@@ -37,6 +37,8 @@ messages:
   points-event-broadcast: "&d[Twitch] &f%event% &7was activated by &e%value% points &7(%username%)"
   donation-event-title: "&c[DONATION EVENT!]"
   donation-event-subtitle: "&f%event% &7(%value% %type%)"
+  tiktok-follow-event-title: "&d[TIKTOK FOLLOW!]"
+  tiktok-follow-event-subtitle: "&f%event%"
   donation-event-broadcast: "&d[%provider%] &f%event% &7was activated by &e%value% %type% &7(%username%)"
   tiktok-gift-event-broadcast: "&d[TikTok] &f%event% &7was activated by &e%value% %gift% &7(%username%)"
   tiktok-follow-event-broadcast: "&d[TikTok] &f%event% &7was activated by a follow &7(%username%)"
