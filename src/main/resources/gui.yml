@@ -199,6 +199,15 @@ items:
     lore:
       - "&7Trigger a random donation event"
       - "&eClick to test"
+  TSUNAMI:
+    event: TSUNAMI
+    slot: 21
+    item: WATER_BUCKET
+    display-name: "&9Tsunami"
+    lore:
+      - "&7A fast-moving wall of water"
+      - "&7Climb high before impact"
+      - "&eClick to test"
 category-items:
   donations:
     INVENTORY_BOMB:

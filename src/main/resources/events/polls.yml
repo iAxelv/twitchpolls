@@ -88,6 +88,18 @@ tornado:
   pull-strength: 0.22
   blocks-per-tick: 12
   particles: true
+tsunami:
+  active: true
+  title: "Tsunami"
+  action: TSUNAMI
+  duration-seconds: 10
+  wave-height: 6
+  wave-width: 16
+  wave-speed: 1.2
+  push-strength: 1.8
+  damage: 1.5
+  damage-interval-ticks: 20
+  clear-water-on-end: true
 zero_gravity:
   active: true
   title: "Zero gravity"

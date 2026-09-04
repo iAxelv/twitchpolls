@@ -105,6 +105,7 @@ public class ActionManager {
         strategies.put("HOT_POTATO", new HotPotatoAction());
         strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin));
         strategies.put("TORNADO", new TornadoAction());
+        strategies.put("TSUNAMI", new TsunamiAction());
         strategies.put("ZERO_GRAVITY", new ZeroGravityAction());
         strategies.put("DELETE_CHUNK", new DeleteChunkAction());
         strategies.put("SPARK", new LightningStormAction());
