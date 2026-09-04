@@ -2,6 +2,7 @@ package com.foxy.twitchPolls;
 
 import io.github.jwdeveloper.tiktok.TikTokLive;
 import io.github.jwdeveloper.tiktok.data.events.gift.TikTokGiftEvent;
+import io.github.jwdeveloper.tiktok.data.events.social.TikTokFollowEvent;
 import io.github.jwdeveloper.tiktok.live.LiveClient;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -46,6 +47,7 @@ public final class TikTokManager {
             try {
                 LiveClient newClient = TikTokLive.newClient(username)
                         .onGift((liveClient, event) -> onGift(event))
+                        .onFollow((liveClient, event) -> onFollow(event))
                         .onConnected((liveClient, event) -> plugin.getLogger().info(
                                 "Conectado al directo de TikTok de @" + username))
                         .onDisconnected((liveClient, event) -> onDisconnected(liveClient, generation))
@@ -153,15 +155,51 @@ public final class TikTokManager {
             if (player != null && player.isOnline()) {
                 uiManager.showDonationEvent(player, actionConfig);
                 actionManager.executeDonationAction(player, actionConfig, sender);
-                String broadcast = plugin.getLanguageManager().getString(
-                        "messages.donation-event-broadcast",
-                        "&d[TikTok] &f%event% &7se activó por &e%value% %type% &7(%username%)")
+                    String broadcast = plugin.getLanguageManager().getString(
+                        "messages.tiktok-gift-event-broadcast",
+                        "&d[TikTok] &f%event% &7se activó por &e%value% %gift% &7(%username%)")
                         .replace("%provider%", "TikTok")
                         .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
-                        .replace("%value%", String.valueOf(diamondCost))
-                        .replace("%type%", "regalo")
+                        .replace("%value%", String.valueOf(actionConfig.getInt("value", 1)))
+                        .replace("%gift%", actionConfig.getString("display-name", giftName))
                         .replace("%username%", sender);
                     Bukkit.broadcast(LegacyComponentSerializer.legacyAmpersand().deserialize(broadcast));
+            }
+        });
+    }
+
+    private void onFollow(TikTokFollowEvent event) {
+        ConfigurationSection tiktokEvents = plugin.getEventConfig("tiktok");
+        if (tiktokEvents == null) {
+            return;
+        }
+
+        ConfigurationSection matched = null;
+        for (String key : tiktokEvents.getKeys(false)) {
+            ConfigurationSection candidate = tiktokEvents.getConfigurationSection(key);
+            if (candidate != null && candidate.getBoolean("active", true)
+                    && "tiktok_follow".equalsIgnoreCase(candidate.getString("type", ""))) {
+                matched = candidate;
+                break;
+            }
+        }
+        if (matched == null) {
+            return;
+        }
+
+        ConfigurationSection actionConfig = matched;
+        String follower = event.getUser() == null ? "desconocido" : event.getUser().getProfileName();
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            Player player = sessionManager.getStreamer();
+            if (player != null && player.isOnline()) {
+                uiManager.showDonationEvent(player, actionConfig);
+                actionManager.executeDonationAction(player, actionConfig, follower);
+                String broadcast = plugin.getLanguageManager().getString(
+                        "messages.tiktok-follow-event-broadcast",
+                        "&d[TikTok] &f%event% &7se activó por un follow &7(%username%)")
+                        .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
+                        .replace("%username%", follower);
+                Bukkit.broadcast(LegacyComponentSerializer.legacyAmpersand().deserialize(broadcast));
             }
         });
     }

@@ -8,6 +8,8 @@ import com.foxy.twitchPolls.actions.common.LightningStormAction;
 import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
+import com.foxy.twitchPolls.actions.tiktok.FollowTntAction;
+import com.foxy.twitchPolls.actions.tiktok.RoseZombieGiftAction;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -163,6 +165,8 @@ public class ActionManager {
         strategies.put("DELETED_CHUNKS", new DeleteChunkAction());
         strategies.put("ONE_HEART_CHALLENGE", new OneHeartChallengeAction());
         strategies.put("SURPRISE", context -> executeSurpriseAction(context.player()));
+        strategies.put("ROSE_ZOMBIES", new RoseZombieGiftAction());
+        strategies.put("FOLLOW_TNT", new FollowTntAction());
     }
 
     private void executeSurpriseAction(Player player) {

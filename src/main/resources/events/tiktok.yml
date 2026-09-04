@@ -1,10 +1,13 @@
 tiktok_rose_example:
-  active: false
-  title: "Lluvia de flechas"
-  action: ANVIL_TRAP
+  active: true
+  title: "Horda de rosas"
+  action: ROSE_ZOMBIES
   type: tiktok_gift
   gift-name: "Rose"
   value: 1
+  display-name: "rosa"
+  amount: 30
+  radius: 4
 
 tiktok_lion_example:
   active: false
@@ -13,3 +16,10 @@ tiktok_lion_example:
   type: tiktok_gift
   gift-name: "Lion"
   value: 29999
+
+tiktok_follow:
+  active: true
+  title: "TNT"
+  action: FOLLOW_TNT
+  type: tiktok_follow
+  fuse-ticks: 80
