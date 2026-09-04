@@ -4,56 +4,124 @@ import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.UUID;
+import java.time.Duration;
+import net.kyori.adventure.title.Title;
 
 public class HotPotatoAction implements ActionStrategy {
     @Override public void execute(ActionContext context) {
         TwitchPolls plugin = (TwitchPolls) context.plugin();
-        var inventory = context.player().getInventory();
-        Material[] items = {Material.POTATO, Material.BAKED_POTATO, Material.APPLE, Material.CARROT,
-            Material.BREAD, Material.COOKIE, Material.PUMPKIN_PIE, Material.MELON_SLICE};
-        ItemStack potato = new ItemStack(items[ThreadLocalRandom.current().nextInt(items.length)]);
-        ItemMeta meta = potato.getItemMeta();
-        NamespacedKey potatoKey = new NamespacedKey(context.plugin(), "hot_potato_id");
-        String potatoId = UUID.randomUUID().toString();
-        meta.getPersistentDataContainer().set(potatoKey, PersistentDataType.STRING, potatoId);
-        potato.setItemMeta(meta);
-        var leftovers = inventory.addItem(potato);
-        leftovers.values().forEach(item -> context.player().getWorld().dropItemNaturally(
-            context.player().getLocation(), item));
-        int duration = Math.max(3, context.config().getInt("duration-seconds", 15));
-        new BukkitRunnable() {
-            int remaining = duration;
-            @Override public void run() {
-                if (!context.player().isOnline()) { cancel(); return; }
-                String format = plugin.getLanguageManager().getString(
-                        "messages.hot-potato-actionbar", "&cHot potato: %time%s");
-                context.player().sendActionBar(LegacyComponentSerializer.legacyAmpersand()
-                    .deserialize(format.replace("%time%", String.valueOf(remaining))));
-                if (remaining-- <= 0) {
-                    for (int slot = 0; slot < inventory.getSize(); slot++) {
-                        ItemStack current = inventory.getItem(slot);
-                        if (current == null || current.getItemMeta() == null) continue;
-                        String currentId = current.getItemMeta().getPersistentDataContainer()
-                            .get(potatoKey, PersistentDataType.STRING);
-                        if (potatoId.equals(currentId)) {
-                            inventory.setItem(slot, null);
-                            context.world().createExplosion(context.player().getLocation(),
-                                (float) context.config().getDouble("explosion-power", 1.0), false, false);
-                            break;
-                        }
-                    }
-                    cancel();
+        Player player = context.player();
+        int duration = Math.max(5, context.config().getInt("duration-seconds", 15));
+        float explosionPower = (float) Math.max(0.0,
+                context.config().getDouble("explosion-power", 1.0));
+        boolean wasGlowing = player.isGlowing();
+        final BukkitRunnable[] taskHolder = new BukkitRunnable[1];
+        player.setGlowing(true);
+
+        Listener potatoListener = new Listener() {
+            @EventHandler
+            public void onHitEntity(EntityDamageByEntityEvent event) {
+                if (!(event.getDamager() instanceof Player attacker)
+                        || !attacker.getUniqueId().equals(player.getUniqueId())
+                        || !(event.getEntity() instanceof LivingEntity target)
+                        || target instanceof ArmorStand) {
+                    return;
+                }
+
+                player.setGlowing(wasGlowing);
+                player.sendActionBar(LegacyComponentSerializer.legacyAmpersand()
+                        .deserialize(plugin.getLanguageManager().getString(
+                        "messages.hot-potato-saved", "&aHot potato passed!")));
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
+                HandlerList.unregisterAll(this);
+                cancelTask();
+            }
+
+            @EventHandler
+            public void onQuit(PlayerQuitEvent event) {
+                if (event.getPlayer().getUniqueId().equals(player.getUniqueId())) {
+                    player.setGlowing(wasGlowing);
+                    HandlerList.unregisterAll(this);
+                    cancelTask();
                 }
             }
-        }.runTaskTimer(context.plugin(), 0L, 20L);
+
+            @EventHandler
+            public void onDeath(EntityDeathEvent event) {
+                if (event.getEntity().getUniqueId().equals(player.getUniqueId())) {
+                    player.setGlowing(wasGlowing);
+                    HandlerList.unregisterAll(this);
+                    cancelTask();
+                }
+            }
+
+            private void cancelTask() {
+                if (taskHolder[0] != null) taskHolder[0].cancel();
+            }
+        };
+
+        taskHolder[0] = new BukkitRunnable() {
+            int remainingTicks = duration * 20;
+
+            @Override public void run() {
+                if (!player.isOnline()) {
+                    player.setGlowing(wasGlowing);
+                    cancel();
+                    HandlerList.unregisterAll(potatoListener);
+                    return;
+                }
+
+                int remainingSeconds = (int) Math.ceil(remainingTicks / 20.0);
+                String format = plugin.getLanguageManager().getString(
+                    "messages.hot-potato-actionbar", "&cHot potato: %time%s");
+                player.sendActionBar(LegacyComponentSerializer.legacyAmpersand()
+                        .deserialize(format.replace("%time%", String.valueOf(remainingSeconds))));
+
+                if (remainingTicks % 60 == 0 && remainingTicks > 0) {
+                    player.setFireTicks(40);
+                    player.getWorld().spawnParticle(Particle.FLAME,
+                            player.getLocation().add(0, 1.0, 0), 8, 0.2, 0.3, 0.2, 0.02);
+                    player.playSound(player.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 0.7f, 1.4f);
+                }
+
+                if (remainingTicks <= 0) {
+                    player.setGlowing(wasGlowing);
+                    player.getWorld().createExplosion(player.getLocation(), explosionPower, false, false);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 2));
+                    player.showTitle(Title.title(
+                            LegacyComponentSerializer.legacyAmpersand().deserialize(
+                                plugin.getLanguageManager().getString(
+                                    "messages.hot-potato-boom-title", "&4&lBOOM!")),
+                            LegacyComponentSerializer.legacyAmpersand().deserialize(
+                                plugin.getLanguageManager().getString(
+                                    "messages.hot-potato-boom-subtitle",
+                                    "&cYou did not pass the hot potato in time")),
+                            Title.Times.times(Duration.ZERO, Duration.ofSeconds(2), Duration.ofMillis(500))));
+                    HandlerList.unregisterAll(potatoListener);
+                    cancel();
+                    return;
+                }
+
+                remainingTicks--;
+            }
+        };
+
+        plugin.getServer().getPluginManager().registerEvents(potatoListener, plugin);
+        taskHolder[0].runTaskTimer(plugin, 0L, 1L);
     }
 }
