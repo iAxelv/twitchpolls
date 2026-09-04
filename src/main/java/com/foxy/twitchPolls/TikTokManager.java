@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.Locale;
 import java.util.logging.Level;
 
 public final class TikTokManager {
@@ -36,7 +37,8 @@ public final class TikTokManager {
             return;
         }
 
-        String username = plugin.getConfig().getString("tiktok.streamer-username", "").trim();
+        String username = plugin.getConfig().getString("tiktok.streamer-username", "").trim()
+            .toLowerCase(Locale.ROOT);
         if (username.isBlank() || "usuario_tiktok".equalsIgnoreCase(username)) {
             plugin.getLogger().warning("TikTok is selected, but tiktok.streamer-username is not configured.");
             return;
@@ -66,8 +68,10 @@ public final class TikTokManager {
                 }
             } catch (Exception exception) {
                 if (generation == connectionGeneration.get()) {
-                    plugin.getLogger().log(Level.SEVERE,
-                        "Could not connect to TikTok Live for @" + username, exception);
+                    plugin.getLogger().log(Level.WARNING,
+                        "Could not connect to TikTok Live for @" + username
+                            + "; retrying automatically.", exception);
+                    scheduleReconnect();
                 }
             }
         });
@@ -100,15 +104,23 @@ public final class TikTokManager {
             return;
         }
         client = null;
-        if (reconnectTask == null && plugin.isEnabled()) {
-            reconnectTask = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-                synchronized (this) {
-                    reconnectTask = null;
-                }
-                connect();
-            }, 100L);
-        }
+        scheduleReconnect();
         plugin.getLogger().warning("TikTok Live disconnected; retrying connection.");
+    }
+
+    private synchronized void scheduleReconnect() {
+        if (reconnectTask != null || !plugin.isEnabled()
+                || !"tiktok".equalsIgnoreCase(plugin.getConfig().getString(
+                "settings.event-provider", "twitch"))) {
+            return;
+        }
+
+        reconnectTask = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+            synchronized (this) {
+                reconnectTask = null;
+            }
+            connect();
+        }, 100L);
     }
 
     private void onGift(TikTokGiftEvent event) {
