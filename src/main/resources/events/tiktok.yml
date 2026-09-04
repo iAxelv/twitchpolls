@@ -28,7 +28,7 @@ tiktok_cap:
   display-name: "gorra"
   amount: 10
   radius: 10.0
-tiktok_galaxy:
+tiktok_corgi:
   active: true
   title: "Warden de Corgi"
   action: GALAXY_WARDEN
@@ -65,7 +65,7 @@ tiktok_follow:
   action: FOLLOW_TNT
   type: tiktok_follow
   fuse-ticks: 80
-tiktok_likes:
+tiktok_creeper_likes:
   active: true
   title: "Charged creeper army"
   action: TIKTOK_CHARGED_CREEPER_ARMY
@@ -157,7 +157,7 @@ tiktok_perfume:
   display-name: "Perfume"
   amount: 5
   radius: 4.0
-tiktok_rosa:
+tiktok_creeper_rose:
   active: true
   title: "Rosa"
   action: TIKTOK_CHARGED_CREEPER_ARMY

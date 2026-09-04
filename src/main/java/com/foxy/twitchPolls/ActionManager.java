@@ -19,7 +19,6 @@ import com.foxy.twitchPolls.actions.tiktok.RoseZombieGiftAction;
 import com.foxy.twitchPolls.actions.tiktok.WaveFireworksAction;
 import com.foxy.twitchPolls.actions.tiktok.HandHeartAction;
 import com.foxy.twitchPolls.actions.tiktok.PaperCraneAction;
-import com.foxy.twitchPolls.actions.tiktok.TntCircleAction;
 import com.foxy.twitchPolls.actions.tiktok.TntRainAction;
 import com.foxy.twitchPolls.actions.tiktok.MoneyGunAction;
 import com.foxy.twitchPolls.actions.tiktok.ClearInventoryAction;
@@ -200,8 +199,7 @@ public class ActionManager {
         strategies.put("TIKTOK_CHARGED_CREEPER_ARMY", new ChargedCreeperLikeAction());
         strategies.put("WAVE_FIREWORKS", new WaveFireworksAction());
         strategies.put("HAND_HEART", new HandHeartAction());
-        strategies.put("PAPER_CRANE", new TntCircleAction());
-            strategies.put("PAPER_CRANE", new PaperCraneAction());
+        strategies.put("PAPER_CRANE", new PaperCraneAction());
         strategies.put("MONEY_GUN", new MoneyGunAction());
         strategies.put("GALAXY_TNT", new TntRainAction());
         strategies.put("WHALE_DIVING", new TntRainAction());
