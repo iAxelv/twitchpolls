@@ -1,5 +1,5 @@
 title: "&5Test Events"
-rows: 4
+rows: 6
 category-rows: 1
 titles:
   polls: "&5Poll Actions"
@@ -25,7 +25,7 @@ categories:
     lore:
       - "&7Test point actions"
 back-item:
-  slot: 35
+  slot: 53
   item: ARROW
   display-name: "&cBack"
   lore:
@@ -635,5 +635,14 @@ category-items:
       display-name: "&6Random Floor"
       lore:
         - "&7Randomize a 3x3 area underfoot"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    HAPPY_HOLIDAYS:
+      event: HAPPY_HOLIDAYS
+      slot: 27
+      item: ENCHANTED_GOLDEN_APPLE
+      display-name: "&6Happy Holidays"
+      lore:
+        - "&7Give between 1 and 4 Notch apples"
         - "&7Cost: &e%value% %type%"
         - "&eClick to test"

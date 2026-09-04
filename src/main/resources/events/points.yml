@@ -144,6 +144,21 @@ give_totems:
     - 2
     - 3
     - 4
+happy_holidays:
+  active: true
+  value: 750
+  title: "Happy holidays!"
+  reward-title: "Notch apples" # This is the name to put in the points reward item name.
+  action: HAPPY_HOLIDAYS
+  amounts:
+    - 1
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 3
+    - 4
 instant_heal:
   active: true
   value: 600

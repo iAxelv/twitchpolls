@@ -138,6 +138,7 @@ public class ActionManager {
         strategies.put("DISABLE_DAMAGE", new DisableDamageAction(plugin, effectRegistry));
         strategies.put("DISABLE_ACTION", new DisableActionAction(plugin, effectRegistry));
         strategies.put("GIVE_TOTEMS", new GiveTotemsAction());
+        strategies.put("HAPPY_HOLIDAYS", new HappyHolidaysAction());
         strategies.put("WITHER_STRIKE", new WitherStrikeAction());
         strategies.put("DRAGON_ATTACK", new DragonAttackAction());
         strategies.put("CHARGED_CREEPER_ARMY", new ChargedCreeperArmyAction());
