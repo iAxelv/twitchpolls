@@ -2,6 +2,7 @@ package com.foxy.twitchPolls.commands;
 
 import com.foxy.twitchPolls.TwitchManager;
 import com.foxy.twitchPolls.TwitchPolls;
+import com.foxy.twitchPolls.TikTokManager;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,11 +15,14 @@ import java.util.List;
 public class TwitchCommand implements CommandExecutor, TabCompleter {
     private final TwitchPolls plugin;
     private final TwitchManager twitchManager;
+    private final TikTokManager tikTokManager;
     private final TestCommand testCommand;
 
-    public TwitchCommand(TwitchPolls plugin, TwitchManager twitchManager, TestCommand testCommand) {
+    public TwitchCommand(TwitchPolls plugin, TwitchManager twitchManager, TikTokManager tikTokManager,
+                         TestCommand testCommand) {
         this.plugin = plugin;
         this.twitchManager = twitchManager;
+        this.tikTokManager = tikTokManager;
         this.testCommand = testCommand;
     }
 
@@ -28,8 +32,19 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
             plugin.reloadConfig();
             plugin.reloadEventConfigs();
             testCommand.reload();
-            twitchManager.reload();
+            plugin.reloadEventProviderConnections();
             sendMessage(sender, "messages.command-reload", "&aConfiguración recargada correctamente.");
+            return true;
+        }
+
+        if (args.length > 0 && args[0].equalsIgnoreCase("reconnect")) {
+            if ("tiktok".equalsIgnoreCase(plugin.getConfig().getString("settings.event-provider", "twitch"))) {
+                tikTokManager.reconnect();
+                sendMessage(sender, "messages.command-reconnect", "&aReintentando la conexión con TikTok...");
+            } else {
+                twitchManager.reload();
+                sendMessage(sender, "messages.command-reconnect", "&aReintentando la conexión con Twitch...");
+            }
             return true;
         }
 
@@ -48,6 +63,11 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
             return false;
         }
 
+        if ("tiktok".equalsIgnoreCase(plugin.getConfig().getString("settings.event-provider", "twitch"))) {
+            sendMessage(sender, "messages.command-error", "&cLas encuestas requieren Twitch como proveedor de eventos.");
+            return true;
+        }
+
         sendMessage(sender, "messages.command-starting", "&aIniciando encuesta...");
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             twitchManager.createPoll();
@@ -59,7 +79,7 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("reload", "poll", "test").stream()
+            return List.of("reload", "reconnect", "poll", "test").stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))
                     .toList();
         }

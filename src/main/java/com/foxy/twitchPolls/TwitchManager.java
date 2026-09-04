@@ -310,6 +310,11 @@ public class TwitchManager {
     }
 
     public void executeDonationAction(org.bukkit.entity.Player player, ConfigurationSection actionConfig, String username) {
+        executeDonationAction(player, actionConfig, username, "Twitch");
+    }
+
+    public void executeDonationAction(org.bukkit.entity.Player player, ConfigurationSection actionConfig,
+                                      String username, String provider) {
         if (actionConfig == null || !player.isOnline()) return;
         uiManager.showDonationEvent(player, actionConfig);
         actionManager.executeDonationAction(player, actionConfig, username);
@@ -318,7 +323,8 @@ public class TwitchManager {
         String type = donationTypeLabel(actionConfig.getString("type", "donación"));
         String broadcast = plugin.getLanguageManager().getString(
                 "messages.donation-event-broadcast",
-                "&d[Twitch] &f%event% &7se activó por &e%value% %type% &7(%username%)")
+            "&d[" + provider + "] &f%event% &7se activó por &e%value% %type% &7(%username%)")
+            .replace("%provider%", provider)
                 .replace("%event%", eventTitle)
                 .replace("%value%", String.valueOf(value))
                 .replace("%type%", type)

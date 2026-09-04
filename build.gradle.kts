@@ -12,12 +12,14 @@ version = "1.0"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     testImplementation("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("com.github.twitch4j:twitch4j:1.19.0")
+    implementation("com.github.jwdeveloper.TikTok-Live-Java:Client:1.11.17-Release")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -58,6 +60,7 @@ tasks {
         relocate("com.github.twitch4j", "com.foxy.twitchpolls.libs.twitch4j")
         relocate("feign", "com.foxy.twitchpolls.libs.feign")
         relocate("io.github.xanthic", "com.foxy.twitchpolls.libs.xanthic")
+        relocate("io.github.jwdeveloper.tiktok", "com.foxy.twitchpolls.libs.tiktok")
     }
 
     build {

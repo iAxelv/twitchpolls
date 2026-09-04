@@ -6,7 +6,7 @@ load: POSTWORLD
 commands:
   twitch:
     description: Administra las encuestas y prueba acciones de Twitch
-    usage: /twitch <poll|reload|test>
+    usage: /twitch <poll|reload|reconnect|test>
     permission: twitchpolls.poll
 permissions:
   twitchpolls.poll:

@@ -13,8 +13,13 @@ lang: es
 
 settings:
   streamer-username: "123456789" # Replace with your Minecraft username
+  event-provider: twitch # twitch or tiktok
   automatic-polls: false # Whether to automatically start polls at regular intervals
   poll-duration-seconds: 45 # Minimum: 45 seconds
   poll-interval-seconds: 60 # Minimum: 60 seconds
   poll-option-cooldown-polls: 1 # Number of following polls that cannot reuse an option
   broadcast-results: true # Whether to broadcast poll results to the server
+
+tiktok:
+  enabled: false
+  streamer-username: "usuario_tiktok"

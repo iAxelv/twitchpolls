@@ -1,0 +1,15 @@
+tiktok_rose_example:
+  active: false
+  title: "Lluvia de flechas"
+  action: ANVIL_TRAP
+  type: tiktok_gift
+  gift-name: "Rose"
+  value: 1
+
+tiktok_lion_example:
+  active: false
+  title: "Ataque del dragon"
+  action: DRAGON_ATTACK
+  type: tiktok_gift
+  gift-name: "Lion"
+  value: 29999

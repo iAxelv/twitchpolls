@@ -12,6 +12,7 @@ import com.foxy.twitchPolls.commands.TwitchCommand;
 public final class TwitchPolls extends JavaPlugin {
 
     private TwitchManager twitchManager;
+    private TikTokManager tikTokManager;
     private ActionManager actionManager;
     private UIManager uiManager;
     private SessionManager sessionManager;
@@ -37,6 +38,7 @@ public final class TwitchPolls extends JavaPlugin {
         migrateLegacyEventConfigs();
         saveResourceIfMissing("events/polls.yml");
         saveResourceIfMissing("events/donations.yml");
+        saveResourceIfMissing("events/tiktok.yml");
         saveResourceIfMissing("events/points.yml");
         reloadEventConfigs();
         uiManager = new UIManager(this);
@@ -44,12 +46,31 @@ public final class TwitchPolls extends JavaPlugin {
         getServer().getPluginManager().registerEvents(sessionManager, this);
         actionManager = new ActionManager(this, sessionManager, uiManager, effectRegistry);
         twitchManager = new TwitchManager(this, actionManager, uiManager, sessionManager);
+        tikTokManager = new TikTokManager(this, actionManager, uiManager, sessionManager);
         testCommand = new TestCommand(this, actionManager, uiManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
-        TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, testCommand);
+        TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, tikTokManager, testCommand);
         getCommand("twitch").setExecutor(twitchCommand);
         getCommand("twitch").setTabCompleter(twitchCommand);
-        twitchManager.connect();
+        reloadEventProviderConnections();
+    }
+
+    public void reloadEventProviderConnections() {
+        if (twitchManager != null) {
+            twitchManager.disconnect();
+        }
+        if (tikTokManager != null) {
+            tikTokManager.disconnect();
+        }
+
+        String provider = getConfig().getString("settings.event-provider", "twitch").toLowerCase();
+        if ("tiktok".equals(provider)) {
+            tikTokManager.connect();
+        } else if ("twitch".equals(provider)) {
+            twitchManager.connect();
+        } else {
+            getLogger().warning("Unknown event provider '" + provider + "'. Use 'twitch' or 'tiktok'.");
+        }
     }
 
     private void saveResourceIfMissing(String resourcePath) {
@@ -66,11 +87,14 @@ public final class TwitchPolls extends JavaPlugin {
         if (twitchManager != null) {
             twitchManager.disconnect();
         }
+        if (tikTokManager != null) {
+            tikTokManager.disconnect();
+        }
     }
 
     public void reloadEventConfigs() {
         eventConfigs.clear();
-        for (String eventType : new String[]{"polls", "donations", "points"}) {
+        for (String eventType : new String[]{"polls", "donations", "tiktok", "points"}) {
             File file = new File(getDataFolder(), "events/" + eventType + ".yml");
             eventConfigs.put(eventType, YamlConfiguration.loadConfiguration(file));
         }
@@ -99,7 +123,7 @@ public final class TwitchPolls extends JavaPlugin {
 
         boolean migrated = false;
         boolean migrationFailed = false;
-        for (String eventType : new String[]{"polls", "donations", "points"}) {
+        for (String eventType : new String[]{"polls", "donations", "tiktok", "points"}) {
             File eventFile = new File(getDataFolder(), "events/" + eventType + ".yml");
             if (eventFile.exists()) {
                 continue;
