@@ -40,22 +40,10 @@ floor_lava:
   title: "The floor is lava" # This title is shown in the poll option list.
   action: "FLOOR_IS_LAVA"
   duration-seconds: 20
-warden:
-  active: true
-  title: "Do not look back" # This title is shown in the poll option list.
-  action: "WARDEN_JUMPSCARE"
-food:
-  active: true
-  title: "Snack time" # This title is shown in the poll option list.
-  action: "MAX_FOOD"
 zombie:
   active: true
   title: "Clone" # This title is shown in the poll option list.
   action: "MINI_ZOMBIE"
-nothing:
-  active: true
-  title: "Nothing happened" # This title is shown in the poll option list.
-  action: "NOTHING"
 random_effect:
   active: true
   title: "100% scientific" # This title is shown in the poll option list.
@@ -69,24 +57,6 @@ veneco:
   title: "Rappi has arrived" # This title is shown in the poll option list.
   action: "SPAWN_VENECO"
   radius: true
-paranoia:
-  active: true
-  title: "Paranoia" # This title is shown in the poll option list.
-  action: "RANDOM_SOUND"
-  sounds:
-    - ENTITY_CREEPER_PRIMED
-    - ENTITY_ENDERMAN_SCREAM
-    - ENTITY_GHAST_SCREAM
-    - ENTITY_WARDEN_HEARTBEAT
-    - BLOCK_ANVIL_LAND
-    - ENTITY_LIGHTNING_BOLT_THUNDER
-    - ITEM_GOAT_HORN_SOUND_0
-nausea:
-  active: true
-  title: "Deadly hangover" # This title is shown in the poll option list.
-  action: "CONFUSION"
-  time: 300
-  amplifier: 2
 spark:
   active: true
   title: "Zeus's spark" # This title is shown in the poll option list.
@@ -97,12 +67,6 @@ random_size:
   title: "Surprise size" # This title is shown in the poll option list.
   action: RANDOM_SIZE
   duration-seconds: 20
-chicken_cannon:
-  active: true
-  title: "Chicken cannon!" # This title is shown in the poll option list.
-  action: CHICKEN_CANNON
-  amount: 6
-  speed: 1.2
 hot_potato:
   active: true
   title: "Hot potato!" # This title is shown in the poll option list.
@@ -115,13 +79,6 @@ block_swap:
   action: BLOCK_SWAP
   duration-seconds: 45
   replacement: SPONGE
-random_weather:
-  active: true
-  title: "Schizophrenic weather" # This title is shown in the poll option list.
-  action: RANDOM_WEATHER
-  duration-seconds: 20
-  changes: 4
-  interval-seconds: 5
 tornado:
   active: true
   title: "Tornado" # This title is shown in the poll option list.
@@ -131,3 +88,19 @@ tornado:
   pull-strength: 0.22
   blocks-per-tick: 12
   particles: true
+zero_gravity:
+  active: true
+  title: "Zero gravity"
+  action: ZERO_GRAVITY
+  duration-seconds: 20
+delete_chunk:
+  active: true
+  title: "Goodbye chunk"
+  action: DELETE_CHUNK
+  duration-seconds: 1
+drop_hand_item:
+  active: true
+  title: "Clumsy hands"
+  action: DROP_HAND_ITEM
+  duration-seconds: 15
+  interval-seconds: 3

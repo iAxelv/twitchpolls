@@ -95,41 +95,17 @@ items:
     lore:
       - "&7Turn the ground into lava"
       - "&eClick to test"
-  WARDEN_JUMPSCARE:
-    event: WARDEN_JUMPSCARE
-    slot: 8
-    item: SCULK_SHRIEKER
-    display-name: "&8Warden Jumpscare"
-    lore:
-      - "&7Scare with a warden"
-      - "&eClick to test"
-  MAX_FOOD:
-    event: MAX_FOOD
-    slot: 9
-    item: COOKED_BEEF
-    display-name: "&aMax Food"
-    lore:
-      - "&7Fill hunger to the max"
-      - "&eClick to test"
   MINI_ZOMBIE:
     event: MINI_ZOMBIE
-    slot: 10
+    slot: 8
     item: ZOMBIE_HEAD
     display-name: "&2Zombie Clone"
     lore:
       - "&7Summon a zombie clone"
       - "&eClick to test"
-  NOTHING:
-    event: NOTHING
-    slot: 11
-    item: BARRIER
-    display-name: "&7Nothing Happens"
-    lore:
-      - "&7Does not trigger any effect"
-      - "&eClick to test"
   RANDOM_EFFECT:
     event: RANDOM_EFFECT
-    slot: 12
+    slot: 9
     item: POTION
     display-name: "&dRandom Effect"
     lore:
@@ -137,7 +113,7 @@ items:
       - "&eClick to test"
   SPAWN_BEE_SWARM:
     event: SPAWN_BEE_SWARM
-    slot: 13
+    slot: 10
     item: BEE_NEST
     display-name: "&6Bee Swarm"
     lore:
@@ -145,31 +121,15 @@ items:
       - "&eClick to test"
   SPAWN_VENECO:
     event: SPAWN_VENECO
-    slot: 14
+    slot: 11
     item: SKELETON_SPAWN_EGG
     display-name: "&aSpawn Veneco"
     lore:
       - "&7Spawn the Veneco event"
       - "&eClick to test"
-  RANDOM_SOUND:
-    event: RANDOM_SOUND
-    slot: 15
-    item: NOTE_BLOCK
-    display-name: "&dRandom Sound"
-    lore:
-      - "&7Play a random sound"
-      - "&eClick to test"
-  CONFUSION:
-    event: CONFUSION
-    slot: 16
-    item: SPIDER_EYE
-    display-name: "&5Confusion"
-    lore:
-      - "&7Apply confusion"
-      - "&eClick to test"
   SPARK:
     event: SPARK
-    slot: 17
+    slot: 12
     item: LIGHTNING_ROD
     display-name: "&eZeus Spark"
     lore:
@@ -177,23 +137,15 @@ items:
       - "&eClick to test"
   RANDOM_SIZE:
     event: RANDOM_SIZE
-    slot: 18
+    slot: 13
     item: SLIME_BLOCK
     display-name: "&dSurprise Size"
     lore:
       - "&7Make you huge or tiny"
       - "&eClick to test"
-  CHICKEN_CANNON:
-    event: CHICKEN_CANNON
-    slot: 19
-    item: CHICKEN_SPAWN_EGG
-    display-name: "&eChicken Cannon"
-    lore:
-      - "&7Launch chickens into the air"
-      - "&eClick to test"
   HOT_POTATO:
     event: HOT_POTATO
-    slot: 20
+    slot: 14
     item: POTATO
     display-name: "&cHot Potato"
     lore:
@@ -201,27 +153,43 @@ items:
       - "&eClick to test"
   BLOCK_SWAP:
     event: BLOCK_SWAP
-    slot: 21
+    slot: 15
     item: SPONGE
     display-name: "&6Absurd Blocks"
     lore:
       - "&7Your blocks turn into sponges"
       - "&eClick to test"
-  RANDOM_WEATHER:
-    event: RANDOM_WEATHER
-    slot: 22
-    item: CLOCK
-    display-name: "&bSchizophrenic Weather"
-    lore:
-      - "&7Change the weather and time multiple times"
-      - "&eClick to test"
   TORNADO:
     event: TORNADO
-    slot: 23
+    slot: 16
     item: WIND_CHARGE
     display-name: "&bTornado"
     lore:
       - "&7A vortex of debris and chaos near the streamer"
+      - "&eClick to test"
+  ZERO_GRAVITY:
+    event: ZERO_GRAVITY
+    slot: 17
+    item: FEATHER
+    display-name: "&bZero Gravity"
+    lore:
+      - "&7Float like in space"
+      - "&eClick to test"
+  DROP_HAND_ITEM:
+    event: DROP_HAND_ITEM
+    slot: 18
+    item: HOPPER
+    display-name: "&eClumsy Hands"
+    lore:
+      - "&7Drop the main-hand item repeatedly"
+      - "&eClick to test"
+  DELETE_CHUNK:
+    event: DELETE_CHUNK
+    slot: 19
+    item: BEDROCK
+    display-name: "&4Goodbye Chunk"
+    lore:
+      - "&7Erase the streamer's chunk"
       - "&eClick to test"
 category-items:
   donations:
@@ -526,7 +494,7 @@ category-items:
         - "&eClick to test"
     DISABLE_DAMAGE:
       event: DISABLE_DAMAGE
-      slot: 10
+      slot: 26
       item: SHIELD
       display-name: "&cUntouchable Mobs"
       lore:
@@ -632,5 +600,32 @@ category-items:
       display-name: "&cOne Heart Only"
       lore:
         - "&7Leave you with one heart temporarily"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    FLOOR_IS_LAVA:
+      event: FLOOR_IS_LAVA
+      slot: 23
+      item: MAGMA_BLOCK
+      display-name: "&cThe Floor Is Lava"
+      lore:
+        - "&7Turn the ground into lava"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    DELETED_CHUNKS:
+      event: DELETED_CHUNKS
+      slot: 24
+      item: BEDROCK
+      display-name: "&4Deleted Chunks"
+      lore:
+        - "&7Erase the chunk every 5 seconds"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    BLOCK_SWAP:
+      event: BLOCK_SWAP
+      slot: 25
+      item: SPONGE
+      display-name: "&6Random Floor"
+      lore:
+        - "&7Randomize a 3x3 area underfoot"
         - "&7Cost: &e%value% %type%"
         - "&eClick to test"

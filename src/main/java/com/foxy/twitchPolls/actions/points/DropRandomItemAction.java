@@ -18,7 +18,8 @@ public class DropRandomItemAction implements ActionStrategy {
         int slot = filled.get(ThreadLocalRandom.current().nextInt(filled.size()));
         var item = inventory.getItem(slot);
         inventory.setItem(slot, null);
-        context.world().dropItemNaturally(context.location(), item);
+        var dropped = context.world().dropItemNaturally(context.location(), item);
+        dropped.setPickupDelay(Integer.MAX_VALUE);
         context.player().playSound(context.location(), Sound.ENTITY_ITEM_PICKUP, 1.0f, 0.7f);
     }
 }

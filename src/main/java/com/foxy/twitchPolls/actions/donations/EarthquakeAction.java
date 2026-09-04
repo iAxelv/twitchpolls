@@ -19,6 +19,7 @@ public class EarthquakeAction implements ActionStrategy {
         int amount = Math.max(3, context.config().getInt("debris-per-wave", 6));
         int blocksPerWave = Math.max(4, context.config().getInt("blocks-per-wave", 8));
         double radius = Math.max(2.0, context.config().getDouble("radius", 9.0));
+        float explosionPower = (float) Math.max(0.5, context.config().getDouble("explosion-power", 1.5));
 
         new BukkitRunnable() {
             int waves = duration * 2;
@@ -29,6 +30,8 @@ public class EarthquakeAction implements ActionStrategy {
                 context.world().spawnParticle(Particle.BLOCK, center, 35, radius / 2, 0.1, radius / 2,
                         Material.DIRT.createBlockData());
                 context.world().playSound(center, Sound.ENTITY_ZOMBIE_VILLAGER_CONVERTED, 0.6f, 0.5f);
+                Location blast = context.randomLocation(radius, 0);
+                context.world().createExplosion(blast, explosionPower, false, true);
 
                 Location playerLoc = context.player().getLocation().clone();
                 double shakeX = (ThreadLocalRandom.current().nextDouble() - 0.5) * 0.18;

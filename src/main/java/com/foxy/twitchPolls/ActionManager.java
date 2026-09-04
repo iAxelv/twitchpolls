@@ -99,11 +99,11 @@ public class ActionManager {
         strategies.put("GOD_MODE", new GodModeAction());
         strategies.put("SPAWN_CREEPER", new SpawnCreeperAction());
         strategies.put("RANDOM_SIZE", new RandomSizeAction());
-        strategies.put("CHICKEN_CANNON", new ChickenCannonAction());
         strategies.put("HOT_POTATO", new HotPotatoAction());
-        strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin, effectRegistry));
-        strategies.put("RANDOM_WEATHER", new RandomWeatherAction());
+        strategies.put("BLOCK_SWAP", new BlockSwapAction(plugin));
         strategies.put("TORNADO", new TornadoAction());
+        strategies.put("ZERO_GRAVITY", new ZeroGravityAction());
+        strategies.put("DELETE_CHUNK", new DeleteChunkAction());
         strategies.put("SPARK", new LightningStormAction());
         strategies.put("EFFECT_LEVITATION", new EffectLevitationAction());
         strategies.put("DROP_ORES", new DropOresAction());
@@ -112,17 +112,12 @@ public class ActionManager {
         strategies.put("RANDOM_ITEM_EXCHANGE", new RandomItemExchangeAction());
         strategies.put("INVENTORY_RANDOM", new InventoryRandomAction());
         strategies.put("FLOOR_IS_LAVA", new FloorIsLavaAction());
-        strategies.put("WARDEN_JUMPSCARE", new WardenJumpscareAction());
-        strategies.put("MAX_FOOD", new MaxFoodAction());
         strategies.put("INSTANT_HEAL", new InstantHealAction());
         strategies.put("SPAWN_GUARD", new SpawnGuardAction());
         strategies.put("MINI_ZOMBIE", new MiniZombieAction());
-        strategies.put("NOTHING", new NothingAction());
         strategies.put("RANDOM_EFFECT", new RandomEffectAction());
         strategies.put("SPAWN_BEE_SWARM", new SpawnBeeSwarmAction());
         strategies.put("SPAWN_VENECO", new SpawnVenecoAction());
-        strategies.put("RANDOM_SOUND", new RandomSoundAction());
-        strategies.put("CONFUSION", new ConfusionAction());
         strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
         strategies.put("HOTBAR_SHUFFLE", new HotbarShuffleAction());
         strategies.put("SPIN_HEAD", new SpinHeadAction());
@@ -160,6 +155,7 @@ public class ActionManager {
         strategies.put("RANDOM_SLOT_SWITCH", new RandomSlotSwitchAction());
         strategies.put("DROP_RANDOM_ITEM", new DropRandomItemAction());
         strategies.put("ITEM_NAME_SWAP", new ItemNameSwapAction());
+        strategies.put("DELETED_CHUNKS", new DeleteChunkAction());
         strategies.put("ONE_HEART_CHALLENGE", new OneHeartChallengeAction());
     }
 }

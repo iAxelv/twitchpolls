@@ -355,7 +355,7 @@ public class TwitchManager {
             org.bukkit.entity.Player player = sessionManager.getStreamer();
 
             if (player != null && player.isOnline()) {
-                uiManager.showPollEnd(player, winnerTitle, actionConfig == null || !"RANDOM_SOUND".equals(actionConfig.getString("action")));
+                uiManager.showPollEnd(player, winnerTitle, true);
 
                 if (actionConfig != null) {
                     actionManager.executeAction(player, actionConfig);

@@ -4,6 +4,13 @@ drop_hand_item:
   title: "Drop what you have!"
   reward-title: "Drop it" # This is the name to put in the points reward item name.
   action: DROP_HAND_ITEM
+floor_lava:
+  active: true
+  value: 3000
+  title: "¡The floor is lava!"
+  reward-title: "Floor is lava" # This is the name to put in the points reward item name.
+  action: FLOOR_IS_LAVA
+  duration-seconds: 20
 spin_head:
   active: true
   value: 150
@@ -82,6 +89,7 @@ web_prison:
   radius: 1
   duration-seconds: 10
   poison-amplifier: 0
+  amount: 4
 silent_phantoms:
   active: true
   value: 400
@@ -158,6 +166,8 @@ hotbar_shuffle:
   title: "Chaotic hotbar!"
   reward-title: "Mixed items" # This is the name to put in the points reward item name.
   action: HOTBAR_SHUFFLE
+  duration-seconds: 15
+  interval-seconds: 1
 selected_slot_lock:
   active: true
   value: 325
@@ -186,7 +196,40 @@ item_name_swap:
   title: "Cursed names"
   reward-title: "Change the names" # This is the name to put in the points reward item name.
   action: ITEM_NAME_SWAP
-  duration-seconds: 15
+deleted_chunks:
+  active: true
+  value: 2500
+  title: "Deleted chunks"
+  reward-title: "Erase the chunk"
+  action: DELETED_CHUNKS
+  duration-seconds: 30
+  interval-seconds: 5
+block_swap:
+  active: true
+  value: 500
+  title: "Random blocks underfoot"
+  reward-title: "Random floor"
+  action: BLOCK_SWAP
+  duration-seconds: 45
+  interval-ticks: 10
+  replacements:
+    - SPONGE
+    - HONEY_BLOCK
+    - SLIME_BLOCK
+    - TNT
+    - MAGMA_BLOCK
+    - COBBLESTONE
+    - OBSIDIAN
+    - ICE
+    - GLASS
+    - SAND
+    - GRAVEL
+    - OAK_PLANKS
+    - BIRCH_PLANKS
+    - BRICKS
+    - NETHERRACK
+    - SOUL_SAND
+    - END_STONE
 one_heart_challenge:
   active: true
   value: 750

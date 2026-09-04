@@ -1,45 +1,48 @@
 package com.foxy.twitchPolls.actions.polls;
 
-import com.foxy.twitchPolls.PlayerEffectRegistry;
 import com.foxy.twitchPolls.TwitchPolls;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import org.bukkit.Material;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class BlockSwapAction implements ActionStrategy, Listener {
+public class BlockSwapAction implements ActionStrategy {
     private final TwitchPolls plugin;
-    private final Map<UUID, ActiveEffect> active = new HashMap<>();
-    
-    public BlockSwapAction(TwitchPolls plugin, PlayerEffectRegistry effectRegistry) {
+    public BlockSwapAction(TwitchPolls plugin) {
         this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        // Register cleanup handler for when players quit
-        effectRegistry.registerCleanupHandler(active::remove);
     }
     @Override public void execute(ActionContext context) {
-        Material replacement = Material.matchMaterial(context.config().getString("replacement", "SPONGE"));
-        if (replacement == null || !replacement.isBlock()) replacement = Material.SPONGE;
-        UUID playerId = context.player().getUniqueId();
-        long duration = Math.max(1L, context.config().getLong("duration-seconds", 45)) * 1000L;
-        active.put(playerId, new ActiveEffect(System.currentTimeMillis() + duration, replacement));
+        long duration = Math.max(1L, context.config().getLong("duration-seconds", 45)) * 20L;
+        long interval = Math.max(1L, context.config().getLong("interval-ticks", 10L));
+        List<Material> replacements = new ArrayList<>();
+        for (String materialName : context.config().getStringList("replacements")) {
+            Material material = Material.matchMaterial(materialName);
+            if (material != null && material.isBlock() && material != Material.BEDROCK) {
+                replacements.add(material);
+            }
+        }
+        if (replacements.isEmpty()) return;
         new BukkitRunnable() {
-            @Override public void run() { active.remove(playerId); }
-        }.runTaskLater(plugin, duration / 50L);
+            long remaining = duration;
+            @Override public void run() {
+                if (!context.player().isOnline() || remaining <= 0) { cancel(); return; }
+                int y = context.player().getLocation().getBlockY() - 1;
+                int centerX = context.player().getLocation().getBlockX();
+                int centerZ = context.player().getLocation().getBlockZ();
+                for (int x = centerX - 1; x <= centerX + 1; x++) {
+                    for (int z = centerZ - 1; z <= centerZ + 1; z++) {
+                        var block = context.world().getBlockAt(x, y, z);
+                        if (block.getType() != Material.BEDROCK && block.getType().isSolid()) {
+                            block.setType(replacements.get(ThreadLocalRandom.current().nextInt(replacements.size())), false);
+                        }
+                    }
+                }
+                remaining -= interval;
+            }
+        }.runTaskTimer(plugin, 0L, interval);
     }
-    @EventHandler public void onBreak(BlockBreakEvent event) {
-        ActiveEffect effect = active.get(event.getPlayer().getUniqueId());
-        if (effect == null) return;
-        if (effect.expiresAt < System.currentTimeMillis()) { active.remove(event.getPlayer().getUniqueId()); return; }
-        event.setDropItems(false);
-        plugin.getServer().getScheduler().runTask(plugin, () -> event.getBlock().setType(effect.replacement, true));
-    }
-    private record ActiveEffect(long expiresAt, Material replacement) { }
 }

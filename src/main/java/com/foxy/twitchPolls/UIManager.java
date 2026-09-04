@@ -59,7 +59,7 @@ public class UIManager {
         if (testPollTask != null) testPollTask.cancel();
         testPollTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (!player.isOnline()) return;
-            showPollEnd(player, config.getString("title", config.getName()), !"RANDOM_SOUND".equals(config.getString("action")));
+            showPollEnd(player, config.getString("title", config.getName()), true);
             actionManager.executeAction(player, config);
             startEventCountdown(player, config);
             testPollTask = null;

@@ -190,9 +190,10 @@ earthquake:
   type: bits
   value: 2500
   duration-seconds: 12
-  debris-per-wave: 2
-  blocks-per-wave: 2
-  radius: 8.0
+  debris-per-wave: 8
+  blocks-per-wave: 16
+  radius: 10.0
+  explosion-power: 2.0
 world_rotation:
   active: true
   title: "World rotation!"
