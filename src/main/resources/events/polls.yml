@@ -93,6 +93,10 @@ zero_gravity:
   title: "Zero gravity"
   action: ZERO_GRAVITY
   duration-seconds: 20
+surprise:
+  active: true
+  title: "Surprise!"
+  action: SURPRISE
 delete_chunk:
   active: true
   title: "Goodbye chunk"

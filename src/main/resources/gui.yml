@@ -191,6 +191,14 @@ items:
     lore:
       - "&7Erase the streamer's chunk"
       - "&eClick to test"
+  SURPRISE:
+    event: SURPRISE
+    slot: 20
+    item: CHEST
+    display-name: "&dSurprise"
+    lore:
+      - "&7Trigger a random donation event"
+      - "&eClick to test"
 category-items:
   donations:
     INVENTORY_BOMB:

@@ -13,6 +13,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ActionManager {
     private final TwitchPolls plugin;
@@ -157,5 +160,30 @@ public class ActionManager {
         strategies.put("ITEM_NAME_SWAP", new ItemNameSwapAction());
         strategies.put("DELETED_CHUNKS", new DeleteChunkAction());
         strategies.put("ONE_HEART_CHALLENGE", new OneHeartChallengeAction());
+        strategies.put("SURPRISE", context -> executeSurpriseAction(context.player()));
+    }
+
+    private void executeSurpriseAction(Player player) {
+        ConfigurationSection donations = plugin.getEventConfig("donations");
+        if (donations == null) {
+            return;
+        }
+
+        List<ConfigurationSection> activeDonations = new ArrayList<>();
+        for (String key : donations.getKeys(false)) {
+            ConfigurationSection donation = donations.getConfigurationSection(key);
+            if (donation != null && donation.getBoolean("active", true)) {
+                activeDonations.add(donation);
+            }
+        }
+        if (activeDonations.isEmpty()) {
+            plugin.getLogger().warning("SURPRISE was tested, but no active donation events are configured.");
+            return;
+        }
+
+        ConfigurationSection selectedDonation = activeDonations.get(
+                ThreadLocalRandom.current().nextInt(activeDonations.size()));
+        uiManager.showDonationEvent(player, selectedDonation);
+        executeDonationAction(player, selectedDonation, "SURPRISE");
     }
 }

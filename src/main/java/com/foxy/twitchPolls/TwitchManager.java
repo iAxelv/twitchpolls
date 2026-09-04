@@ -51,6 +51,7 @@ public class TwitchManager {
     private BukkitTask pollResumeTask;
     private volatile boolean automaticPollActive;
     private final Map<String, ConfigurationSection> activePollChoices = new HashMap<>();
+    private final Map<String, Integer> pollOptionCooldowns = new HashMap<>();
 
     public TwitchManager(TwitchPolls plugin, ActionManager actionManager, UIManager uiManager, SessionManager sessionManager) {
         this.plugin = plugin;
@@ -237,8 +238,23 @@ public class TwitchManager {
             return;
         }
 
-        Collections.shuffle(eventKeys);
-        List<String> selectedKeys = eventKeys.subList(0, Math.min(3, eventKeys.size()));
+        List<String> availableKeys = eventKeys.stream()
+            .filter(key -> pollOptionCooldowns.getOrDefault(key, 0) <= 0)
+            .collect(Collectors.toCollection(ArrayList::new));
+
+        if (availableKeys.isEmpty()) {
+            int lowestCooldown = eventKeys.stream()
+                .mapToInt(key -> pollOptionCooldowns.getOrDefault(key, 0))
+                .min()
+                .orElse(0);
+            availableKeys = eventKeys.stream()
+                .filter(key -> pollOptionCooldowns.getOrDefault(key, 0) == lowestCooldown)
+                .collect(Collectors.toCollection(ArrayList::new));
+            plugin.getLogger().warning("All poll options are on cooldown; using the options with the shortest remaining cooldown.");
+        }
+
+        Collections.shuffle(availableKeys);
+        List<String> selectedKeys = new ArrayList<>(availableKeys.subList(0, Math.min(3, availableKeys.size())));
 
         List<PollChoice> choices = new ArrayList<>();
         activePollChoices.clear();
@@ -257,6 +273,15 @@ public class TwitchManager {
 
         try {
             twitchClient.getHelix().createPoll(oauthToken, poll).execute();
+            advancePollOptionCooldowns();
+            int cooldown = Math.max(0, plugin.getConfig().getInt("settings.poll-option-cooldown-polls", 0));
+            for (String key : selectedKeys) {
+                if (cooldown == 0) {
+                    pollOptionCooldowns.remove(key);
+                } else {
+                    pollOptionCooldowns.put(key, cooldown);
+                }
+            }
             notifyStart(duration, choices);
         } catch (Exception exception) {
             plugin.getLogger().log(Level.SEVERE,
@@ -358,8 +383,12 @@ public class TwitchManager {
                 uiManager.showPollEnd(player, winnerTitle, true);
 
                 if (actionConfig != null) {
-                    actionManager.executeAction(player, actionConfig);
-                    uiManager.startEventCountdown(player, actionConfig);
+                    if ("SURPRISE".equalsIgnoreCase(actionConfig.getString("action", ""))) {
+                        executeSurpriseAction(player);
+                    } else {
+                        actionManager.executeAction(player, actionConfig);
+                        uiManager.startEventCountdown(player, actionConfig);
+                    }
                 }
             }
 
@@ -372,6 +401,34 @@ public class TwitchManager {
                 scheduleAutomaticPollRestart();
             }
         });
+    }
+
+    private void advancePollOptionCooldowns() {
+        pollOptionCooldowns.replaceAll((key, remaining) -> Math.max(0, remaining - 1));
+        pollOptionCooldowns.entrySet().removeIf(entry -> entry.getValue() <= 0);
+    }
+
+    private void executeSurpriseAction(org.bukkit.entity.Player player) {
+        ConfigurationSection donations = plugin.getEventConfig("donations");
+        if (donations == null) {
+            return;
+        }
+
+        List<ConfigurationSection> activeDonations = new ArrayList<>();
+        for (String key : donations.getKeys(false)) {
+            ConfigurationSection donation = donations.getConfigurationSection(key);
+            if (donation != null && donation.getBoolean("active", true)) {
+                activeDonations.add(donation);
+            }
+        }
+        if (activeDonations.isEmpty()) {
+            plugin.getLogger().warning("SURPRISE won a poll, but no active donation events are configured.");
+            return;
+        }
+
+        ConfigurationSection selectedDonation = activeDonations.get(
+                ThreadLocalRandom.current().nextInt(activeDonations.size()));
+        executeDonationAction(player, selectedDonation, "SURPRISE");
     }
 
     private void onPointRedemption(CustomRewardRedemptionAddEvent event) {
