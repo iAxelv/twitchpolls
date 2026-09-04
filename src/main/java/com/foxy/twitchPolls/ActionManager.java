@@ -20,6 +20,7 @@ import com.foxy.twitchPolls.actions.tiktok.WaveFireworksAction;
 import com.foxy.twitchPolls.actions.tiktok.HandHeartAction;
 import com.foxy.twitchPolls.actions.tiktok.PaperCraneAction;
 import com.foxy.twitchPolls.actions.tiktok.TntCircleAction;
+import com.foxy.twitchPolls.actions.tiktok.TntRainAction;
 import com.foxy.twitchPolls.actions.tiktok.MoneyGunAction;
 import com.foxy.twitchPolls.actions.tiktok.ClearInventoryAction;
 import com.foxy.twitchPolls.actions.tiktok.PerfumeAction;
@@ -202,8 +203,8 @@ public class ActionManager {
         strategies.put("PAPER_CRANE", new TntCircleAction());
             strategies.put("PAPER_CRANE", new PaperCraneAction());
         strategies.put("MONEY_GUN", new MoneyGunAction());
-        strategies.put("GALAXY_TNT", new TntCircleAction());
-        strategies.put("WHALE_DIVING", new TntCircleAction());
+        strategies.put("GALAXY_TNT", new TntRainAction());
+        strategies.put("WHALE_DIVING", new TntRainAction());
         strategies.put("SWAN_CLEAR", new ClearInventoryAction());
         strategies.put("PERFUME", new PerfumeAction());
     }

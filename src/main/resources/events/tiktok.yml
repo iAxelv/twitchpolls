@@ -124,7 +124,8 @@ tiktok_galaxy:
   value: 1
   display-name: "Galaxy"
   amount: 500
-  radius: 10.0
+  height: 10.0
+  spawn-interval-ticks: 1
   fuse-ticks: 60
 tiktok_whale_diving:
   active: true
@@ -135,7 +136,8 @@ tiktok_whale_diving:
   value: 1
   display-name: "Whale Diving"
   amount: 1000
-  radius: 12.0
+  height: 12.0
+  spawn-interval-ticks: 1
   fuse-ticks: 60
 tiktok_swan:
   active: true
