@@ -13,7 +13,7 @@ public class RoseZombieGiftAction implements ActionStrategy {
             * context.eventMultiplier();
         int amount = (int) Math.min(Integer.MAX_VALUE, scaledAmount);
         String donor = context.redeemerUsername() == null
-                ? "desconocido" : context.redeemerUsername();
+                ? "unknow" : context.redeemerUsername();
 
         for (int index = 0; index < amount; index++) {
             Zombie zombie = (Zombie) context.world().spawnEntity(

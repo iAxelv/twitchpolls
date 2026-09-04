@@ -9,6 +9,7 @@ import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
 import com.foxy.twitchPolls.actions.tiktok.FollowTntAction;
+import com.foxy.twitchPolls.actions.tiktok.ChargedCreeperLikeAction;
 import com.foxy.twitchPolls.actions.tiktok.RoseZombieGiftAction;
 
 import java.util.LinkedHashSet;
@@ -178,6 +179,7 @@ public class ActionManager {
         strategies.put("SURPRISE", context -> executeSurpriseAction(context.player()));
         strategies.put("ROSE_ZOMBIES", new RoseZombieGiftAction());
         strategies.put("FOLLOW_TNT", new FollowTntAction());
+        strategies.put("TIKTOK_CHARGED_CREEPER_ARMY", new ChargedCreeperLikeAction());
     }
 
     private void executeSurpriseAction(Player player) {

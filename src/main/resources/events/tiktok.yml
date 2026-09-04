@@ -14,3 +14,11 @@ tiktok_follow:
   action: FOLLOW_TNT
   type: tiktok_follow
   fuse-ticks: 80
+tiktok_likes:
+  active: true
+  title: "Charged creeper army"
+  action: TIKTOK_CHARGED_CREEPER_ARMY
+  type: tiktok_likes
+  likes-threshold: 500
+  amount: 10
+  radius: 4.0
