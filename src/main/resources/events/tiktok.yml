@@ -8,15 +8,6 @@ tiktok_rose_example:
   display-name: "rosa"
   amount: 30
   radius: 4
-
-tiktok_lion_example:
-  active: false
-  title: "Ataque del dragon"
-  action: DRAGON_ATTACK
-  type: tiktok_gift
-  gift-name: "Lion"
-  value: 29999
-
 tiktok_follow:
   active: true
   title: "TNT"
