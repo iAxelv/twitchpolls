@@ -43,7 +43,11 @@ public class UIManager {
     }
 
     public void showPointEvent(Player player, ConfigurationSection config) {
-        showTitle(player, "messages.points-event-title", "messages.points-event-subtitle", "%event%", config.getString("title", config.getName()), "%value%", String.valueOf(config.getInt("value", 0)));
+        showPointEvent(player, config, config.getInt("value", 0));
+    }
+
+    public void showPointEvent(Player player, ConfigurationSection config, int rewardCost) {
+        showTitle(player, "messages.points-event-title", "messages.points-event-subtitle", "%event%", config.getString("title", config.getName()), "%value%", String.valueOf(rewardCost));
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
     }
 

@@ -292,12 +292,17 @@ public class TwitchManager {
     }
 
     public void executePointAction(org.bukkit.entity.Player player, ConfigurationSection actionConfig, String username) {
+        executePointAction(player, actionConfig, username, actionConfig == null ? 0 : actionConfig.getInt("value", 0));
+    }
+
+    private void executePointAction(org.bukkit.entity.Player player, ConfigurationSection actionConfig,
+                                    String username, int rewardCost) {
         if (actionConfig == null || !player.isOnline()) return;
-        uiManager.showPointEvent(player, actionConfig);
+        uiManager.showPointEvent(player, actionConfig, rewardCost);
         actionManager.executePointAction(player, actionConfig, username);
         String broadcast = plugin.getLanguageManager().getString("messages.points-event-broadcast", "")
                 .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
-            .replace("%value%", String.valueOf(actionConfig.getInt("value", 0)))
+            .replace("%value%", String.valueOf(rewardCost))
             .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
         if (!broadcast.isBlank()) {
             Bukkit.broadcast(formatColor(broadcast));
@@ -432,7 +437,7 @@ public class TwitchManager {
     }
 
     private void onPointRedemption(CustomRewardRedemptionAddEvent event) {
-        if (event.getReward() == null || event.getReward().getCost() == null) {
+        if (event.getReward() == null || event.getReward().getTitle() == null) {
             return;
         }
 
@@ -444,8 +449,7 @@ public class TwitchManager {
         ConfigurationSection matched = null;
         for (String key : points.getKeys(false)) {
             ConfigurationSection candidate = points.getConfigurationSection(key);
-            if (candidate == null || !candidate.getBoolean("active", true)
-                    || candidate.getInt("value", -1) != event.getReward().getCost()) {
+            if (candidate == null || !candidate.getBoolean("active", true)) {
                 continue;
             }
             String rewardTitle = candidate.getString("reward-title", candidate.getString("title", key));
@@ -460,11 +464,13 @@ public class TwitchManager {
         }
 
         ConfigurationSection selected = matched;
+        Integer rewardCost = event.getReward().getCost();
         String username = event.getUserName();
         Bukkit.getScheduler().runTask(plugin, () -> {
             org.bukkit.entity.Player player = sessionManager.getStreamer();
             if (player != null && player.isOnline()) {
-                executePointAction(player, selected, username);
+                int currentCost = rewardCost == null ? selected.getInt("value", 0) : rewardCost;
+                executePointAction(player, selected, username, currentCost);
             }
         });
     }

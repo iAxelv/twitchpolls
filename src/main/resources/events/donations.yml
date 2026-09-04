@@ -58,7 +58,7 @@ charged_creeper_army:
   title: "Charged creeper army"
   action: CHARGED_CREEPER_ARMY
   type: bits
-  value: 2500
+  value: 2750
   amount: 10
   radius: 4.0
 apocalypse_rain:
@@ -76,8 +76,8 @@ welcome_to_hell:
   active: true
   title: "Welcome to hell"
   action: WELCOME_TO_HELL
-  type: gift_sub
-  value: 10
+  type: bits
+  value: 55
   size: 3
 warden_pit:
   active: true
@@ -116,7 +116,7 @@ ultimate_care_package:
   title: "Ultimate care package"
   action: ULTIMATE_CARE_PACKAGE
   type: bits
-  value: 2000
+  value: 2250
   totems: 5
 time_freeze:
   active: true
@@ -179,7 +179,7 @@ black_hole:
   title: "Black hole!"
   action: BLACK_HOLE
   type: bits
-  value: 2000
+  value: 2500
   duration-seconds: 10
   radius: 12.0
   strength: 0.15
@@ -188,7 +188,7 @@ earthquake:
   title: "Earthquake!"
   action: EARTHQUAKE
   type: bits
-  value: 2500
+  value: 3250
   duration-seconds: 12
   debris-per-wave: 8
   blocks-per-wave: 16
@@ -199,7 +199,7 @@ world_rotation:
   title: "World rotation!"
   action: WORLD_ROTATION
   type: bits
-  value: 3000
+  value: 3750
   rotations: 4
   duration-seconds: 12
   interval-seconds: 3
