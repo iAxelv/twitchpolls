@@ -671,6 +671,14 @@ category-items:
       lore:
         - "&7Summon zombies for each rose"
         - "&eClick to test"
+    DOUGHNUT_DELETE_CHUNK:
+      event: DOUGHNUT_DELETE_CHUNK
+      slot: 2
+      item: TNT_MINECART
+      display-name: "&4Doughnut Chunk"
+      lore:
+        - "&7Delete the streamer's chunk"
+        - "&eClick to test"
     FOLLOW_TNT:
       event: FOLLOW_TNT
       slot: 1
@@ -678,4 +686,12 @@ category-items:
       display-name: "&cFollow TNT"
       lore:
         - "&7Test the TikTok follow event"
+        - "&eClick to test"
+    TIKTOK_CHARGED_CREEPER_ARMY:
+      event: TIKTOK_CHARGED_CREEPER_ARMY
+      slot: 3
+      item: CREEPER_HEAD
+      display-name: "&aTikTok Likes"
+      lore:
+        - "&7Test the TikTok likes event"
         - "&eClick to test"

@@ -8,6 +8,16 @@ tiktok_rose_example:
   display-name: "rosa"
   amount: 30 # Multiplied by the gift combo (10x = 300 zombies)
   radius: 4
+tiktok_doughnut:
+  active: true
+  title: "Chunk eliminado"
+  action: DOUGHNUT_DELETE_CHUNK
+  type: tiktok_gift
+  gift-name: "Doughnut"
+  value: 1
+  display-name: "doughnut"
+  duration-seconds: 1
+  interval-seconds: 5
 tiktok_follow:
   active: true
   title: "TNT"
