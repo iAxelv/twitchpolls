@@ -16,6 +16,10 @@ public class BlockSwapAction implements ActionStrategy {
         this.plugin = plugin;
     }
     @Override public void execute(ActionContext context) {
+        if (context.config().getBoolean("single-chunk", false)) {
+            replaceChunk(context);
+            return;
+        }
         long duration = Math.max(1L, context.config().getLong("duration-seconds", 45)) * 20L;
         long interval = Math.max(1L, context.config().getLong("interval-ticks", 10L));
         List<Material> replacements = new ArrayList<>();
@@ -44,5 +48,33 @@ public class BlockSwapAction implements ActionStrategy {
                 remaining -= interval;
             }
         }.runTaskTimer(plugin, 0L, interval);
+    }
+
+    private void replaceChunk(ActionContext context) {
+        List<Material> replacements = new ArrayList<>();
+        for (String materialName : context.config().getStringList("replacements")) {
+            Material material = Material.matchMaterial(materialName);
+            if (material != null && material.isBlock() && material != Material.BEDROCK
+                    && !material.isAir()) {
+                replacements.add(material);
+            }
+        }
+        if (replacements.isEmpty()) {
+            return;
+        }
+
+        var chunk = context.player().getLocation().getChunk();
+        int minHeight = context.world().getMinHeight();
+        int maxHeight = context.world().getMaxHeight();
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                for (int y = minHeight; y < maxHeight; y++) {
+                    var block = chunk.getBlock(x, y, z);
+                    if (!block.getType().isAir() && block.getType() != Material.BEDROCK) {
+                        block.setType(replacements.get(ThreadLocalRandom.current().nextInt(replacements.size())), false);
+                    }
+                }
+            }
+        }
     }
 }

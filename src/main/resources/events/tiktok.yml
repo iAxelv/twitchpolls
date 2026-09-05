@@ -93,6 +93,34 @@ tiktok_ballons:
   display-name: "ballons"
   duration-seconds: 10
   rise-speed: 0.08
+tiktok_tiktok:
+  active: true
+  title: "TikTok"
+  action: BLOCK_SWAP
+  type: tiktok_gift
+  gift-name: "tiktok"
+  value: 1
+  display-name: "tiktok"
+  single-chunk: true
+  replacements:
+    - STONE
+    - DIRT
+    - COBBLESTONE
+    - GRAVEL
+    - SAND
+    - OAK_PLANKS
+    - BRICKS
+tiktok_bouquet_flower:
+  active: true
+  title: "Bouquet Flower"
+  action: HOT_POTATO
+  type: tiktok_gift
+  gift-name: "bouquet flower"
+  value: 1
+  display-name: "bouquet flower"
+  duration-seconds: 15
+  explosion-power: 1.0
+  queue-while-active: true
 tiktok_hand_heart:
   active: true
   title: "Hand Heart"

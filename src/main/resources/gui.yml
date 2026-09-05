@@ -807,3 +807,19 @@ category-items:
       lore:
         - "&7Launch the streamer for ten seconds"
         - "&eClick to test"
+    TIKTOK_CHUNK_SWAP:
+      event: BLOCK_SWAP
+      slot: 18
+      item: GRASS_BLOCK
+      display-name: "&2TikTok Chunk"
+      lore:
+        - "&7Replace the streamer's chunk once"
+        - "&eClick to test"
+    BOUQUET_FLOWER:
+      event: HOT_POTATO
+      slot: 19
+      item: FLOWER_BANNER_PATTERN
+      display-name: "&dBouquet Flower"
+      lore:
+        - "&7Start Hot Potato"
+        - "&eClick to test"

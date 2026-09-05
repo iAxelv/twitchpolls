@@ -20,10 +20,27 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import net.kyori.adventure.title.Title;
 
 public class HotPotatoAction implements ActionStrategy {
+    private final Map<UUID, ActionContext> pendingEvents = new HashMap<>();
+    private final Map<UUID, Boolean> activePlayers = new HashMap<>();
+
     @Override public void execute(ActionContext context) {
+        UUID playerId = context.player().getUniqueId();
+        if (activePlayers.putIfAbsent(playerId, true) != null) {
+            if (context.config().getBoolean("queue-while-active", false)) {
+                pendingEvents.put(playerId, context);
+            }
+            return;
+        }
+        start(context);
+    }
+
+    private void start(ActionContext context) {
         TwitchPolls plugin = (TwitchPolls) context.plugin();
         Player player = context.player();
         int duration = Math.max(5, context.config().getInt("duration-seconds", 15));
@@ -50,6 +67,7 @@ public class HotPotatoAction implements ActionStrategy {
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
                 HandlerList.unregisterAll(this);
                 cancelTask();
+                finish(player, true);
             }
 
             @EventHandler
@@ -58,6 +76,7 @@ public class HotPotatoAction implements ActionStrategy {
                     player.setGlowing(wasGlowing);
                     HandlerList.unregisterAll(this);
                     cancelTask();
+                    finish(player, false);
                 }
             }
 
@@ -67,6 +86,7 @@ public class HotPotatoAction implements ActionStrategy {
                     player.setGlowing(wasGlowing);
                     HandlerList.unregisterAll(this);
                     cancelTask();
+                    finish(player, false);
                 }
             }
 
@@ -83,6 +103,7 @@ public class HotPotatoAction implements ActionStrategy {
                     player.setGlowing(wasGlowing);
                     cancel();
                     HandlerList.unregisterAll(potatoListener);
+                    finish(player, true);
                     return;
                 }
 
@@ -114,6 +135,7 @@ public class HotPotatoAction implements ActionStrategy {
                             Title.Times.times(Duration.ZERO, Duration.ofSeconds(2), Duration.ofMillis(500))));
                     HandlerList.unregisterAll(potatoListener);
                     cancel();
+                    finish(player, true);
                     return;
                 }
 
@@ -123,5 +145,18 @@ public class HotPotatoAction implements ActionStrategy {
 
         plugin.getServer().getPluginManager().registerEvents(potatoListener, plugin);
         taskHolder[0].runTaskTimer(plugin, 0L, 1L);
+    }
+
+    private void finish(Player player, boolean startPending) {
+        UUID playerId = player.getUniqueId();
+        activePlayers.remove(playerId);
+        ActionContext next = startPending ? pendingEvents.remove(playerId) : null;
+        if (!startPending) {
+            pendingEvents.remove(playerId);
+        }
+        if (next != null && player.isOnline()) {
+            activePlayers.put(playerId, true);
+            start(next);
+        }
     }
 }
