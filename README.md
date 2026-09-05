@@ -1,6 +1,6 @@
-# TwitchPolls
+# StreamManager
 
-Paper plugin that creates Twitch polls from Minecraft server events.
+Paper plugin that connects stream events from Twitch and TikTok to Minecraft actions.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ Recommended scopes:
 
 ## How authentication works
 
-The plugin stores sensitive credentials in `plugins/TwitchPolls/secrets.yml` and uses the Twitch OAuth2 flow.
+The plugin stores sensitive credentials in `plugins/StreamManager/secrets.yml` and uses the Twitch OAuth2 flow.
 
 The important part is that the access token can expire, but the plugin attempts to refresh it automatically using the `refresh-token` when available. This prevents the streamer from manually editing the file every time the token expires.
 
@@ -36,18 +36,18 @@ In short:
 gradle shadowJar
 ```
 
-2. Copy the generated artifact from `build/libs/TwitchPolls-1.0.jar` into your server's `plugins/` folder.
+2. Copy the generated artifact from `build/libs/StreamManager-1.0.jar` into your server's `plugins/` folder.
 3. Start the server once so the base files are generated.
 4. Edit:
-   - `plugins/TwitchPolls/secrets.yml`
-   - `plugins/TwitchPolls/config.yml`
-   - `plugins/TwitchPolls/events/*.yml`
+  - `plugins/StreamManager/secrets.yml`
+  - `plugins/StreamManager/config.yml`
+  - `plugins/StreamManager/events/*.yml`
 5. Fill in your real Twitch credentials and broadcaster ID.
-6. Restart the server or use `/twitch reload`.
+6. Restart the server or use `/streammanager reload` (or `/sm reload`).
 
 ## Twitch configuration
 
-In `plugins/TwitchPolls/secrets.yml`, set something like:
+In `plugins/StreamManager/secrets.yml`, set something like:
 
 ```yaml
 twitch:
@@ -80,18 +80,18 @@ gradle shadowJar
 The final jar is generated at:
 
 ```text
-build/libs/TwitchPolls-1.0.jar
+build/libs/StreamManager-1.0.jar
 ```
 
 ## Commands
 
-- `/twitch poll` -> starts a poll manually
-- `/twitch reload` -> reloads `config.yml`, `gui.yml`, and all files in `events/`
+- `/streammanager poll` -> starts a poll manually
+- `/streammanager reload` -> reloads `config.yml`, `gui.yml`, and all files in `events/`
+- `/streammanager reconnect` -> reconnects the configured event provider
+- `/streammanager test` -> opens the action test menu in-game
+
+The short alias `/sm` can be used instead of `/streammanager`.
 
 ## Point events
 
 Channel Point redemptions are handled separately from polls. A redemption activates the matching entry in `events/points.yml`. The test menu also executes these actions immediately without waiting for the poll countdown.
-
-## Final note
-
-The `run/` folder is intended for local server testing and should not be used as real credential storage for production. Credentials should always live in the live server's `plugins/TwitchPolls/secrets.yml` and remain private.
