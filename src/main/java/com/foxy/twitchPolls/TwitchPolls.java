@@ -4,6 +4,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import com.foxy.twitchPolls.commands.TestCommand;
@@ -24,6 +27,7 @@ public final class TwitchPolls extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        migrateLegacyDataFolder();
         saveDefaultConfig();
         saveResourceIfMissing("gui.yml");
         saveResourceIfMissing("secrets.yml");
@@ -50,8 +54,8 @@ public final class TwitchPolls extends JavaPlugin {
         testCommand = new TestCommand(this, actionManager, uiManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
         TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, tikTokManager, testCommand);
-        getCommand("twitch").setExecutor(twitchCommand);
-        getCommand("twitch").setTabCompleter(twitchCommand);
+        getCommand("streammanager").setExecutor(twitchCommand);
+        getCommand("streammanager").setTabCompleter(twitchCommand);
         reloadEventProviderConnections();
     }
 
@@ -76,6 +80,39 @@ public final class TwitchPolls extends JavaPlugin {
     private void saveResourceIfMissing(String resourcePath) {
         if (!new File(getDataFolder(), resourcePath).exists()) {
             saveResource(resourcePath, false);
+        }
+    }
+
+    private void migrateLegacyDataFolder() {
+        Path currentFolder = getDataFolder().toPath();
+        Path legacyFolder = currentFolder.getParent().resolve("TwitchPolls");
+        if (!Files.isDirectory(legacyFolder)) {
+            return;
+        }
+
+        try {
+            if (Files.isDirectory(currentFolder)) {
+                try (var entries = Files.list(currentFolder)) {
+                    if (entries.findAny().isPresent()) {
+                        return;
+                    }
+                }
+            }
+            try (var paths = Files.walk(legacyFolder)) {
+                for (Path source : paths.toList()) {
+                    Path target = currentFolder.resolve(legacyFolder.relativize(source));
+                    if (Files.isDirectory(source)) {
+                        Files.createDirectories(target);
+                    } else {
+                        Files.createDirectories(target.getParent());
+                        Files.copy(source, target, StandardCopyOption.COPY_ATTRIBUTES);
+                    }
+                }
+            }
+            getLogger().info("Migrated data from TwitchPolls to StreamManager.");
+        } catch (IOException exception) {
+            getLogger().log(java.util.logging.Level.WARNING,
+                    "Could not migrate data from TwitchPolls to StreamManager.", exception);
         }
     }
 

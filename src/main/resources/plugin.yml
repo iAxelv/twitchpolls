@@ -1,12 +1,13 @@
-name: TwitchPolls
+name: StreamManager
 version: '${version}'
 main: com.foxy.twitchPolls.TwitchPolls
 api-version: '1.21.8'
 load: POSTWORLD
 commands:
-  twitch:
-    description: Administra las encuestas y prueba acciones de Twitch
-    usage: /twitch <poll|reload|reconnect|test>
+  streammanager:
+    description: Administra los eventos de Twitch y TikTok
+    usage: /streammanager <poll|reload|reconnect|test>
+    aliases: [sm]
     permission: twitchpolls.poll
 permissions:
   twitchpolls.poll:
