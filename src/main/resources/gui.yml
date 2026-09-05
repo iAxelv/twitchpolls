@@ -799,3 +799,11 @@ category-items:
       lore:
         - "&7Summon 15 charged Creepers"
         - "&eClick to test"
+    BALLOONS:
+      event: BALLOONS
+      slot: 17
+      item: FIREWORK_ROCKET
+      display-name: "&eBalloons"
+      lore:
+        - "&7Launch the streamer for ten seconds"
+        - "&eClick to test"

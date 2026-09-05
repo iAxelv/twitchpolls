@@ -23,6 +23,7 @@ import com.foxy.twitchPolls.actions.tiktok.TntRainAction;
 import com.foxy.twitchPolls.actions.tiktok.MoneyGunAction;
 import com.foxy.twitchPolls.actions.tiktok.ClearInventoryAction;
 import com.foxy.twitchPolls.actions.tiktok.PerfumeAction;
+import com.foxy.twitchPolls.actions.tiktok.BalloonsAction;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -205,6 +206,7 @@ public class ActionManager {
         strategies.put("WHALE_DIVING", new TntRainAction());
         strategies.put("SWAN_CLEAR", new ClearInventoryAction());
         strategies.put("PERFUME", new PerfumeAction());
+        strategies.put("BALLOONS", new BalloonsAction());
     }
 
     private void executeSurpriseAction(Player player) {

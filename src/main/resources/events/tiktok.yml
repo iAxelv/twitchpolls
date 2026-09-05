@@ -83,6 +83,16 @@ tiktok_wave_fireworks:
   display-name: "Wave Fireworks"
   amount: 10
   interval-ticks: 10
+tiktok_ballons:
+  active: true
+  title: "Balloons"
+  action: BALLOONS
+  type: tiktok_gift
+  gift-name: "ballons"
+  value: 1
+  display-name: "ballons"
+  duration-seconds: 10
+  rise-speed: 0.08
 tiktok_hand_heart:
   active: true
   title: "Hand Heart"
