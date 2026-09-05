@@ -56,6 +56,7 @@ messages:
   spawn-veneco-name: "VENECO PRIME"
   spawn-veneco-broadcast: "Un veneco apareció en el mundo"
   hot-potato-actionbar: "&cPatata caliente: %time%s"
+  balloons-actionbar: "&eGlobos: &f%time%s"
   hot-potato-saved: "&a¡Patata caliente entregada!"
   hot-potato-boom-title: "&4&l¡BOOM!"
   hot-potato-boom-subtitle: "&cNo lograste pasar la patata a tiempo"

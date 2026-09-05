@@ -56,6 +56,7 @@ messages:
   spawn-veneco-name: "VENECO PRIME"
   spawn-veneco-broadcast: "A veneco appeared in the world"
   hot-potato-actionbar: "&cHot potato: %time%s"
+  balloons-actionbar: "&eBalloons: &f%time%s"
   hot-potato-saved: "&aHot potato passed!"
   hot-potato-boom-title: "&4&lBOOM!"
   hot-potato-boom-subtitle: "&cYou did not pass the hot potato in time"
