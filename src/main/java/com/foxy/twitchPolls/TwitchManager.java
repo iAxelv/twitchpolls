@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.logging.Level;
 
@@ -49,6 +50,8 @@ public class TwitchManager {
     private TwitchClient twitchClient;
     private BukkitTask pollTask;
     private BukkitTask pollResumeTask;
+    private BukkitTask eventSubscriptionTask;
+    private final AtomicLong connectionGeneration = new AtomicLong();
     private volatile boolean automaticPollActive;
     private final Map<String, ConfigurationSection> activePollChoices = new HashMap<>();
     private final Map<String, Integer> pollOptionCooldowns = new HashMap<>();
@@ -61,6 +64,8 @@ public class TwitchManager {
     }
 
     public void connect() {
+        long generation = connectionGeneration.incrementAndGet();
+        configureTwitchRequestTimeout();
         String clientId = plugin.getCredentialsManager().getCredential("twitch.client-id");
         String clientSecret = plugin.getCredentialsManager().getCredential("twitch.client-secret");
         String oauthToken = cleanToken(plugin.getCredentialsManager().getCredential("twitch.oauth-token"));
@@ -97,35 +102,24 @@ public class TwitchManager {
         twitchClient.getEventManager().onEvent(ChannelSubscribeEvent.class, this::onSubscribe);
         twitchClient.getEventManager().onEvent(ChannelSubscriptionGiftEvent.class, this::onGiftSubscription);
         twitchClient.getEventManager().onEvent(ChannelSubscriptionMessageEvent.class, this::onSubscriptionMessage);
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.POLL_END,
-                ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
-                ChannelPointsCustomRewardRedemptionAddCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.CHANNEL_CHEER,
-                ChannelCheerCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.CHANNEL_SUBSCRIBE,
-                ChannelSubscribeCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT,
-                ChannelSubscriptionGiftCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
-        twitchClient.getEventSocket().register(
-                SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE,
-                ChannelSubscriptionMessageCondition.builder().broadcasterUserId(broadcasterId).build()
-        );
+        scheduleEventSubscriptions(broadcasterId, generation);
 
         startPollCycle();
     }
 
+    private void configureTwitchRequestTimeout() {
+        String property = "hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds";
+        if (System.getProperty(property) == null) {
+            System.setProperty(property, "30000");
+        }
+    }
+
     public void disconnect() {
+        connectionGeneration.incrementAndGet();
+        if (eventSubscriptionTask != null) {
+            eventSubscriptionTask.cancel();
+            eventSubscriptionTask = null;
+        }
         if (pollTask != null) {
             pollTask.cancel();
             pollTask = null;
@@ -138,7 +132,48 @@ public class TwitchManager {
         uiManager.cancelAll();
         if (twitchClient != null) {
             twitchClient.close();
+            twitchClient = null;
         }
+    }
+
+    private void scheduleEventSubscriptions(String broadcasterId, long generation) {
+        eventSubscriptionTask = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+            private int index;
+
+            @Override
+            public void run() {
+                if (generation != connectionGeneration.get() || twitchClient == null || index >= 6) {
+                    if (index >= 6 && eventSubscriptionTask != null) {
+                        eventSubscriptionTask.cancel();
+                        eventSubscriptionTask = null;
+                    }
+                    return;
+                }
+
+                switch (index++) {
+                    case 0 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.POLL_END,
+                            ChannelPollEndCondition.builder().broadcasterUserId(broadcasterId).build());
+                    case 1 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.CHANNEL_POINTS_CUSTOM_REWARD_REDEMPTION_ADD,
+                            ChannelPointsCustomRewardRedemptionAddCondition.builder()
+                                    .broadcasterUserId(broadcasterId).build());
+                    case 2 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.CHANNEL_CHEER,
+                            ChannelCheerCondition.builder().broadcasterUserId(broadcasterId).build());
+                    case 3 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.CHANNEL_SUBSCRIBE,
+                            ChannelSubscribeCondition.builder().broadcasterUserId(broadcasterId).build());
+                    case 4 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.CHANNEL_SUBSCRIPTION_GIFT,
+                            ChannelSubscriptionGiftCondition.builder().broadcasterUserId(broadcasterId).build());
+                    case 5 -> twitchClient.getEventSocket().register(
+                            SubscriptionTypes.CHANNEL_SUBSCRIPTION_MESSAGE,
+                            ChannelSubscriptionMessageCondition.builder().broadcasterUserId(broadcasterId).build());
+                    default -> { }
+                }
+            }
+        }, 0L, 20L);
     }
 
     public void reload() {

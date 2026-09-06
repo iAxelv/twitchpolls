@@ -57,8 +57,12 @@ public final class TikTokManager {
                         .onConnected((liveClient, event) -> plugin.getLogger().info(
                             "Connected to TikTok Live for @" + username))
                         .onDisconnected((liveClient, event) -> onDisconnected(liveClient, generation))
-                        .onError((liveClient, event) -> plugin.getLogger().log(
-                            Level.WARNING, "Error in TikTok Live", event.getException()))
+                        .onError((liveClient, event) -> {
+                            if (!isRequestTimeout(event.getException())) {
+                                plugin.getLogger().log(Level.WARNING,
+                                        "Error in TikTok Live", event.getException());
+                            }
+                        })
                         .buildAndConnect();
                 synchronized (this) {
                     if (generation != connectionGeneration.get()
@@ -72,13 +76,28 @@ public final class TikTokManager {
                 }
             } catch (Exception exception) {
                 if (generation == connectionGeneration.get()) {
-                    plugin.getLogger().log(Level.WARNING,
-                        "Could not connect to TikTok Live for @" + username
-                            + "; retrying automatically.", exception);
+                    if (isRequestTimeout(exception)) {
+                        plugin.getLogger().warning("TikTok Live request timed out for @" + username
+                                + "; retrying automatically.");
+                    } else {
+                        plugin.getLogger().log(Level.WARNING,
+                            "Could not connect to TikTok Live for @" + username
+                                + "; retrying automatically.", exception);
+                    }
                     scheduleReconnect();
                 }
             }
         });
+    }
+
+    private boolean isRequestTimeout(Throwable throwable) {
+        while (throwable != null) {
+            if (throwable instanceof java.net.http.HttpTimeoutException) {
+                return true;
+            }
+            throwable = throwable.getCause();
+        }
+        return false;
     }
 
     public synchronized void disconnect() {
