@@ -25,6 +25,11 @@ categories:
     display-name: "&bPoint Actions"
     lore:
       - "&7Test point actions"
+    slot: 5
+    item: DIAMOND
+    display-name: "&bPoint Actions"
+    lore:
+      - "&7Test point actions"
   tiktok:
     slot: 7
     item: NETHER_STAR
@@ -215,6 +220,30 @@ items:
       - "&7A fast-moving wall of water"
       - "&7Climb high before impact"
       - "&eClick to test"
+  DIMENSION_MIRAGE:
+    event: DIMENSION_MIRAGE
+    slot: 22
+    item: NETHERRACK
+    display-name: "&4False Nether"
+    lore:
+      - "&7Show a temporary Nether mirage"
+      - "&eClick to test"
+  SLIME_SPLIT_MOBS:
+    event: SLIME_SPLIT_MOBS
+    slot: 23
+    item: SLIME_BALL
+    display-name: "&aMob Multiplication"
+    lore:
+      - "&7Split mobs hit by the streamer"
+      - "&eClick to test"
+  AIR_STRIKE_WARNING:
+    event: AIR_STRIKE_WARNING
+    slot: 24
+    item: DRAGON_BREATH
+    display-name: "&cAir Strike Warning"
+    lore:
+      - "&7Mark five incoming dragon fireballs"
+      - "&eClick to test"
 category-items:
   donations:
     INVENTORY_BOMB:
@@ -404,6 +433,33 @@ category-items:
       display-name: "&5World Spin"
       lore:
         - "&7Teleport you multiple times"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    WITHER_BOMBARDMENT:
+      event: WITHER_BOMBARDMENT
+      slot: 21
+      item: WITHER_SKELETON_SKULL
+      display-name: "&8Wither Bombardment"
+      lore:
+        - "&7Rain down guided skulls"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    DIMENSION_SCATTER:
+      event: DIMENSION_SCATTER
+      slot: 22
+      item: ENDER_PEARL
+      display-name: "&5Dimension Scatter"
+      lore:
+        - "&7Teleport far away four times"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    HELLFIRE_RAIN:
+      event: HELLFIRE_RAIN
+      slot: 23
+      item: FIRE_CHARGE
+      display-name: "&4Hellfire Rain"
+      lore:
+        - "&7Rain destructive Ghast fireballs"
         - "&7Cost: &e%value% %type%"
         - "&eClick to test"
   points:
@@ -660,6 +716,33 @@ category-items:
       display-name: "&6Happy Holidays"
       lore:
         - "&7Give between 1 and 4 Notch apples"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    CLUMSY_OFFHAND:
+      event: CLUMSY_OFFHAND
+      slot: 28
+      item: DROPPER
+      display-name: "&eClumsy Offhand"
+      lore:
+        - "&7Throw the offhand item"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    CREEPER_METEORS:
+      event: CREEPER_METEORS
+      slot: 29
+      item: OBSIDIAN
+      display-name: "&2Creeper Meteors"
+      lore:
+        - "&7Drop obsidian meteors"
+        - "&7Cost: &e%value% %type%"
+        - "&eClick to test"
+    ITEM_ROULETTE_SHOWER:
+      event: ITEM_ROULETTE_SHOWER
+      slot: 30
+      item: POISONOUS_POTATO
+      display-name: "&5Trash Roulette"
+      lore:
+        - "&7Shower the streamer with junk"
         - "&7Cost: &e%value% %type%"
         - "&eClick to test"
   tiktok:

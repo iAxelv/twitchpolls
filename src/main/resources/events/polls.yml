@@ -122,3 +122,25 @@ drop_hand_item:
   action: DROP_HAND_ITEM
   duration-seconds: 15
   interval-seconds: 3
+dimension_mirage:
+  active: true
+  title: "False Nether"
+  action: DIMENSION_MIRAGE
+  duration-seconds: 30
+  chunk-radius: 1
+  lava-chance: 0.12
+  wither-skeletons: 4
+  blazes: 4
+  ghasts: 1
+slime_split_mobs:
+  active: true
+  title: "Mob multiplication"
+  action: SLIME_SPLIT_MOBS
+  duration-seconds: 40
+air_strike_warning:
+  active: true
+  title: "Air strike warning"
+  action: AIR_STRIKE_WARNING
+  radius: 12.0
+  height: 22.0
+  yield: 2.0

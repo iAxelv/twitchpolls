@@ -206,3 +206,34 @@ world_rotation:
   radius: 12.0
   y-offset-min: -10.0
   y-offset-max: 10.0
+wither_bombardment:
+  active: true
+  title: "Wither bombardment"
+  action: WITHER_BOMBARDMENT
+  type: bits
+  value: 3500
+  amount: 20
+  height: 25.0
+  spawn-interval-ticks: 2
+dimension_scatter:
+  active: true
+  title: "Dimension scatter"
+  action: DIMENSION_SCATTER
+  type: bits
+  value: 4500
+  teleports: 4
+  min-distance: 100.0
+  max-distance: 300.0
+  interval-ticks: 50
+hellfire_rain:
+  active: true
+  title: "Hellfire rain"
+  action: HELLFIRE_RAIN
+  type: bits
+  value: 4000
+  amount: 30
+  radius: 18.0
+  height: 25.0
+  yield: 3.0
+  incendiary: true
+  spawn-interval-ticks: 2

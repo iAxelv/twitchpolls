@@ -259,3 +259,31 @@ one_heart_challenge:
   reward-title: "Keep it to one heart" # This is the name to put in the points reward item name.
   action: ONE_HEART_CHALLENGE
   duration-seconds: 10
+clumsy_offhand:
+  active: true
+  value: 175
+  title: "Clumsy offhand"
+  reward-title: "Throw my offhand"
+  action: CLUMSY_OFFHAND
+  forward-speed: 0.8
+  upward-speed: 0.65
+creeper_meteors:
+  active: true
+  value: 800
+  title: "Creeper meteors"
+  reward-title: "Creeper meteors"
+  action: CREEPER_METEORS
+  amount: 6
+  radius: 8.0
+  height: 20
+  fuse-ticks: 10
+item_roulette_shower:
+  active: true
+  value: 500
+  title: "Trash roulette"
+  reward-title: "Trash shower"
+  action: ITEM_ROULETTE_SHOWER
+  amount: 150
+  radius: 8.0
+  height: 15.0
+  spawn-interval-ticks: 1

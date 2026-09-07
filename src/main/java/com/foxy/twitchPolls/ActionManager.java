@@ -147,7 +147,10 @@ public class ActionManager {
         strategies.put("RANDOM_EFFECT", new RandomEffectAction());
         strategies.put("SPAWN_BEE_SWARM", new SpawnBeeSwarmAction());
         strategies.put("SPAWN_VENECO", new SpawnVenecoAction());
-        strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
+            strategies.put("DROP_HAND_ITEM", new DropHandItemAction());
+            strategies.put("DIMENSION_MIRAGE", new DimensionMirageAction());
+            strategies.put("SLIME_SPLIT_MOBS", new SlimeSplitMobsAction(plugin));
+            strategies.put("AIR_STRIKE_WARNING", new AirStrikeWarningAction());
         strategies.put("HOTBAR_SHUFFLE", new HotbarShuffleAction());
         strategies.put("SPIN_HEAD", new SpinHeadAction());
         strategies.put("DIVINE_PUNISHMENT", new LightningStormAction());
@@ -205,6 +208,12 @@ public class ActionManager {
         strategies.put("SWAN_CLEAR", new ClearInventoryAction());
         strategies.put("PERFUME", new PerfumeAction());
         strategies.put("BALLOONS", new BalloonsAction());
+            strategies.put("CLUMSY_OFFHAND", new ClumsyOffhandAction());
+            strategies.put("CREEPER_METEORS", new CreeperMeteorsAction());
+            strategies.put("ITEM_ROULETTE_SHOWER", new ItemRouletteShowerAction());
+            strategies.put("WITHER_BOMBARDMENT", new WitherBombardmentAction());
+            strategies.put("DIMENSION_SCATTER", new DimensionScatterAction());
+            strategies.put("HELLFIRE_RAIN", new HellfireRainAction());
     }
 
 }
