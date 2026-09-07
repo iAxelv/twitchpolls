@@ -1,7 +1,7 @@
 name: StreamManager
 version: '${version}'
-main: com.foxy.twitchPolls.TwitchPolls
-api-version: '1.21.8'
+main: com.foxy.streammanager.TwitchPolls
+api-version: '1.21'
 load: POSTWORLD
 commands:
   streammanager:

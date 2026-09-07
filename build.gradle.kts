@@ -59,11 +59,11 @@ tasks {
         exclude("META-INF/versions/**/module-info.class")
         exclude("module-info.class")
 
-        relocate("com.fasterxml.jackson", "com.foxy.twitchpolls.libs.jackson")
-        relocate("com.github.twitch4j", "com.foxy.twitchpolls.libs.twitch4j")
-        relocate("feign", "com.foxy.twitchpolls.libs.feign")
-        relocate("io.github.xanthic", "com.foxy.twitchpolls.libs.xanthic")
-        relocate("io.github.jwdeveloper.tiktok", "com.foxy.twitchpolls.libs.tiktok")
+        relocate("com.fasterxml.jackson", "com.foxy.streammanager.libs.jackson")
+        relocate("com.github.twitch4j", "com.foxy.streammanager.libs.twitch4j")
+        relocate("feign", "com.foxy.streammanager.libs.feign")
+        relocate("io.github.xanthic", "com.foxy.streammanager.libs.xanthic")
+        relocate("io.github.jwdeveloper.tiktok", "com.foxy.streammanager.libs.tiktok")
     }
 
     build {
