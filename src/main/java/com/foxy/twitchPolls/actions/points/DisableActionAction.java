@@ -68,7 +68,9 @@ public class DisableActionAction implements ActionStrategy, Listener {
                 new ActiveAction(action, System.currentTimeMillis() + durationMillis));
 
         String title = context.plugin().getConfig().getString("messages.points-event-title", "");
-        String subtitle = "&cAcción bloqueada: &f" + actionNames.get(action);
+        String subtitle = ((TwitchPolls) context.plugin()).getLanguageManager().getString(
+            "messages.disable-action-title", "&cAction blocked: &f" + actionNames.get(action))
+            .replace("%action%", actionNames.get(action));
         context.player().showTitle(Title.title(
             LegacyComponentSerializer.legacyAmpersand().deserialize(title),
                 LegacyComponentSerializer.legacyAmpersand().deserialize(subtitle),

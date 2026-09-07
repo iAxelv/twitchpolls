@@ -338,7 +338,7 @@ public class TwitchManager {
         String broadcast = plugin.getLanguageManager().getString("messages.points-event-broadcast", "")
                 .replace("%event%", actionConfig.getString("title", actionConfig.getName()))
             .replace("%value%", String.valueOf(rewardCost))
-            .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
+            .replace("%username%", username == null || username.isBlank() ? "unknown" : username);
         if (!broadcast.isBlank()) {
             Bukkit.broadcast(formatColor(broadcast));
         }
@@ -355,15 +355,15 @@ public class TwitchManager {
         actionManager.executeDonationAction(player, actionConfig, username);
         String eventTitle = actionConfig.getString("title", actionConfig.getName());
         int value = actionConfig.getInt("value", 0);
-        String type = donationTypeLabel(actionConfig.getString("type", "donación"));
+        String type = donationTypeLabel(actionConfig.getString("type", "donation"));
         String broadcast = plugin.getLanguageManager().getString(
                 "messages.donation-event-broadcast",
-            "&d[" + provider + "] &f%event% &7se activó por &e%value% %type% &7(%username%)")
+            "&d[" + provider + "] &f%event% &7was activated by &e%value% %type% &7(%username%)")
             .replace("%provider%", provider)
                 .replace("%event%", eventTitle)
                 .replace("%value%", String.valueOf(value))
                 .replace("%type%", type)
-                .replace("%username%", username == null || username.isBlank() ? "desconocido" : username);
+                .replace("%username%", username == null || username.isBlank() ? "unknown" : username);
         if (!broadcast.isBlank()) {
             Bukkit.broadcast(formatColor(broadcast));
         }
@@ -372,8 +372,8 @@ public class TwitchManager {
     private String donationTypeLabel(String type) {
         return switch (type.toLowerCase()) {
             case "bits" -> "bits";
-            case "gift_sub" -> "subs de regalo";
-            case "prime_sub" -> "sub prime";
+            case "gift_sub" -> "gift subs";
+            case "prime_sub" -> "prime sub";
             case "sub" -> "subs";
             default -> type;
         };

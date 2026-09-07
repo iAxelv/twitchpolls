@@ -85,7 +85,6 @@ build/libs/StreamManager-1.0.jar
 
 ## Commands
 
-- `/streammanager poll` -> starts a poll manually
 - `/streammanager reload` -> reloads `config.yml`, `gui.yml`, and all files in `events/`
 - `/streammanager reconnect` -> reconnects the configured event provider
 - `/streammanager test` -> opens the action test menu in-game

@@ -30,20 +30,22 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             plugin.reloadConfig();
+            plugin.getCredentialsManager().reload();
+            plugin.getLanguageManager().reload();
             plugin.reloadEventConfigs();
             testCommand.reload();
             plugin.reloadEventProviderConnections();
-            sendMessage(sender, "messages.command-reload", "&aConfiguración recargada correctamente.");
+            sendMessage(sender, "messages.command-reload", "&aConfiguration reloaded successfully.");
             return true;
         }
 
         if (args.length > 0 && args[0].equalsIgnoreCase("reconnect")) {
             if ("tiktok".equalsIgnoreCase(plugin.getConfig().getString("settings.event-provider", "twitch"))) {
                 tikTokManager.reconnect();
-                sendMessage(sender, "messages.command-reconnect", "&aReintentando la conexión con TikTok...");
+                sendMessage(sender, "messages.command-reconnect", "&aRetrying the TikTok connection...");
             } else {
                 twitchManager.reload();
-                sendMessage(sender, "messages.command-reconnect", "&aReintentando la conexión con Twitch...");
+                sendMessage(sender, "messages.command-reconnect", "&aRetrying the Twitch connection...");
             }
             return true;
         }
@@ -59,27 +61,13 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (args.length > 0 && !args[0].equalsIgnoreCase("poll")) {
-            return false;
-        }
-
-        if ("tiktok".equalsIgnoreCase(plugin.getConfig().getString("settings.event-provider", "twitch"))) {
-            sendMessage(sender, "messages.command-error", "&cLas encuestas requieren Twitch como proveedor de eventos.");
-            return true;
-        }
-
-        sendMessage(sender, "messages.command-starting", "&aIniciando encuesta...");
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            twitchManager.createPoll();
-            sendMessage(sender, "messages.command-success", "&aEncuesta enviada a Twitch exitosamente.");
-        });
-        return true;
+        return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("reload", "reconnect", "poll", "test").stream()
+            return List.of("reload", "reconnect", "test").stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))
                     .toList();
         }

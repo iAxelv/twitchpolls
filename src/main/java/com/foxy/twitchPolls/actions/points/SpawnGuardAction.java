@@ -18,7 +18,7 @@ public class SpawnGuardAction implements ActionStrategy {
 
         String username = context.redeemerUsername();
         if (username == null || username.isBlank()) {
-            username = "desconocido";
+            username = "unknown";
         }
         wolf.customName(Component.text(username));
         wolf.setCustomNameVisible(true);

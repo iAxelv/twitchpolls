@@ -52,7 +52,7 @@ public class TestCommand implements Listener {
         int rows = Math.max(1, Math.min(6, guiConfig.getInt("category-rows", 1)));
         TestHolder holder = new TestHolder(null);
         Inventory inventory = Bukkit.createInventory(holder, rows * 9,
-                color(guiConfig.getString("title", "&5Acciones")));
+                color(guiConfig.getString("title", "&5Actions")));
         holder.setInventory(inventory);
 
         for (String category : EVENT_TYPES) {
@@ -83,7 +83,7 @@ public class TestCommand implements Listener {
         int rows = Math.max(1, Math.min(6, guiConfig.getInt("rows", 4)));
         TestHolder holder = new TestHolder(category);
         Inventory inventory = Bukkit.createInventory(holder, rows * 9,
-                color(guiConfig.getString("titles." + category, "&5Acciones " + category)));
+                color(guiConfig.getString("titles." + category, "&5Actions " + category)));
         holder.setInventory(inventory);
 
         for (String itemKey : items.getKeys(false)) {

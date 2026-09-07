@@ -11,12 +11,12 @@ import java.io.File;
  */
 public class LanguageManager {
     private final Plugin plugin;
-    private final String currentLanguage;
+    private String currentLanguage;
     private YamlConfiguration languageConfig;
 
     public LanguageManager(Plugin plugin) {
         this.plugin = plugin;
-        this.currentLanguage = plugin.getConfig().getString("lang", "es");
+        this.currentLanguage = plugin.getConfig().getString("lang", "en");
         loadLanguageConfig();
     }
 
@@ -24,12 +24,14 @@ public class LanguageManager {
      * Load the language configuration file.
      */
     private void loadLanguageConfig() {
-        String fileName = currentLanguage.toLowerCase() + ".yml";
+        currentLanguage = plugin.getConfig().getString("lang", "en").toLowerCase();
+        String fileName = currentLanguage + ".yml";
         File file = new File(plugin.getDataFolder(), "lang/" + fileName);
         
         if (!file.exists()) {
-            plugin.getLogger().warning("Language file not found: " + fileName + ", falling back to es.yml");
-            file = new File(plugin.getDataFolder(), "lang/es.yml");
+            plugin.getLogger().warning("Language file not found: " + fileName + ", falling back to en.yml");
+            currentLanguage = "en";
+            file = new File(plugin.getDataFolder(), "lang/en.yml");
         }
         
         languageConfig = YamlConfiguration.loadConfiguration(file);

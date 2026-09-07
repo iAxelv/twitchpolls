@@ -5,11 +5,11 @@ api-version: '1.21.8'
 load: POSTWORLD
 commands:
   streammanager:
-    description: Administra los eventos de Twitch y TikTok
-    usage: /streammanager <poll|reload|reconnect|test>
+    description: Manage Twitch and TikTok events
+    usage: /streammanager <reload|reconnect|test>
     aliases: [sm]
     permission: twitchpolls.poll
 permissions:
   twitchpolls.poll:
-    description: Permite administrar encuestas de Twitch
+    description: Allows managing Twitch and TikTok events
     default: op

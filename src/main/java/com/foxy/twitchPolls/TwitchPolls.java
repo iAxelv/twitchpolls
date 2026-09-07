@@ -187,7 +187,7 @@ public final class TwitchPolls extends JavaPlugin {
             } catch (IOException exception) {
                 migrationFailed = true;
                 getLogger().log(java.util.logging.Level.WARNING,
-                        "No se pudo migrar events." + eventType + " a " + eventFile.getPath(), exception);
+                        "Could not migrate events." + eventType + " to " + eventFile.getPath(), exception);
             }
         }
         if (migrated && !migrationFailed) {

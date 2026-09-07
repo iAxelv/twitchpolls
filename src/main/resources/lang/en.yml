@@ -26,9 +26,6 @@ messages:
   broadcast-end: "&d[Twitch] &fWinning option: &e%winner%"
   bossbar-title: "&dPoll: &f%time%s remaining"
   next-poll-bossbar-title: "&dNext poll: &f%time%s"
-  command-starting: "&aStarting poll..."
-  command-success: "&aPoll sent to Twitch successfully."
-  command-error: "&cRequest was sent to Twitch, but there was a warning reading the response. Check the console if the poll didn't appear."
   command-reload: "&aConfiguration reloaded successfully."
   command-reconnect: "&aRetrying connection..."
   points-event-title: "&c[Points Event!]"
@@ -49,6 +46,7 @@ messages:
   tiktok-follow-event-broadcast: "&d[TikTok] &f%event% &7was activated by a follow &7(%username%)"
   tiktok-likes-broadcast: "&d[TikTok] &f%event% &7was activated after &e%likes% likes"
   command-player-only: "&cThis subcommand can only be used in-game."
+  disable-action-title: "&cAction blocked: &f%action%"
   gui:
     categories-missing: "&cNo categories configured in gui.yml."
     actions-missing: "&cNo actions configured for %category%."

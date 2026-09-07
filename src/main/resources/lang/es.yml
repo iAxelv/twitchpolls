@@ -26,9 +26,6 @@ messages:
   broadcast-end: "&d[Twitch] &fLa opción ganadora ha sido: &e%winner%"
   bossbar-title: "&dEncuesta: &f%time%s restantes"
   next-poll-bossbar-title: "&dPróxima encuesta: &f%time%s"
-  command-starting: "&aIniciando encuesta..."
-  command-success: "&aEncuesta enviada a Twitch exitosamente."
-  command-error: "&cLa petición se envió a Twitch, pero hubo un aviso al leer la respuesta. Revisa la consola si la encuesta no apareció."
   command-reload: "&aConfiguración recargada correctamente."
   command-reconnect: "&aReintentando la conexión..."
   points-event-title: "&c¡Evento de puntos!"
@@ -49,6 +46,7 @@ messages:
   tiktok-follow-event-broadcast: "&d[TikTok] &f%event% &7se activó por un follow &7(%username%)"
   tiktok-likes-broadcast: "&d[TikTok] &f%event% &7se activó al alcanzar &e%likes% likes"
   command-player-only: "&cEste subcomando solo puede ejecutarse dentro del juego."
+  disable-action-title: "&cAcción bloqueada: &f%action%"
   gui:
     categories-missing: "&cNo hay categorías configuradas en gui.yml."
     actions-missing: "&cNo hay acciones configuradas para %category%."

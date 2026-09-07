@@ -52,7 +52,7 @@ public class UIManager {
     }
 
     public void showDonationEvent(Player player, ConfigurationSection config) {
-        String type = config.getString("type", "donación");
+        String type = config.getString("type", "donation");
         showTitle(player, "messages.donation-event-title", "messages.donation-event-subtitle", "%event%", config.getString("title", config.getName()), "%value%", String.valueOf(config.getInt("value", 0)), "%type%", type);
         player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.6f);
     }

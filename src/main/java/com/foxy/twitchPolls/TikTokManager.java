@@ -42,7 +42,7 @@ public final class TikTokManager {
 
         String username = plugin.getConfig().getString("tiktok.streamer-username", "").trim()
             .toLowerCase(Locale.ROOT);
-        if (username.isBlank() || "usuario_tiktok".equalsIgnoreCase(username)) {
+        if (username.isBlank() || "user_tiktok".equalsIgnoreCase(username)) {
             plugin.getLogger().warning("TikTok is selected, but tiktok.streamer-username is not configured.");
             return;
         }

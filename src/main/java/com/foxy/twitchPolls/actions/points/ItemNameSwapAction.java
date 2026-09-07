@@ -17,7 +17,7 @@ public class ItemNameSwapAction implements ActionStrategy {
         List<String> configNames = ((TwitchPolls) context.plugin()).getLanguageManager()
             .getStringList("actions.item-name-swap.item-names");
         final List<String> names = configNames.isEmpty() 
-            ? List.of("&c¿Esto qué es?", "&dPatata legendaria", "&eObjeto sospechoso", "&bCosa brillante")
+            ? List.of("&cWhat is this?", "&dLegendary Potato", "&eSuspicious Object", "&bShiny Thing")
             : configNames;
         
         var inventory = context.player().getInventory();
