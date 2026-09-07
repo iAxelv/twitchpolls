@@ -10,6 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import com.foxy.twitchPolls.commands.TestCommand;
+import com.foxy.twitchPolls.commands.ConfigCommand;
 import com.foxy.twitchPolls.commands.TwitchCommand;
 
 public final class TwitchPolls extends JavaPlugin {
@@ -20,6 +21,7 @@ public final class TwitchPolls extends JavaPlugin {
     private UIManager uiManager;
     private SessionManager sessionManager;
     private TestCommand testCommand;
+    private ConfigCommand configCommand;
     private PlayerEffectRegistry effectRegistry;
     private CredentialsManager credentialsManager;
     private LanguageManager languageManager;
@@ -53,7 +55,9 @@ public final class TwitchPolls extends JavaPlugin {
         tikTokManager = new TikTokManager(this, actionManager, uiManager, sessionManager);
         testCommand = new TestCommand(this, actionManager, uiManager);
         getServer().getPluginManager().registerEvents(testCommand, this);
-        TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, tikTokManager, testCommand);
+        configCommand = new ConfigCommand(this, twitchManager);
+        getServer().getPluginManager().registerEvents(configCommand, this);
+        TwitchCommand twitchCommand = new TwitchCommand(this, twitchManager, tikTokManager, testCommand, configCommand);
         getCommand("streammanager").setExecutor(twitchCommand);
         getCommand("streammanager").setTabCompleter(twitchCommand);
         reloadEventProviderConnections();
@@ -155,6 +159,10 @@ public final class TwitchPolls extends JavaPlugin {
 
     public ActionManager getActionManager() {
         return actionManager;
+    }
+
+    public SessionManager getSessionManager() {
+        return sessionManager;
     }
 
     private void migrateLegacyEventConfigs() {

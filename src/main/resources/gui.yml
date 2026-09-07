@@ -255,6 +255,7 @@ category-items:
         - "&7Throw inventory and armor"
         - "&7Cost: &e%value% %type%"
         - "&eClick to test"
+
     NUKE_STRIKE:
       event: NUKE_STRIKE
       slot: 1
@@ -818,6 +819,7 @@ category-items:
       lore:
         - "&7Strike the streamer ten times"
         - "&eClick to test"
+
     HAND_HEART:
       event: HAND_HEART
       slot: 9
@@ -906,3 +908,103 @@ category-items:
       lore:
         - "&7Start Hot Potato"
         - "&eClick to test"
+
+config-menu:
+  title: "&8StreamManager Config"
+  rows: 4
+  items:
+    settings-streamer-username:
+      path: settings.streamer-username
+      type: input
+      slot: 10
+      material: NAME_TAG
+      display-name: "&bStreamer username"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to edit in chat"
+    event-provider:
+      path: settings.event-provider
+      type: provider
+      slot: 11
+      material: COMPASS
+      enabled-material: NETHER_STAR
+      display-name: "&dEvent provider"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to switch"
+    automatic-polls:
+      path: settings.automatic-polls
+      type: boolean
+      slot: 12
+      material: GRAY_DYE
+      enabled-material: LIME_DYE
+      display-name: "&6Automatic polls"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to toggle"
+    poll-duration-seconds:
+      path: settings.poll-duration-seconds
+      type: integer
+      slot: 13
+      material: CLOCK
+      display-name: "&ePoll duration"
+      lore:
+        - "&7Seconds: &f%value%"
+        - "&eClick to edit in chat"
+    poll-interval-seconds:
+      path: settings.poll-interval-seconds
+      type: integer
+      slot: 14
+      material: REPEATER
+      display-name: "&ePoll interval"
+      lore:
+        - "&7Seconds: &f%value%"
+        - "&eClick to edit in chat"
+    poll-option-cooldown-polls:
+      path: settings.poll-option-cooldown-polls
+      type: integer
+      slot: 15
+      material: SNOWBALL
+      display-name: "&eOption cooldown"
+      lore:
+        - "&7Polls: &f%value%"
+        - "&eClick to edit in chat"
+    broadcast-results:
+      path: settings.broadcast-results
+      type: boolean
+      slot: 16
+      material: GRAY_DYE
+      enabled-material: LIME_DYE
+      display-name: "&aBroadcast results"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to toggle"
+    tiktok-enabled:
+      path: tiktok.enabled
+      type: boolean
+      slot: 19
+      material: GRAY_DYE
+      enabled-material: LIME_DYE
+      display-name: "&dTikTok enabled"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to toggle"
+    tiktok-show-title:
+      path: tiktok.show-title
+      type: boolean
+      slot: 20
+      material: GRAY_DYE
+      enabled-material: LIME_DYE
+      display-name: "&dShow TikTok title"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to toggle"
+    tiktok-streamer-username:
+      path: tiktok.streamer-username
+      type: input
+      slot: 21
+      material: NAME_TAG
+      display-name: "&dTikTok username"
+      lore:
+        - "&7Current: &f%value%"
+        - "&eClick to edit in chat"

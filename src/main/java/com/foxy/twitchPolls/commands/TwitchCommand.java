@@ -17,13 +17,15 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
     private final TwitchManager twitchManager;
     private final TikTokManager tikTokManager;
     private final TestCommand testCommand;
+    private final ConfigCommand configCommand;
 
     public TwitchCommand(TwitchPolls plugin, TwitchManager twitchManager, TikTokManager tikTokManager,
-                         TestCommand testCommand) {
+                         TestCommand testCommand, ConfigCommand configCommand) {
         this.plugin = plugin;
         this.twitchManager = twitchManager;
         this.tikTokManager = tikTokManager;
         this.testCommand = testCommand;
+        this.configCommand = configCommand;
     }
 
     @Override
@@ -34,6 +36,7 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
             plugin.getLanguageManager().reload();
             plugin.reloadEventConfigs();
             testCommand.reload();
+            configCommand.reload();
             plugin.reloadEventProviderConnections();
             sendMessage(sender, "messages.command-reload", "&aConfiguration reloaded successfully.");
             return true;
@@ -61,13 +64,22 @@ public class TwitchCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (args.length > 0 && args[0].equalsIgnoreCase("config")) {
+            if (!(sender instanceof org.bukkit.entity.Player player)) {
+                sendMessage(sender, "messages.command-player-only", "&cThis subcommand can only be used in-game.");
+                return true;
+            }
+            configCommand.open(player);
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return List.of("reload", "reconnect", "test").stream()
+            return List.of("reload", "reconnect", "test", "config").stream()
                     .filter(option -> option.startsWith(args[0].toLowerCase()))
                     .toList();
         }

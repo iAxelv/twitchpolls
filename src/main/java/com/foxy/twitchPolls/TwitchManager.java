@@ -181,6 +181,13 @@ public class TwitchManager {
         connect();
     }
 
+    public void reloadAutomaticPolls() {
+        pauseAutomaticPolls();
+        if (!automaticPollActive) {
+            startPollCycle();
+        }
+    }
+
     private void startPollCycle() {
         if (!plugin.getConfig().getBoolean("settings.automatic-polls", false)
                 || automaticPollActive || pollTask != null) {

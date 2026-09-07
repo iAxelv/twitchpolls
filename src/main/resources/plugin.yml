@@ -6,7 +6,7 @@ load: POSTWORLD
 commands:
   streammanager:
     description: Manage Twitch and TikTok events
-    usage: /streammanager <reload|reconnect|test>
+    usage: /streammanager <reload|reconnect|test|config>
     aliases: [sm]
     permission: twitchpolls.poll
 permissions:

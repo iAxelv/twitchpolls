@@ -40,12 +40,17 @@ public class SessionManager implements Listener {
     }
 
     private void refreshFromOnlinePlayers() {
+        streamerId = null;
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (isStreamer(player)) {
                 streamerId = player.getUniqueId();
                 return;
             }
         }
+    }
+
+    public void refresh() {
+        refreshFromOnlinePlayers();
     }
 
     private boolean isStreamer(Player player) {
