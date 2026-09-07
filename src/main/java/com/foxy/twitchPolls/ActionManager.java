@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import com.foxy.twitchPolls.actions.ActionContext;
 import com.foxy.twitchPolls.actions.ActionStrategy;
 import com.foxy.twitchPolls.actions.common.LightningStormAction;
+import com.foxy.twitchPolls.actions.common.SurpriseRouletteAction;
 import com.foxy.twitchPolls.actions.donations.*;
 import com.foxy.twitchPolls.actions.polls.*;
 import com.foxy.twitchPolls.actions.points.*;
@@ -29,9 +30,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ActionManager {
     private final TwitchPolls plugin;
@@ -189,7 +187,7 @@ public class ActionManager {
         strategies.put("ITEM_NAME_SWAP", new ItemNameSwapAction());
         strategies.put("DELETED_CHUNKS", new DeleteChunkAction());
         strategies.put("ONE_HEART_CHALLENGE", new OneHeartChallengeAction());
-        strategies.put("SURPRISE", context -> executeSurpriseAction(context.player()));
+        strategies.put("SURPRISE", new SurpriseRouletteAction());
         strategies.put("ROSE_ZOMBIES", new RoseZombieGiftAction());
         strategies.put("DOUGHNUT_DELETE_CHUNK", new DoughnutDeleteChunkAction());
         strategies.put("CAP_GHAST_CIRCLE", new CapGhastCircleAction());
@@ -209,27 +207,4 @@ public class ActionManager {
         strategies.put("BALLOONS", new BalloonsAction());
     }
 
-    private void executeSurpriseAction(Player player) {
-        ConfigurationSection donations = plugin.getEventConfig("donations");
-        if (donations == null) {
-            return;
-        }
-
-        List<ConfigurationSection> activeDonations = new ArrayList<>();
-        for (String key : donations.getKeys(false)) {
-            ConfigurationSection donation = donations.getConfigurationSection(key);
-            if (donation != null && donation.getBoolean("active", true)) {
-                activeDonations.add(donation);
-            }
-        }
-        if (activeDonations.isEmpty()) {
-            plugin.getLogger().warning("SURPRISE was tested, but no active donation events are configured.");
-            return;
-        }
-
-        ConfigurationSection selectedDonation = activeDonations.get(
-                ThreadLocalRandom.current().nextInt(activeDonations.size()));
-        uiManager.showDonationEvent(player, selectedDonation);
-        executeDonationAction(player, selectedDonation, "SURPRISE");
-    }
 }

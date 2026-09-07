@@ -430,7 +430,7 @@ public class TwitchManager {
 
                 if (actionConfig != null) {
                     if ("SURPRISE".equalsIgnoreCase(actionConfig.getString("action", ""))) {
-                        executeSurpriseAction(player);
+                        actionManager.executeAction(player, actionConfig);
                     } else {
                         actionManager.executeAction(player, actionConfig);
                         uiManager.startEventCountdown(player, actionConfig);
@@ -452,29 +452,6 @@ public class TwitchManager {
     private void advancePollOptionCooldowns() {
         pollOptionCooldowns.replaceAll((key, remaining) -> Math.max(0, remaining - 1));
         pollOptionCooldowns.entrySet().removeIf(entry -> entry.getValue() <= 0);
-    }
-
-    private void executeSurpriseAction(org.bukkit.entity.Player player) {
-        ConfigurationSection donations = plugin.getEventConfig("donations");
-        if (donations == null) {
-            return;
-        }
-
-        List<ConfigurationSection> activeDonations = new ArrayList<>();
-        for (String key : donations.getKeys(false)) {
-            ConfigurationSection donation = donations.getConfigurationSection(key);
-            if (donation != null && donation.getBoolean("active", true)) {
-                activeDonations.add(donation);
-            }
-        }
-        if (activeDonations.isEmpty()) {
-            plugin.getLogger().warning("SURPRISE won a poll, but no active donation events are configured.");
-            return;
-        }
-
-        ConfigurationSection selectedDonation = activeDonations.get(
-                ThreadLocalRandom.current().nextInt(activeDonations.size()));
-        executeDonationAction(player, selectedDonation, "SURPRISE");
     }
 
     private void onPointRedemption(CustomRewardRedemptionAddEvent event) {

@@ -109,6 +109,8 @@ surprise:
   active: true
   title: "Surprise!"
   action: SURPRISE
+  roulette-duration-seconds: 5
+  roulette-interval-ticks: 5
 delete_chunk:
   active: true
   title: "Goodbye chunk"
