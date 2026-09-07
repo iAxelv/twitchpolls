@@ -4,6 +4,7 @@ import io.github.jwdeveloper.tiktok.TikTokLive;
 import io.github.jwdeveloper.tiktok.data.events.gift.TikTokGiftEvent;
 import io.github.jwdeveloper.tiktok.data.events.social.TikTokFollowEvent;
 import io.github.jwdeveloper.tiktok.data.events.social.TikTokLikeEvent;
+import io.github.jwdeveloper.tiktok.exceptions.TikTokLiveOfflineHostException;
 import io.github.jwdeveloper.tiktok.live.LiveClient;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public final class TikTokManager {
     private BukkitTask reconnectTask;
     private LiveClient client;
     private long likesSinceLastTrigger;
+    private boolean offlineNoticeLogged;
 
     public TikTokManager(TwitchPolls plugin, ActionManager actionManager, UIManager uiManager,
                          SessionManager sessionManager) {
@@ -54,13 +56,15 @@ public final class TikTokManager {
                         .onGift((liveClient, event) -> onGift(event))
                         .onFollow((liveClient, event) -> onFollow(event))
                         .onLike((liveClient, event) -> onLike(event))
-                        .onConnected((liveClient, event) -> plugin.getLogger().info(
-                            "Connected to TikTok Live for @" + username))
+                        .onConnected((liveClient, event) -> {
+                            offlineNoticeLogged = false;
+                            plugin.getLogger().info("TikTok Live connected: @" + username);
+                        })
                         .onDisconnected((liveClient, event) -> onDisconnected(liveClient, generation))
                         .onError((liveClient, event) -> {
-                            if (!isRequestTimeout(event.getException())) {
-                                plugin.getLogger().log(Level.WARNING,
-                                        "Error in TikTok Live", event.getException());
+                            Throwable exception = event.getException();
+                            if (!isRequestTimeout(exception) && !isOfflineHost(exception)) {
+                                plugin.getLogger().warning("TikTok Live connection error; retrying.");
                             }
                         })
                         .buildAndConnect();
@@ -76,13 +80,15 @@ public final class TikTokManager {
                 }
             } catch (Exception exception) {
                 if (generation == connectionGeneration.get()) {
-                    if (isRequestTimeout(exception)) {
-                        plugin.getLogger().warning("TikTok Live request timed out for @" + username
-                                + "; retrying automatically.");
+                    if (isOfflineHost(exception)) {
+                        if (shouldLogOfflineNotice()) {
+                            plugin.getLogger().info("TikTok Live offline: @" + username
+                                    + "; retrying later.");
+                        }
+                    } else if (isRequestTimeout(exception)) {
+                        plugin.getLogger().warning("TikTok Live timeout; retrying.");
                     } else {
-                        plugin.getLogger().log(Level.WARNING,
-                            "Could not connect to TikTok Live for @" + username
-                                + "; retrying automatically.", exception);
+                        plugin.getLogger().warning("TikTok Live unavailable; retrying.");
                     }
                     scheduleReconnect();
                 }
@@ -98,6 +104,24 @@ public final class TikTokManager {
             throwable = throwable.getCause();
         }
         return false;
+    }
+
+    private boolean isOfflineHost(Throwable throwable) {
+        while (throwable != null) {
+            if (throwable instanceof TikTokLiveOfflineHostException) {
+                return true;
+            }
+            throwable = throwable.getCause();
+        }
+        return false;
+    }
+
+    private synchronized boolean shouldLogOfflineNotice() {
+        if (offlineNoticeLogged) {
+            return false;
+        }
+        offlineNoticeLogged = true;
+        return true;
     }
 
     public synchronized void disconnect() {
@@ -118,6 +142,7 @@ public final class TikTokManager {
     }
 
     public void reconnect() {
+        plugin.reloadConfig();
         disconnect();
         connect();
     }
